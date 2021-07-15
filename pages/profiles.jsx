@@ -16,7 +16,7 @@ export default function Profiles() {
           </h3> */}
 
           <div className="avatar">
-            <img src="http://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-20.jpg" alt="" />
+            {/* <img src="http://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-20.jpg" alt="" /> */}
             <span>
               <i className="fas fa-camera"></i>
               <p>Change</p>
