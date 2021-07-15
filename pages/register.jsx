@@ -13,7 +13,6 @@ const Register = () => {
     const handleChangeInput = (e) => {
       const {name, value} = e.target
       setUserData({...userData,[name]: value})
-
     }
 
     const handleSubmit = (e) => {
@@ -30,7 +29,6 @@ const Register = () => {
         })
         .catch(err => console.log(err))
     }
-
 
     return(
       <div>
