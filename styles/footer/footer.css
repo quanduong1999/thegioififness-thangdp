@@ -1,0 +1,22 @@
+.footer {
+    background: #e44a4a !important;
+    color: white;
+    margin-top: 7%;
+}
+
+.footer-ul {
+    margin-top: 15% !important;
+}
+
+.footer-ul li {
+    margin-top: 5%;
+}
+
+.footer-ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-dangky {
+    color: white;
+}

@@ -1,0 +1,31 @@
+.header-logo {
+    width: 12%;
+}
+
+.header-navbar {
+    background-color: white !important;
+}
+
+.header-menu-list {
+    margin-top: -5%;
+    margin-left: 5%;
+}
+
+.header-icons {
+    color: red;
+    width: 100%;
+    height: 20%;
+}
+
+.header-menu-list-right {
+    position: absolute;
+    right: 0;
+}
+
+.header-text {
+    color: black;
+}
+
+.header-search {
+    width: 100%;
+}
