@@ -23,7 +23,10 @@ a {
 
 /* Css Home */
 
-@import url("./home//home.css");
+@import url("./home/home.css");
+@import url("./home/carousel.css");
+@import url("./home/course.css");
+@import url("./home/pt.css");
 
 /* Contact-Us */
 
@@ -36,3 +39,7 @@ a {
 /* About */
 
 @import url("./about/about.css");
+
+/* Profiles */
+
+@import url("./profiles/profiles.css");

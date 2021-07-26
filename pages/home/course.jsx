@@ -2,34 +2,12 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 
-function About() {
+const Course = () => {
   return (
-    <div className="about">
-      <div className="about-infor">
-        <div className="container">
-          <Row>
-            <Col sm={5}>
-              <Image src="/about/about1.jpg" className="about-img-infor" />
-            </Col>
-            <Col sm={7}>
-              <h1>Thông tin</h1>
-              <p>
-                Thế giới fitness là hệ thống chuỗi các câu lạc bộ Fitness tại
-                Việt Nam, được thành lập từ những người con đất Việt trẻ tuổi,
-                có lòng đam mê với thể thao. Họ mong muốn con người Việt Nam tự
-                nâng cao ý thức rèn luyện sức khỏe của bản thân, được sử dụng
-                những dịch vụ tập luyện đẳng cấp quốc tế. Trong suốt 5 năm qua,
-                Thế giới fitness đã ngày càng khẳng định được vị thế của mình
-                trong giới Fitness và mang đến cho hàng trăm ngàn hội viên trải
-                nghiệm tập luyện tuyệt vời trên toàn hệ thống.
-              </p>
-            </Col>
-          </Row>
-        </div>
-      </div>
+    <div className="course">
       <div id="cards_landscape_wrap-2">
         <div className="container">
-        <h1>Đội ngũ phát triển</h1>
+          <h1>Danh sách các khóa tập</h1>
           <div className="row">
             <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
               <a href="">
@@ -53,7 +31,7 @@ function About() {
                 </div>
               </a>
             </div>
-            
+
             <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
               <a href="">
                 <div className="card-flyer">
@@ -127,6 +105,6 @@ function About() {
       </div>
     </div>
   );
-}
+};
 
-export default About;
+export default Course;

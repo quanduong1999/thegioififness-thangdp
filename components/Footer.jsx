@@ -3,7 +3,7 @@ import { BiHomeCircle, BiUserCircle } from "react-icons/bi";
 import { AiOutlineMail, AiFillPhone } from "react-icons/ai";
 import {Button,FormControl, InputGroup} from 'react-bootstrap'
 
-function Footer(props) {
+function Footer() {
   return (
     <div className="footer">
       <footer className="page-footer font-small blue pt-4">

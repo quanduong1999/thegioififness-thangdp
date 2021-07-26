@@ -5,5 +5,5 @@ export const LoginAPI = {
 }
 
 function postLogin(body) {
-    return axios.post("http://18.119.40.211:5000/api/auth/login", body);
+    return axios.post("http://18.216.251.104:5000/api/auth/login", body);
 }

@@ -7,9 +7,9 @@ import cookie from "js-cookie";
 
 const Login = () => {
   const Router = useRouter();
-  const loginState = { email: "", password: "", role: "" };
+  const loginState = { username: "", password: ""};
   const [userLogin, setUserLogin] = useState(loginState);
-  const { email, password, role } = userLogin;
+  const { username, password } = userLogin;
   const [message, setMessage] = useState("");
 
   const handleChangeLogin = (e) => {
@@ -20,9 +20,9 @@ const Login = () => {
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     const body = {
-      username: email,
+      username: username,
       password: password,
-      role: role,
+      role: "customer",
     };
     await LoginAPI.postLogin(body)
       .then((res) => {
@@ -30,11 +30,10 @@ const Login = () => {
         cookie.set("token", res.data.token);
       })
       .catch((err) => console.log(err));
-
     const token = await cookie.get("token");
     console.log(token);
     if (token) {
-      Router.replace("/cart");
+      Router.replace("/profiles");
     } else {
       setMessage("Bạn đăng nhập chưa thành công");
     }
@@ -44,19 +43,15 @@ const Login = () => {
       <p>{message}</p>
       <form className="mx-auto my-4" style={{ maxWidth: "500px" }}>
         <div className="form-group">
-          <label htmlFor="exampleInputEmail1">Email address</label>
+          <label htmlFor="name">Username</label>
           <input
-            type="email"
+            type="text"
             className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            name="email"
-            value={email}
+            id="role"
+            name="username"
+            value={username}
             onChange={handleChangeLogin}
           />
-          <small id="emailHelp" className="form-text text-muted">
-            We will never share your email with anyone else.
-          </small>
         </div>
 
         <div className="form-group">
@@ -71,17 +66,6 @@ const Login = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="name">Role</label>
-          <input
-            type="text"
-            className="form-control"
-            id="role"
-            name="role"
-            value={role}
-            onChange={handleChangeLogin}
-          />
-        </div>
         <button
           type="submit"
           className="btn btn-dark w-100"
@@ -90,7 +74,7 @@ const Login = () => {
           Đăng Nhập
         </button>
       </form>
-      <div className="login-text-register" style={{textAlign:"center"}}>
+      <div className="login-text-register" style={{ textAlign: "center" }}>
         <p className="my-2">
           No have an account?{" "}
           <Link href="/register">

@@ -1,0 +1,79 @@
+.button {
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+    padding: 15px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+    margin: 10px 0px 10px 100px;
+}
+
+.button:hover {
+    background-color: black;
+    color: white;
+}
+
+.button1 {
+    margin-right: 50px;
+    margin-left: 250px;
+    background-color: white;
+    color: black;
+}
+
+.profiles {
+    background: #F7F7F7;
+    margin-top: 2%;
+    padding: 5%;
+    text-align: center;
+}
+
+h4.profiles-name {
+    margin-bottom: 3%;
+}
+
+h4.profiles-phone {
+    margin-bottom: 3%;
+}
+
+.profile-button {
+    font-weight: bold;
+    line-height: 19px;
+    background: #c82333;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 6px;
+    color: white;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.profile-button:hover {
+    background: #c82333;
+}
+
+.profile-button:focus {
+    background: #c82333;
+}
+
+.button-container {
+    width: 50%;
+    margin: auto;
+}
+
+.profile-input {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 2%;
+}
+
+.profile-gird-name {
+    text-align: center;
+}
+
+label.profile-textlabel {
+    font-size: 25px;
+    font-weight: 500;
+}

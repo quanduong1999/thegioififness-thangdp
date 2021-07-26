@@ -1,0 +1,24 @@
+.home-teacher-title {
+    text-align: center;
+}
+
+.home-teacher-card {
+    border: none !important;
+}
+
+.home-teacher-img {
+    margin-top: 10%;
+    width: 200px !important;
+    height: 200px;
+    border-radius: 50% !important;
+}
+
+.home-teacher-card.card {
+    text-align: center;
+}
+
+.home-teacher {
+    /* box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%); */
+    padding-top: 3%;
+    padding-bottom: 3%;
+}

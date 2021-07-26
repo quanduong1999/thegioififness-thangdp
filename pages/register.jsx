@@ -1,81 +1,96 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import {useState, useContext, useEffect} from 'react'
-import { useRouter } from 'next/router'
-import { RegisterAPI } from './api/auth/register';
-
+import Head from "next/head";
+import Link from "next/link";
+import { useState, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import { RegisterAPI } from "./api/auth/register";
 
 const Register = () => {
-    const initialState = {name:'', email: '', role:'', password: '', cf_password: ''}
-    const [userData, setUserData] = useState(initialState);
-    const {name,email,role,password,cf_password} = userData;
-    
-    const handleChangeInput = (e) => {
-      const {name, value} = e.target
-      setUserData({...userData,[name]: value})
-    }
+  const Router = useRouter();
+  const initialState = { username: "", phone: "", password: "" };
+  const [userData, setUserData] = useState(initialState);
+  const { username, phone, password } = userData;
+  const [status, setStatus] = useState();
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const body = {
+      "username": username,
+      "password": password,
+      "role": "customer",
+      "customer": {
+        "phonenumber": phone,
+      },
+    };
+    console.log(body);
+    RegisterAPI.postRegister(body)
+      .then((res) => {
+        console.log(res);
+        Router.replace("/login");
+      })
+      .catch((err) => console.log(err));
+  };
+  return (
+    <div>
+      <Head>
+        <title>Register Page</title>
+      </Head>
 
-    const handleSubmit = (e) => {
-      const body = {
-        "username": email,
-        "password": password,
-        "role": role
-      }
-      console.log(body)
-      e.preventDefault();
-      RegisterAPI.postRegister(body)
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => console.log(err))
-    }
+      <form className="mx-auto my-4" style={{ maxWidth: "500px" }}>
+        <div className="form-group">
+          <label htmlFor="name">Name/Email</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            name="username"
+            value={username}
+            onChange={handleChangeInput}
+          />
+        </div>
 
-    return(
-      <div>
-        <Head>
-          <title>Register Page</title>
-        </Head>
+        <div className="form-group">
+          <label htmlFor="name">Phone</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            name="phone"
+            value={phone}
+            onChange={handleChangeInput}
+          />
+        </div>
 
-        <form className="mx-auto my-4" style={{maxWidth: '500px'}} onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input type="text" className="form-control" id="name"
-            name="name" value={name}  onChange={handleChangeInput}/>
-          </div>
+        <div className="form-group">
+          <label htmlFor="exampleInputPassword1">Password</label>
+          <input
+            type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            name="password"
+            value={password}
+            onChange={handleChangeInput}
+          />
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-            name="email" value={email}  onChange={handleChangeInput}/>
-            <small id="emailHelp" className="form-text text-muted">We will never share your email with anyone else.</small>
-          </div>
+        <button
+          type="submit"
+          className="btn btn-dark w-100"
+          onClick={handleSubmit}
+        >
+          Register
+        </button>
+      </form>
+      <p className="my-2">
+        Already have an account?{" "}
+        <Link href="/login">
+          <a style={{ color: "crimson" }}>Login Now</a>
+        </Link>
+      </p>
+    </div>
+  );
+};
 
-          <div className="form-group">
-            <label htmlFor="name">Role</label>
-            <input type="text" className="form-control" id="role"
-            name="role" value={role}  onChange={handleChangeInput}/>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1"
-            name="password" value={password}  onChange={handleChangeInput}/>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword2">Confirm Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword2"
-            name="cf_password" value={cf_password}  onChange={handleChangeInput}/>
-          </div>
-          
-          <button type="submit" className="btn btn-dark w-100">Register</button>
-
-          <p className="my-2">
-            Already have an account? <Link href="/login"><a style={{color: 'crimson'}}>Login Now</a></Link>
-          </p>
-        </form>
-      </div>
-    )
-  }
-  
-  export default Register
+export default Register;

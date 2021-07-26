@@ -1,10 +1,22 @@
 module.exports = {
     reactStrictMode: true,
-    env: {
-        "BASE_URL": "http://18.119.40.211:5000/",
-        // "BASE_URL": "http://localhost:3000",
-        // "MONGODB_URL":"", 
-    }
+    publicRuntimeConfig: {
+        APP_NAME: 'my app name',
+        API_DEVELOPMENT: 'localhost',
+        API_PRODUCTION: 'domain name',
+        PRODUCTION: false,
+        DOMAIN_DEVELOPMENT: 'localhost',
+        DOMAIN_PRODUCTION: 'my domain',
+        FB_APP_ID: 'some id',
+        DISQUS_SHORTNAME: 'some string',
+        GOOGLE_CLIENT_ID: 'some string'
+
+    },
+    webpack: function(config, options) {
+        console.log(options.webpack.version); 
+        config.experiments = {};
+        return config;
+    },
 }
 
 // const withCSS = require('@zeit/next-css')
