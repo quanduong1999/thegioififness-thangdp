@@ -1,14 +1,14 @@
 import React from "react";
 import Carousel from "./carousel"
 import Course from "./course";
-import Pt from "./pt";
+import Place from "./place";
 
 function Home() {
   return (
     <div className="home">
       <Carousel />
       <Course />
-      <Pt />
+      <Place />
     </div>
   );
 }

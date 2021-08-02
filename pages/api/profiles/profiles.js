@@ -5,6 +5,7 @@ const token = Cookies.get("token");
 
 export const profilesAPI = {
   getProfiles,
+  updataProfile,
 };
 
 function getProfiles() {
@@ -13,4 +14,12 @@ function getProfiles() {
       Authorization: `Bearer ${token}`,
     },
   });
+}
+
+function updataProfile(body) {
+  return axios.post("http://18.216.251.104:5000/api/customer/update",body,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
 }

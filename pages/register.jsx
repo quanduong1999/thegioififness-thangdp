@@ -3,9 +3,11 @@ import Link from "next/link";
 import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { RegisterAPI } from "./api/auth/register";
+import validator from "validator";
 
 const Register = () => {
   const Router = useRouter();
+  const [emailError, setEmailError] = useState("");
   const initialState = { username: "", phone: "", password: "" };
   const [userData, setUserData] = useState(initialState);
   const { username, phone, password } = userData;
@@ -16,21 +18,26 @@ const Register = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const body = {
-      "username": username,
-      "password": password,
-      "role": "customer",
-      "customer": {
-        "phonenumber": phone,
-      },
-    };
-    console.log(body);
-    RegisterAPI.postRegister(body)
-      .then((res) => {
-        console.log(res);
-        Router.replace("/login");
-      })
-      .catch((err) => console.log(err));
+    if (validator.isEmail(username)) {
+      setEmailError("Valid Email :)");
+      const body = {
+        username: username,
+        password: password,
+        role: "customer",
+        customer: {
+          phonenumber: phone,
+        },
+      };
+      console.log(body);
+      RegisterAPI.postRegister(body)
+        .then((res) => {
+          console.log(res);
+          Router.replace("/login");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      setEmailError("Enter valid Email!");
+    }
   };
   return (
     <div>
@@ -40,7 +47,7 @@ const Register = () => {
 
       <form className="mx-auto my-4" style={{ maxWidth: "500px" }}>
         <div className="form-group">
-          <label htmlFor="name">Name/Email</label>
+          <label htmlFor="name">Email</label>
           <input
             type="text"
             className="form-control"
@@ -50,7 +57,14 @@ const Register = () => {
             onChange={handleChangeInput}
           />
         </div>
-
+        <span
+          style={{
+            fontWeight: "bold",
+            color: "red",
+          }}
+        >
+          {emailError}
+        </span>
         <div className="form-group">
           <label htmlFor="name">Phone</label>
           <input

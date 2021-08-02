@@ -1,105 +1,144 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { useState } from "react";
+import { useEffect } from "react";
+import { Row, Col, Modal,InputGroup,FormControl } from "react-bootstrap";
 import { Image } from "react-bootstrap";
+import { courseAPI } from "../api/course/course";
+import { Button } from "react-bootstrap";
+import Cookies from "js-cookie";
+import { useRouter } from "next/dist/client/router";
 
 const Course = () => {
+  const [courseData, setCourseData] = useState([]);
+  const [lgShow, setLgShow] = useState(false);
+  const [idCourse, setIdCourse] = useState("");
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState("");
+  const initCourse = {amount:0};
+  const [amountData, setAmountData] = useState(initCourse);
+  const {amount} = amountData;
+  const token = Cookies.get("token");
+  const Router = useRouter();
+  useEffect(() => {
+    courseAPI
+      .getAllCourse()
+      .then((res) => {
+        // console.log(res.data);
+        setCourseData(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const buyCourse = (idCourse) => (e) => {
+    // console.log(idCourse)
+    const body = {
+      course: idCourse,
+      orderType: "topup",
+      amount:amount,
+      orderDescription: "dang thanh toan",
+      bankCode: "",
+      language: "vn"
+    };
+    console.log(body)
+    if (!token) {
+      setMessage("Hãy đăng nhập để mua khóa học");
+    } else {
+      courseAPI
+        .buyCourse(body)
+        .then((res) => {
+          console.log(res.data.url);
+          Router.push(res.data.url);
+          setSuccess("Tạo khóa học thành công, Check mã ở gmail");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const login = () => {
+    Router.replace("/login");
+  };
+
+  const handleChangeAmount = (e) => {
+    const {name, value} = e.target
+    setAmountData({...amountData,[name]:value})
+  }
+
   return (
     <div className="course">
       <div id="cards_landscape_wrap-2">
         <div className="container">
           <h1>Danh sách các khóa tập</h1>
           <div className="row">
-            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-              <a href="">
+            {courseData.map((course) => (
+              <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                {/* <a href=""> */}
                 <div className="card-flyer">
                   <div className="text-box">
                     <div className="image-box">
-                      <Image
-                        src="https://cdn.pixabay.com/photo/2018/03/30/15/11/deer-3275594_960_720.jpg"
-                        alt=""
-                      />
+                      <Image src={course.image} alt="" />
                     </div>
                     <div className="text-container">
-                      <h6>Title 01</h6>
+                      <h6>{course.tenkhoahoc}</h6>
                       <p>
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been the industry
                         is standard dummy text ever since the 1500s.
                       </p>
                     </div>
+                    <div className="text-container">
+                      <h3>Giá: 10000</h3>
+                    </div>
                   </div>
-                </div>
-              </a>
-            </div>
 
-            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-              <a href="">
-                <div className="card-flyer">
-                  <div className="text-box">
-                    <div className="image-box">
-                      <Image
-                        src="https://cdn.pixabay.com/photo/2018/03/30/15/11/deer-3275594_960_720.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div className="text-container">
-                      <h6>Title 01</h6>
-                      <p>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the industry
-                        is standard dummy text ever since the 1500s.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
+                  <Button
+                    onClick={() => {
+                      setLgShow(true);
+                      setIdCourse(course.id);
+                    }}
+                  >
+                    Mua khóa học
+                  </Button>
 
-            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-              <a href="">
-                <div className="card-flyer">
-                  <div className="text-box">
-                    <div className="image-box">
-                      <Image
-                        src="https://cdn.pixabay.com/photo/2018/03/30/15/11/deer-3275594_960_720.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div className="text-container">
-                      <h6>Title 01</h6>
-                      <p>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the industry
-                        is standard dummy text ever since the 1500s.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
+                  <Modal
+                    size="lg"
+                    show={lgShow}
+                    onHide={() => setLgShow(false)}
+                    aria-labelledby="example-modal-sizes-title-lg"
+                  >
+                    <Modal.Header closeButton>
+                      <Modal.Title id="example-modal-sizes-title-lg">
+                        Mua khóa học
+                      </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="model-buy-course">
+                    <h2>Nhập số tiền thanh toán</h2>
+                      <InputGroup className="mb-3">
+                        <FormControl
+                          placeholder="Username"
+                          aria-label="Username"
+                          aria-describedby="basic-addon1"
+                          name="amount"
+                          onChange={handleChangeAmount}
+                        />
+                      </InputGroup>
 
-            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-              <a href="">
-                <div className="card-flyer">
-                  <div className="text-box">
-                    <div className="image-box">
-                      <Image
-                        src="https://cdn.pixabay.com/photo/2018/03/30/15/11/deer-3275594_960_720.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div className="text-container">
-                      <h6>Title 01</h6>
-                      <p>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the industry
-                        is standard dummy text ever since the 1500s.
-                      </p>
-                    </div>
-                  </div>
+                      <Button
+                        variant="danger"
+                        className="button-course"
+                        onClick={buyCourse(idCourse)}
+                      >
+                        Mua khóa học
+                      </Button>{" "}
+                      <div className="buycourse-login">
+                        <p>{message}</p>
+                        <p>{success}</p>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
                 </div>
-              </a>
-            </div>
+                {/* </a> */}
+              </div>
+            ))}
           </div>
         </div>
       </div>

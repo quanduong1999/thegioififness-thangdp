@@ -1,0 +1,25 @@
+.checkin {
+    text-align: center;
+    padding-top: 4%;
+}
+
+h5.checkin-h5 {
+    margin-bottom: 4%;
+    color: red;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.checkin-select {
+    width: 100%;
+}
+
+select.checkin-select-place {
+    width: 100%;
+    height: 60px;
+}
+
+button.checkin-submit-place-button.btn.btn-danger {
+    width: 15%;
+    margin-top: 5%;
+}

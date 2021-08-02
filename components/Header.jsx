@@ -10,9 +10,14 @@ import { useRouter } from "next/router";
 import { BiMap, BiUserCircle } from "react-icons/bi";
 import { FaSave, FaMoneyCheckAlt } from "react-icons/fa";
 import { Modal } from "react-bootstrap";
+import { searchAPI } from "../pages/api/search/search";
 
 function Header(props) {
+  const initSearch = { search: "" };
   const [lgShow, setLgShow] = useState(false);
+  const [userSearch, setUserSearch] = useState(initSearch);
+  const [dataSearch, setDataSearch] = useState([]);
+  const { search } = userSearch;
   const token = cookie.get("token");
   const Router = useRouter();
 
@@ -20,6 +25,26 @@ function Header(props) {
     cookie.remove("token");
     Router.replace("/");
   };
+
+  const handleSearch = (e) => {
+    const { name, value } = e.target;
+    setUserSearch({ ...userSearch, [name]: value });
+    console.log(search);
+  };
+
+  useEffect(() => {
+    searchAPI
+      .searchDiaDiem(search)
+      .then((res) => {
+        console.log(res.data);
+        setDataSearch(res.data);
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        }
+      });
+  }, [search]);
 
   return (
     <div className="container header">
@@ -45,16 +70,16 @@ function Header(props) {
           </Nav>
 
           <Nav className="mr-auto header-menu-list-right">
-            <Nav.Link href="/" className="header-menu-list-right-li">
-              <BiMap className="header-icons"/>
+            <Nav.Link href="/checkin" className="header-menu-list-right-li">
+              <BiMap className="header-icons" />
               <p className="header-text">Check-In</p>
             </Nav.Link>
             <Nav.Link href="/" className="header-menu-list-right-li">
-              <FaSave className="header-icons"/>
+              <FaSave className="header-icons" />
               <p className="header-text">Lưu</p>
             </Nav.Link>
-           <Nav.Link href="/" className="header-menu-list-right-li">
-              <FaMoneyCheckAlt className="header-icons"/>
+            <Nav.Link href="/wallet" className="header-menu-list-right-li">
+              <FaMoneyCheckAlt className="header-icons" />
               <p className="header-text">Ví điện tử</p>
             </Nav.Link>
             {!token ? (
@@ -64,13 +89,13 @@ function Header(props) {
               </Nav.Link>
             ) : (
               <NavDropdown
-              title="User"
-              id="basic-nav-dropdown"
-              className="header-user"
-            >
-              <NavDropdown.Item href="/profiles">Profiles</NavDropdown.Item>
-              <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-            </NavDropdown>
+                title="User"
+                id="basic-nav-dropdown"
+                className="header-user"
+              >
+                <NavDropdown.Item href="/profiles">Profiles</NavDropdown.Item>
+                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+              </NavDropdown>
             )}
           </Nav>
         </Navbar.Collapse>
@@ -90,10 +115,52 @@ function Header(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            Large Modal
+            Tìm kiếm theo khu vực
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>...</Modal.Body>
+        <Modal.Body>
+          <div className="search-by-place">
+            <input
+              id="search"
+              name="search"
+              type="text"
+              className="form-control"
+              placeholder="Search for name and email......"
+              onChange={handleSearch}
+            />
+          </div>
+          <div className="get-all-place">
+            <div className="course">
+              <div id="cards_landscape_wrap-2">
+                <h1>Danh sách các Địa điểm</h1>
+                <div className="row">
+                  {dataSearch.map((search) => (
+                    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <a href="">
+                        <div className="card-flyer">
+                          <div className="text-box">
+                            <div className="image-box">
+                              <Image
+                                src={search.image}
+                                alt=""
+                              />
+                            </div>
+                            <div className="text-container">
+                              <h6>{search.diachi}</h6>
+                              <p>
+                                {search.thongtinthem}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </div>
   );

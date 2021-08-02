@@ -43,3 +43,11 @@ a {
 /* Profiles */
 
 @import url("./profiles/profiles.css");
+
+/* CheckIn */
+
+@import url("./checkin/checkin.css");
+
+/* Wallet */
+
+@import url("./wallet/wallet.css");
