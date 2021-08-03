@@ -1,6 +1,45 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { FormControl, InputGroup, Modal } from "react-bootstrap";
+import { napxuAPI } from "../api/napxu/napxu";
+import { profilesAPI } from "../api/profiles/profiles";
 
 const Wallet = () => {
+  const [xu, setXu] = useState();
+  const initCourse = { amount: 0 };
+  const [amountData, setAmountData] = useState(initCourse);
+  const { amount } = amountData;
+  const [lgShow, setLgShow] = useState(false);
+  const Router = useRouter();
+  useEffect(() => {
+    profilesAPI.getProfiles().then((res) => {
+      setXu(res.data.xu);
+    });
+  }, []);
+
+  const handleChangeAmount = (e) => {
+    const { name, value } = e.target;
+    setAmountData({ ...amountData, [name]: value });
+  };
+
+  const handleNapXu = (e) => {
+    e.preventDefault();
+    const body = {
+      amount: amount,
+      orderType: "topup",
+      orderDescription: "dang thanh toan",
+      bankCode: "",
+      language: "vn",
+    };
+    napxuAPI.napXuAPI(body)
+      .then(res=>{
+        // console.log(res);
+        Router.replace(res.data.url);
+      })
+      .catch(err=>console.log(err))
+  };
+
   return (
     <div className="wallet">
       <div className="card-wallet-wrapper">
@@ -30,28 +69,39 @@ const Wallet = () => {
           </div>
         </div>
         <div className="form">
-          <div className="heading">
-            <h2>card number</h2>
-          </div>
-          <div className="form-card-number">
-            <input type="number" id="input-number" />
-          </div>
-          <div className="heading">
-            <h2>card holder</h2>
-          </div>
-          <div className="form-card-holder">
-            <input type="text" id="input-name" />
-          </div>
-          <div className="heading">
-            <h2>expiration date</h2> <h2>cvv</h2>
-          </div>
-          <div className="form-bottom">
-            <input type="number" id="month" placeholder="month" />
-            <input type="number" id="year" placeholder="year" />
-            <input type="number" id="input-cvv" min="1" max="3" />
-          </div>
+          <h4>Số Xu</h4>
+          <h1>{xu}</h1>
           <div className="form-submit">
-            <button id="submit">submit</button>
+            <button id="submit" onClick={() => setLgShow(true)}>
+              Nạp xu
+            </button>
+            <Modal
+              size="lg"
+              show={lgShow}
+              onHide={() => setLgShow(false)}
+              aria-labelledby="example-modal-sizes-title-lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">
+                  Bạn hãy nhập số tiền muốn nạp( lớn hơn 5000)
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="model-buy-course">
+                <h2>Nhập số tiền thanh toán</h2>
+                <InputGroup className="mb-3">
+                  <FormControl
+                    placeholder="nạp xu"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    name="amount"
+                    onChange={handleChangeAmount}
+                  />
+                </InputGroup>
+                <button id="submit" onClick={handleNapXu}>
+                  Nạp xu
+                </button>
+              </Modal.Body>
+            </Modal>
           </div>
         </div>
       </div>

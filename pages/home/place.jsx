@@ -19,7 +19,7 @@ function Place() {
       <h2 className="home-teacher-title">Danh sách phòng tập</h2>
       <CardColumns className="home-teacher-content">
         {placeData.map((place) => (
-          <Card className="home-teacher-card">
+          <Card key={place.id} className="home-teacher-card">
             <Card.Img
               className="home-teacher-img"
               variant="top"

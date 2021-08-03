@@ -135,7 +135,7 @@ function Header(props) {
                 <h1>Danh sách các Địa điểm</h1>
                 <div className="row">
                   {dataSearch.map((search) => (
-                    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div key={search.id} className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                       <a href="">
                         <div className="card-flyer">
                           <div className="text-box">

@@ -1,6 +1,7 @@
 import React from "react";
 import Carousel from "./carousel"
 import Course from "./course";
+import ListSchedule from "./listSchedule";
 import Place from "./place";
 
 function Home() {
@@ -9,6 +10,7 @@ function Home() {
       <Carousel />
       <Course />
       <Place />
+      <ListSchedule />
     </div>
   );
 }

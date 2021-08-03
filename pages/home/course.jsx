@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Row, Col, Modal,InputGroup,FormControl } from "react-bootstrap";
+import { Row, Col, Modal, InputGroup, FormControl } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { courseAPI } from "../api/course/course";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { useRouter } from "next/dist/client/router";
+import { profilesAPI } from "../api/profiles/profiles";
 
 const Course = () => {
   const [courseData, setCourseData] = useState([]);
@@ -14,11 +15,13 @@ const Course = () => {
   const [idCourse, setIdCourse] = useState("");
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState("");
-  const initCourse = {amount:0};
+  const [gia, setGia] = useState();
+  const initCourse = { amount: 0 };
   const [amountData, setAmountData] = useState(initCourse);
-  const {amount} = amountData;
+  const { amount } = amountData;
   const token = Cookies.get("token");
   const Router = useRouter();
+  const [sodutk, setSoDuTk] = useState();
   useEffect(() => {
     courseAPI
       .getAllCourse()
@@ -29,39 +32,39 @@ const Course = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const buyCourse = (idCourse) => (e) => {
+  useEffect(() => {
+    profilesAPI.getProfiles().then((res) => {
+      setSoDuTk(res.data.xu);
+    });
+  }, []);
+
+  const buyCourse = (idCourse, gia, sodutk) => (e) => {
     // console.log(idCourse)
     const body = {
       course: idCourse,
-      orderType: "topup",
-      amount:amount,
-      orderDescription: "dang thanh toan",
-      bankCode: "",
-      language: "vn"
     };
-    console.log(body)
+    console.log(body);
     if (!token) {
       setMessage("Hãy đăng nhập để mua khóa học");
     } else {
-      courseAPI
-        .buyCourse(body)
-        .then((res) => {
-          console.log(res.data.url);
-          Router.push(res.data.url);
-          setSuccess("Tạo khóa học thành công, Check mã ở gmail");
-        })
-        .catch((err) => console.log(err));
+      if (sodutk < gia) {
+        setMessage("Bạn cần nạp thêm tiền");
+      } else {
+        courseAPI
+          .buyCourse(body)
+          .then((res) => {
+            // console.log(res.data.url);
+            // Router.push(res.data.url);
+            setSuccess("Tạo khóa học thành công, Check mã ở gmail");
+            setMessage("Tạo khóa học thành công, Check mã ở gmail");
+          })
+          .catch((err) => {
+            console.log(err)
+            setMessage("Tạo khóa học không thành công");
+          });
+      }
     }
   };
-
-  const login = () => {
-    Router.replace("/login");
-  };
-
-  const handleChangeAmount = (e) => {
-    const {name, value} = e.target
-    setAmountData({...amountData,[name]:value})
-  }
 
   return (
     <div className="course">
@@ -70,7 +73,10 @@ const Course = () => {
           <h1>Danh sách các khóa tập</h1>
           <div className="row">
             {courseData.map((course) => (
-              <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div
+                key={course.id}
+                className="col-xs-12 col-sm-6 col-md-3 col-lg-3"
+              >
                 {/* <a href=""> */}
                 <div className="card-flyer">
                   <div className="text-box">
@@ -86,7 +92,8 @@ const Course = () => {
                       </p>
                     </div>
                     <div className="text-container">
-                      <h3>Giá: 10000</h3>
+                      <h3>Giá</h3>
+                      <h3>{course.gia}</h3>
                     </div>
                   </div>
 
@@ -94,6 +101,7 @@ const Course = () => {
                     onClick={() => {
                       setLgShow(true);
                       setIdCourse(course.id);
+                      setGia(course.gia);
                     }}
                   >
                     Mua khóa học
@@ -111,7 +119,7 @@ const Course = () => {
                       </Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="model-buy-course">
-                    <h2>Nhập số tiền thanh toán</h2>
+                      {/* <h2>Nhập số tiền thanh toán</h2>
                       <InputGroup className="mb-3">
                         <FormControl
                           placeholder="Username"
@@ -120,18 +128,17 @@ const Course = () => {
                           name="amount"
                           onChange={handleChangeAmount}
                         />
-                      </InputGroup>
-
+                      </InputGroup> */}
                       <Button
                         variant="danger"
                         className="button-course"
-                        onClick={buyCourse(idCourse)}
+                        onClick={buyCourse(idCourse, gia, sodutk)}
                       >
                         Mua khóa học
                       </Button>{" "}
                       <div className="buycourse-login">
                         <p>{message}</p>
-                        <p>{success}</p>
+                        {/* <p>{success}</p> */}
                       </div>
                     </Modal.Body>
                   </Modal>
