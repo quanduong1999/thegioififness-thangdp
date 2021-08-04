@@ -4,6 +4,8 @@ import { useState } from "react";
 import { FormControl, InputGroup, Modal } from "react-bootstrap";
 import { napxuAPI } from "../api/napxu/napxu";
 import { profilesAPI } from "../api/profiles/profiles";
+import Cookies from 'js-cookie';
+import withAuth from "../HOC/withAuth";
 
 const Wallet = () => {
   const [xu, setXu] = useState();
@@ -12,10 +14,13 @@ const Wallet = () => {
   const { amount } = amountData;
   const [lgShow, setLgShow] = useState(false);
   const Router = useRouter();
+  const token = Cookies.get("token");
   useEffect(() => {
-    profilesAPI.getProfiles().then((res) => {
-      setXu(res.data.xu);
-    });
+    if(token){
+      profilesAPI.getProfiles().then((res) => {
+        setXu(res.data.xu);
+      });
+    }
   }, []);
 
   const handleChangeAmount = (e) => {
@@ -109,4 +114,4 @@ const Wallet = () => {
   );
 };
 
-export default Wallet;
+export default withAuth(Wallet);
