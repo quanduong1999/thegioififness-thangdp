@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "react-bootstrap";
 
 const Fail = () => {
   return (
@@ -8,7 +9,7 @@ const Fail = () => {
           <div className="modal-content" style={{}}>
             <div className="modal-header" style={{}}>
               <h4 className="modal-title text-center" style={{ width: "100%" }}>
-                <img
+                <Image
                   src="https://lh3.googleusercontent.com/-ApBj8d4WL1E/Wp0fJeAD6jI/AAAAAAAAD4M/Dh6l_UiA64kln8PS-1SaDQFuhb9KJL40gCL0BGAYYCw/h100/2018-03-05.png"
                   alt=""
                 />
