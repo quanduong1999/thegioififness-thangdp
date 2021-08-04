@@ -10,9 +10,6 @@ import theme from '../src/theme';
 
 export default function MyApp(props) {
     const { Component, pageProps } = props;
-    useEffect(() => {
-        localStorage.setItem("token", null);
-    }, [])
 
     React.useEffect(() => {
         const jssStyles = document.querySelector('#jss-server-side');
@@ -21,24 +18,16 @@ export default function MyApp(props) {
         }
     }, []);
 
-    return ( <
-        React.Fragment >
-        <
-        Head >
-        <
-        title > My page < /title> <
-        meta name = "viewport"
-        content = "minimum-scale=1, initial-scale=1, width=device-width" / >
-        <
-        /Head> <
-        Layout >
-        <
-        Component {...pageProps }
-        /> < /
-        Layout >
-
-        <
-        /React.Fragment>
+    return (
+    <React.Fragment >
+        <Head >
+            <title> My page </title>
+            <meta name = "viewport" content = "minimum-scale=1, initial-scale=1, width=device-width" / >
+        </Head>
+        <Layout>
+            <Component {...pageProps }/>
+        </Layout >
+    </React.Fragment>
     );
 }
 

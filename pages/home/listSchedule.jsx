@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import { scheduleAPI } from "../api/schedule/schedule";
 
 const ListSchedule = () => {
-  const [placeData, setPlaceData] = useState([]);
+  const [scheduleData, setScheduleData] = useState([]);
   const [lgShow, setLgShow] = useState(false);
   const [idschedule, setIdSchedule] = useState("");
   const [gia, setGia] = useState();
@@ -17,11 +17,11 @@ const ListSchedule = () => {
   const token = Cookies.get("token");
 
   useEffect(() => {
-    placeAPI
-      .getAllPlace()
+    scheduleAPI
+      .getAllSchedule()
       .then((res) => {
         console.log(res);
-        setPlaceData(res.data);
+        setScheduleData(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -63,72 +63,67 @@ const ListSchedule = () => {
         <div className="container">
           <h1>Danh sách Lịch hẹn </h1>
           <div className="row">
-            {placeData.map((place) =>
-              place.schedule.map((schedule) => (
-                <div
-                  key={schedule.id}
-                  className="col-xs-12 col-sm-6 col-md-3 col-lg-3"
-                >
-                  {/* <a href=""> */}
-                  <div className="card-flyer">
-                    <div className="text-box">
-                      <div className="image-box">
-                        <Image src={schedule.image} alt="" />
-                      </div>
-                      <div className="text-container">
-                        <h6>{schedule.name}</h6>
-                        <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry is standard dummy text ever since the 1500s.
-                        </p>
-                      </div>
-                      <div className="text-container">
-                        <h3>Giá</h3>
-                        <h3>{schedule.gia}</h3>
-                      </div>
+            {scheduleData.map((schedule) => (
+              <div
+                key={schedule.id}
+                className="col-xs-12 col-sm-6 col-md-3 col-lg-3"
+              >
+                {/* <a href=""> */}
+                <div className="card-flyer">
+                  <div className="text-box">
+                    <div className="image-box">
+                      <Image src={schedule.image} alt="" />
                     </div>
-
-                    <Button
-                      onClick={() => {
-                        setLgShow(true);
-                        setIdSchedule(schedule.id);
-                        setGia(schedule.gia);
-                      }}
-                    >
-                      Mua khóa học
-                    </Button>
-
-                    <Modal
-                      size="lg"
-                      show={lgShow}
-                      onHide={() => setLgShow(false)}
-                      aria-labelledby="example-modal-sizes-title-lg"
-                    >
-                      <Modal.Header closeButton>
-                        <Modal.Title id="example-modal-sizes-title-lg">
-                          Mua Lịch Tập
-                        </Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body className="model-buy-schedule">
-                        <Button
-                          variant="danger"
-                          className="button-schedule"
-                          onClick={buyschedule(idschedule, gia, sodutk)}
-                        >
-                          Mua Lịch Tập
-                        </Button>{" "}
-                        <div className="buyschedule-login">
-                          <p>{message}</p>
-                          {/* <p>{success}</p> */}
-                        </div>
-                      </Modal.Body>
-                    </Modal>
+                    <div className="text-container">
+                      <h6>{schedule.name}</h6>
+                      <p>{schedule.pt}</p>
+                    </div>
+                    <div className="text-container">
+                      <h3>Giá</h3>
+                      <h3>{schedule.gia}</h3>
+                    </div>
                   </div>
-                  {/* </a> */}
+
+                  <Button
+                    onClick={() => {
+                      setLgShow(true);
+                      setIdSchedule(schedule.id);
+                      setGia(schedule.gia);
+                    }}
+                    className="buy"
+                  >
+                    Mua Lịch Tập
+                  </Button>
+
+                  <Modal
+                    size="lg"
+                    show={lgShow}
+                    onHide={() => setLgShow(false)}
+                    aria-labelledby="example-modal-sizes-title-lg"
+                  >
+                    <Modal.Header closeButton>
+                      <Modal.Title id="example-modal-sizes-title-lg">
+                        Mua Lịch Tập
+                      </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="model-buy-schedule">
+                      <Button
+                        variant="danger"
+                        className="button-schedule"
+                        onClick={buyschedule(idschedule, gia, sodutk)}
+                      >
+                        Mua Lịch Tập
+                      </Button>{" "}
+                      <div className="buyschedule-login">
+                        <p>{message}</p>
+                        {/* <p>{success}</p> */}
+                      </div>
+                    </Modal.Body>
+                  </Modal>
                 </div>
-              ))
-            )}
+                {/* </a> */}
+              </div>
+            ))}
           </div>
         </div>
       </div>

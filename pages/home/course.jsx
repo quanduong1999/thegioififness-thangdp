@@ -86,9 +86,7 @@ const Course = () => {
                     <div className="text-container">
                       <h6>{course.tenkhoahoc}</h6>
                       <p>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the industry
-                        is standard dummy text ever since the 1500s.
+                       {course.thongtinthem}
                       </p>
                     </div>
                     <div className="text-container">
@@ -103,6 +101,7 @@ const Course = () => {
                       setIdCourse(course.id);
                       setGia(course.gia);
                     }}
+                    className="buy"
                   >
                     Mua khóa học
                   </Button>
@@ -119,16 +118,7 @@ const Course = () => {
                       </Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="model-buy-course">
-                      {/* <h2>Nhập số tiền thanh toán</h2>
-                      <InputGroup className="mb-3">
-                        <FormControl
-                          placeholder="Username"
-                          aria-label="Username"
-                          aria-describedby="basic-addon1"
-                          name="amount"
-                          onChange={handleChangeAmount}
-                        />
-                      </InputGroup> */}
+                      
                       <Button
                         variant="danger"
                         className="button-course"

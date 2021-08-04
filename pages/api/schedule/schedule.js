@@ -1,16 +1,17 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const placeAPI = {
-  getAllPlace,
+export const scheduleAPI = {
+  getAllSchedule,
+  buyScheduleAPI,
 };
 
 const token = Cookies.get("token");
 
-async function getAllPlace(body) {
+async function getAllSchedule() {
   try {
     let res = await axios.get(
-      "http://18.216.251.104:5000/api/customer/allplace",
+      "http://18.216.251.104:5000/api/customer/allschedule",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -31,4 +32,16 @@ async function getAllPlace(body) {
       // Something happened in setting up the request that triggered an Error
     }
   }
+}
+
+function buyScheduleAPI(body) {
+  return axios.post(
+    "http://18.216.251.104:5000/api/customer/buyschedule",
+    body,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 }
