@@ -33,9 +33,11 @@ const Course = () => {
   }, []);
 
   useEffect(() => {
-    profilesAPI.getProfiles().then((res) => {
-      setSoDuTk(res.data.xu);
-    });
+    if (token) {
+      profilesAPI.getProfiles().then((res) => {
+        setSoDuTk(res.data.xu);
+      });
+    }
   }, []);
 
   const buyCourse = (idCourse, gia, sodutk) => (e) => {
@@ -59,7 +61,7 @@ const Course = () => {
             setMessage("Tạo khóa học thành công, Check mã ở gmail");
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err);
             setMessage("Tạo khóa học không thành công");
           });
       }
@@ -85,9 +87,7 @@ const Course = () => {
                     </div>
                     <div className="text-container">
                       <h6>{course.tenkhoahoc}</h6>
-                      <p>
-                       {course.thongtinthem}
-                      </p>
+                      <p>{course.thongtinthem}</p>
                     </div>
                     <div className="text-container">
                       <h3>Giá</h3>
@@ -118,7 +118,6 @@ const Course = () => {
                       </Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="model-buy-course">
-                      
                       <Button
                         variant="danger"
                         className="button-course"

@@ -27,9 +27,12 @@ const ListSchedule = () => {
   }, []);
 
   useEffect(() => {
-    profilesAPI.getProfiles().then((res) => {
-      setSoDuTk(res.data.xu);
-    });
+    if (token) {
+      profilesAPI.getProfiles().then((res) => {
+        console.log(res);
+        setSoDuTk(res.data.xu);
+      });
+    }
   }, []);
 
   const buyschedule = (idschedule, gia, sodutk) => (e) => {
