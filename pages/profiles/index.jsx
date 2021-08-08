@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { profilesAPI } from "../api/profiles/profiles";
+import Cookies from "js-cookie";
 
 const Profies = () => {
   const initUserState = {
@@ -11,12 +12,14 @@ const Profies = () => {
     avatar: "",
     phonenumber: "",
   };
+  const token = Cookies.get("token")
   const [userData, setUserData] = useState(initUserState);
   const [xu, setXu] = useState();
   const { id, name, ngaysinh, avatar, phonenumber } = userData;
   const Router = useRouter();
   useEffect(() => {
-    profilesAPI
+    if(token){
+      profilesAPI
       .getProfiles()
       .then((res) => {
         console.log(res.data);
@@ -24,6 +27,8 @@ const Profies = () => {
         setXu(res.data.xu);
       })
       .catch((err) => console.log(err));
+    }
+    
   }, []);
 
   const handleChangeUpdataProfile = (e) => {

@@ -9,16 +9,16 @@ const Carousel = () => {
           <div className="slider-img">
             <ul id="ul-parent">
               <li>
-                <Image src="http://uupload.ir/files/vswh_img-1.jpg" />
+                <Image src="/adv2.jpg" />
               </li>
               <li>
-                <Image src="http://uupload.ir/files/i97e_img-2.jpg" />
+                <Image src="/adv3.jpg" />
               </li>
               <li>
-                <Image src="http://uupload.ir/files/0roy_img-3.jpg" />
+                <Image src="/adv4.jpg" />
               </li>
               <li>
-                <Image src="http://uupload.ir/files/f52k_img-4.jpg" />
+                <Image src="/adv5.jpg" />
               </li>
             </ul>
           </div>

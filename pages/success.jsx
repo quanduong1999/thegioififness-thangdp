@@ -8,8 +8,8 @@ const Success = () => {
     }
   return (
     <div className="wrapperAlert success">
-      <div className="contentAlert">
-        <div className="topHalf">
+      <div className="success-contentAlert">
+        <div className="success-topHalf">
           <p>
             <svg viewBox="0 0 512 512" width="100">
               <path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
@@ -17,22 +17,22 @@ const Success = () => {
           </p>
           <h1>Giao dịch thành công</h1>
 
-          <ul className="bg-bubbles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+          <ul className="success-bg-bubbles">
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
+            <li className="success-li"></li>
           </ul>
         </div>
 
-        <div className="bottomHalf">
-          <button id="alertMO" onClick={backHome}>Về trang chủ</button>
+        <div className="success-bottomHalf">
+          <button className="success-button" id="alertMO" onClick={backHome}>Về trang chủ</button>
         </div>
       </div>
       <style jsx>{`
@@ -46,19 +46,9 @@ const Success = () => {
           text-align: center;
           margin: auto;
           margin-top: 6%;
+          width:50%;
         }
-
-        body {
-          height: 100vh;
-          display: flex;
-          font-size: 14px;
-          text-align: center;
-          justify-content: center;
-          align-items: center;
-          font-family: "Khand", sans-serif;
-        }
-
-        .wrapperAlert {
+        .success-wrapperAlert {
           width: 500px;
           height: 400px;
           overflow: hidden;
@@ -66,7 +56,7 @@ const Success = () => {
           border: thin solid #ddd;
         }
 
-        .topHalf {
+        .success-topHalf {
           width: 100%;
           color: white;
           overflow: hidden;
@@ -77,7 +67,7 @@ const Success = () => {
           background: -webkit-linear-gradient(45deg, #019871, #a0ebcf);
         }
 
-        .topHalf p {
+        .success-topHalf p {
           margin-bottom: 30px;
         }
 
@@ -85,7 +75,7 @@ const Success = () => {
           fill: white;
         }
 
-        .topHalf h1 {
+        .success-topHalf h1 {
           font-size: 2.25rem;
           display: block;
           font-weight: 500;
@@ -95,7 +85,7 @@ const Success = () => {
 
         /* Original Author of Bubbles Animation -- https://codepen.io/Lewitje/pen/BNNJjo */
 
-        .bg-bubbles {
+        .success-bg-bubbles {
           position: absolute;
           top: 0;
           left: 0;
@@ -104,7 +94,7 @@ const Success = () => {
           z-index: 1;
         }
 
-        li {
+        .success-li {
           position: absolute;
           list-style: none;
           display: block;
@@ -119,11 +109,11 @@ const Success = () => {
           transition-timing-function: linear;
         }
 
-        li:nth-child(1) {
+        .success-li:nth-child(1) {
           left: 10%;
         }
 
-        li:nth-child(2) {
+        .success-li:nth-child(2) {
           left: 20%;
           width: 80px;
           height: 80px;
@@ -131,12 +121,12 @@ const Success = () => {
           animation-duration: 17s;
         }
 
-        li:nth-child(3) {
+        .success-li:nth-child(3) {
           left: 25%;
           animation-delay: 4s;
         }
 
-        li:nth-child(4) {
+        .success-li:nth-child(4) {
           left: 40%;
           width: 60px;
           height: 60px;
@@ -145,11 +135,11 @@ const Success = () => {
           /* fade(white, 25%); */
         }
 
-        li:nth-child(5) {
+        .success-li:nth-child(5) {
           left: 70%;
         }
 
-        li:nth-child(6) {
+        .success-li:nth-child(6) {
           left: 80%;
           width: 120px;
           height: 120px;
@@ -158,14 +148,14 @@ const Success = () => {
           /* fade(white, 20%); */
         }
 
-        li:nth-child(7) {
+        .success-li:nth-child(7) {
           left: 32%;
           width: 160px;
           height: 160px;
           animation-delay: 7s;
         }
 
-        li:nth-child(8) {
+        .success-li:nth-child(8) {
           left: 55%;
           width: 20px;
           height: 20px;
@@ -173,7 +163,7 @@ const Success = () => {
           animation-duration: 40s;
         }
 
-        li:nth-child(9) {
+        .success-li:nth-child(9) {
           left: 25%;
           width: 10px;
           height: 10px;
@@ -183,7 +173,7 @@ const Success = () => {
           /*fade(white, 30%);*/
         }
 
-        li:nth-child(10) {
+        .success-li:nth-child(10) {
           left: 90%;
           width: 160px;
           height: 160px;
@@ -208,18 +198,18 @@ const Success = () => {
           }
         }
 
-        .bottomHalf {
+        .success-bottomHalf {
           align-items: center;
           padding: 35px;
         }
 
-        .bottomHalf p {
+        .success-bottomHalf p {
           font-weight: 500;
           font-size: 1.05rem;
           margin-bottom: 20px;
         }
 
-        button {
+        .success-button {
           border: none;
           color: white;
           cursor: pointer;
@@ -229,7 +219,7 @@ const Success = () => {
           text-shadow: 0 1px rgba(128, 128, 128, 0.75);
         }
 
-        button:hover {
+        .success-button:hover {
           background-color: #85ddbf;
         }
       `}</style>

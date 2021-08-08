@@ -30,50 +30,50 @@ const Fail = () => {
               </p>
             </div>
           </div>
-          <style jsx>{`
-            .modal-content {
-              border: "none";
-              border-radius: "5px";
-              box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-            }
-
-            .modal-header {
-              background: "#d75a4a";
-              border-top-left-radius: "5px";
-              border-top-right-radius: "5px";
-            }
-
-            .fail-p1 {
-              text-align: center;
-              color: #d75a4a;
-              font-size: 24px;
-              font-weight: 500;
-            }
-
-            .fail-p2 {
-              color: #555555;
-            }
-
-            .fail-strong {
-              font-weight: 500;
-              font-size: 16px;
-              color: #222222;
-            }
-
-            .fail-strong1 {
-              font-weight: 500;
-              font-size: 16px;
-              color: #222222;
-            }
-
-            .fail-strong3 {
-              font-weight: 500;
-              font-size: 15px;
-              color: #222222;
-            }
-          `}</style>
         </div>
       </div>
+      <style jsx>{`
+        .modal-content {
+          border: none;
+          border-radius: 5px;
+          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+
+        .modal-header {
+          background: #d75a4a;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+        }
+
+        .fail-p1 {
+          text-align: center;
+          color: #d75a4a;
+          font-size: 24px;
+          font-weight: 500;
+        }
+
+        .fail-p2 {
+          color: #555555;
+        }
+
+        .fail-strong {
+          font-weight: 500;
+          font-size: 16px;
+          color: #222222;
+        }
+
+        .fail-strong1 {
+          font-weight: 500;
+          font-size: 16px;
+          color: #222222;
+        }
+
+        .fail-strong3 {
+          font-weight: 500;
+          font-size: 15px;
+          color: #222222;
+        }
+      `}</style>
     </div>
   );
 };

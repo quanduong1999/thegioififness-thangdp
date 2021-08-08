@@ -2,10 +2,10 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { FormControl, InputGroup, Modal } from "react-bootstrap";
-import { napxuAPI } from "../api/napxu/napxu";
-import { profilesAPI } from "../api/profiles/profiles";
-import Cookies from 'js-cookie';
-import withAuth from "../HOC/withAuth";
+import { napxuAPI } from "./api/napxu/napxu";
+import { profilesAPI } from "./api/profiles/profiles";
+import Cookies from "js-cookie";
+import withAuth from "./HOC/withAuth";
 
 const Wallet = () => {
   const [xu, setXu] = useState();
@@ -16,7 +16,7 @@ const Wallet = () => {
   const Router = useRouter();
   const token = Cookies.get("token");
   useEffect(() => {
-    if(token){
+    if (token) {
       profilesAPI.getProfiles().then((res) => {
         setXu(res.data.xu);
       });
@@ -37,28 +37,20 @@ const Wallet = () => {
       bankCode: "",
       language: "vn",
     };
-    napxuAPI.napXuAPI(body)
-      .then(res=>{
+    napxuAPI
+      .napXuAPI(body)
+      .then((res) => {
         // console.log(res);
         Router.replace(res.data.url);
       })
-      .catch(err=>console.log(err))
+      .catch((err) => console.log(err));
   };
 
   return (
     <div className="wallet">
       <div className="card-wallet-wrapper">
         <div className="card-wallet">
-          <div className="card-wallet-header">
-            {/* <img
-              src="https://www.flaticon.com/svg/vstatic/svg/3876/3876951.svg?token=exp=1620210594~hmac=542488eebcfe83be4f643f4ff25641b3"
-              id="chip"
-            />
-            <img
-              src="https://www.flaticon.com/svg/vstatic/svg/179/179457.svg?token=exp=1620210558~hmac=02461fe05c02d62905eadbb4e60f17a8"
-              id="logo"
-            /> */}
-          </div>
+          <div className="card-wallet-header"></div>
           <div className="card-wallet-number">
             <p id="p-card-wallet-number">#### #### #### ####</p>
           </div>

@@ -17,6 +17,11 @@ function Header(props) {
   const [lgShow, setLgShow] = useState(false);
   const [userSearch, setUserSearch] = useState(initSearch);
   const [dataSearch, setDataSearch] = useState([]);
+  const [tinh, setTinh] = useState([]);
+  const [idTinh, setIdTinh] = useState();
+  const [huyen, setHuyen] = useState([]);
+  const [idHuyen, setIdHuyen] = useState();
+  const [xa, setXa] = useState([]);
   const { search } = userSearch;
   const token = cookie.get("token");
   const Router = useRouter();
@@ -24,12 +29,6 @@ function Header(props) {
   const logout = () => {
     cookie.remove("token");
     Router.replace("/");
-  };
-
-  const handleSearch = (e) => {
-    const { name, value } = e.target;
-    setUserSearch({ ...userSearch, [name]: value });
-    console.log(search);
   };
 
   useEffect(() => {
@@ -45,6 +44,44 @@ function Header(props) {
         }
       });
   }, [search]);
+
+  useEffect(() => {
+    searchAPI
+      .getTinh()
+      .then((res) => {
+        // console.log(res.data.results);
+        setTinh(res.data.results);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleChangeTinh = (e) => {
+    setIdTinh(e.target.value);
+  };
+
+  useEffect(() => {
+    searchAPI
+      .getHuyen(idTinh)
+      .then((res) => {
+        // console.log(res)
+        setHuyen(res.data.results);
+      })
+      .catch((err) => console.log(err));
+  }, [idTinh]);
+
+  const handleChangeHuyen = (e) => {
+    setIdHuyen(e.target.value);
+  };
+
+  useEffect(() => {
+    searchAPI
+      .getXa(idHuyen)
+      .then((res) => {
+        // console.log(res.data.results)
+        setXa(res.data.results);
+      })
+      .catch((err) => console.log(err));
+  }, [idHuyen]);
 
   return (
     <div className="container header">
@@ -74,7 +111,7 @@ function Header(props) {
               <BiMap className="header-icons" />
               <p className="header-text">Check-In</p>
             </Nav.Link>
-            <Nav.Link href="/" className="header-menu-list-right-li">
+            <Nav.Link href="/save" className="header-menu-list-right-li">
               <FaSave className="header-icons" />
               <p className="header-text">Lưu</p>
             </Nav.Link>
@@ -120,45 +157,61 @@ function Header(props) {
         </Modal.Header>
         <Modal.Body>
           <div className="search-by-place">
-            <input
-              id="search"
-              name="search"
-              type="text"
-              className="form-control"
-              placeholder="Search for name and email......"
-              onChange={handleSearch}
-            />
-          </div>
-          <div className="get-all-place">
-            <div className="course">
-              <div id="cards_landscape_wrap-2">
-                <h1>Danh sách các Địa điểm</h1>
-                <div className="row">
-                  {dataSearch.map((search) => (
-                    <div key={search.id} className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                      <a href="">
-                        <div className="card-flyer">
-                          <div className="text-box">
-                            <div className="image-box">
-                              <Image
-                                src={search.image}
-                                alt=""
-                              />
-                            </div>
-                            <div className="text-container">
-                              <h6>{search.diachi}</h6>
-                              <p>
-                                {search.thongtinthem}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
+            <div className="place-tinh">
+              <select
+                name="tinh"
+                className="checkin-select-place"
+                onChange={handleChangeTinh}
+              >
+                <option selected disabled>
+                  Chọn 1 Tỉnh/Thành Phố
+                </option>
+                {tinh.map((tinh) => (
+                  <option key={tinh.province_id} value={tinh.province_id}>
+                    {tinh.province_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="place-huyen">
+              <select
+                name="huyen"
+                className="checkin-select-place"
+                onChange={handleChangeHuyen}
+              >
+                <option selected disabled>
+                  Chọn 1 Huyện
+                </option>
+                {huyen.map((huyen) => (
+                  <option key={huyen.district_id} value={huyen.district_id}>
+                    {huyen.district_name}
+                  </option>
+                ))}
+              </select>
+
+              <div className="place-xa">
+                <select
+                  name="xa"
+                  className="checkin-select-place"
+                  // onChange={handleChangePlace}
+                >
+                  <option selected disabled>
+                    Chọn 1 Xã
+                  </option>
+                  {xa.map((xa) => (
+                    <option key={xa.ward_id} value={xa.ward_id}>
+                      {xa.ward_name}
+                    </option>
                   ))}
-                </div>
+                </select>
               </div>
             </div>
+          </div>
+          <div className="get-all-place">
+            <Button variant="danger" className="button-place">
+              Tìm Kiếm
+            </Button>{" "}
           </div>
         </Modal.Body>
       </Modal>

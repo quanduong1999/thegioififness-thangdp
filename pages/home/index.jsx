@@ -8,9 +8,9 @@ function Home() {
   return (
     <div className="home">
       <Carousel />
-      <Course />
+      {/* <Course /> */}
       <Place />
-      <ListSchedule />
+      {/* <ListSchedule /> */}
     </div>
   );
 }

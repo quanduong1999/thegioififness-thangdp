@@ -5,7 +5,7 @@ import {Button,FormControl, InputGroup} from 'react-bootstrap'
 
 function Footer() {
   return (
-    <div className="footer">
+    <div className="footers">
       <footer className="page-footer font-small blue pt-4">
         <div className="container text-center text-md-left">
           <div className="row">

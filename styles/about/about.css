@@ -1,5 +1,9 @@
 /*----  Main Style  ----*/
 
+.about {
+    margin-top: 3%;
+}
+
 #cards_landscape_wrap-2 {
     text-align: center;
     /* background: #F7F7F7; */

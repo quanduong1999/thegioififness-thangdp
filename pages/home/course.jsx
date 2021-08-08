@@ -77,7 +77,7 @@ const Course = () => {
             {courseData.map((course) => (
               <div
                 key={course.id}
-                className="col-xs-12 col-sm-6 col-md-3 col-lg-3"
+                className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
               >
                 {/* <a href=""> */}
                 <div className="card-flyer">
