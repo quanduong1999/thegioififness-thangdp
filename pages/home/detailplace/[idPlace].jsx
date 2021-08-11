@@ -2,7 +2,15 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Col, Row, Image, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Image,
+  Modal,
+  Button,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { detailPlaceAPI } from "../../api/detailplace/detailplace";
 import Cookies from "js-cookie";
 import { profilesAPI } from "../../api/profiles/profiles";
@@ -24,12 +32,14 @@ const DetailPlace = () => {
   const [amountData, setAmountData] = useState(initCourse);
   const { amount } = amountData;
   const token = Cookies.get("token");
-  const initContent = {content:""}
+  const initContent = { content: "" };
   const [contentData, setContentData] = useState(initContent);
-  const {content} = contentData
+  const { content } = contentData;
+  const [changeFeedBack, setChangeFeedBack] = useState("");
+  const [feedBackData, setFeedBackData] = useState([]);
 
   const [scheduleData, setScheduleData] = useState([]);
-  const [idschedule, setIdSchedule] = useState("");
+  const [idschedule, setIdSchedule] = useState([]);
 
   const [sodutk, setSoDuTk] = useState(0);
 
@@ -38,8 +48,7 @@ const DetailPlace = () => {
       profilesAPI.getProfiles().then((res) => {
         setSoDuTk(res.data.xu);
       });
-    }else{
-
+    } else {
     }
   }, []);
 
@@ -79,7 +88,7 @@ const DetailPlace = () => {
         setPlace(res.data[0].place);
       })
       .catch((err) => console.log(err));
-  },[]);
+  }, []);
 
   useEffect(() => {
     detailPlaceAPI
@@ -89,7 +98,7 @@ const DetailPlace = () => {
         setScheduleData(res.data);
       })
       .catch((err) => console.log(err));
-  },[]);
+  }, []);
 
   const buySchedule = (idschedule, gia, sodutk) => (e) => {
     e.preventDefault();
@@ -117,26 +126,38 @@ const DetailPlace = () => {
   };
 
   const onChangeContent = (e) => {
-    const {name, value} = e.target
-    setContentData({...contentData,[name]:value})
-  }
+    const { name, value } = e.target;
+    setContentData({ ...contentData, [name]: value });
+  };
 
-  const submitFeedback = id => e => {
+  const submitFeedback = (id) => (e) => {
     e.preventDefault();
     const body = {
       place: id,
-      content: content
+      content: content,
+    };
+    if (token) {
+      feedbackAPI
+        .createFeedback(body)
+        .then((res) => {
+          console.log(res);
+          setChangeFeedBack(res.data);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      setMessage("Bạn cần đăng nhập");
     }
-    if(token){
-      feedbackAPI.createFeedback(body)
-      .then(res=>{
-        console.log(res)
+  };
+
+  useEffect(() => {
+    feedbackAPI
+      .getFeedBackId(idPlace)
+      .then((res) => {
+        console.log(res);
+        setFeedBackData(res.data);
       })
-      .catch(err=>console.log(err))
-    }else{
-      setMessage("Bạn cần đăng nhập")
-    }
-  } 
+      .catch((err) => console.log(err));
+  }, [changeFeedBack]);
 
   return (
     <div className="detailplace">
@@ -309,13 +330,58 @@ const DetailPlace = () => {
               name="content"
               onChange={onChangeContent}
             />
-            <Button variant="outline-secondary" id="button-addon2" onClick={submitFeedback(idPlace)}>
+            <Button
+              variant="outline-secondary"
+              id="button-addon2"
+              onClick={submitFeedback(idPlace)}
+            >
               Submit
             </Button>
           </InputGroup>
         </div>
+        <p>{message}</p>
         <div className="feedback-getcontent container">
-              {message}
+          <div className="container">
+            <div className="col-md-12" id="fbcomment">
+              <div className="row">
+                <ul id="list_comment" className="col-md-12">
+                  {feedBackData.map((feedback) => (
+                    <li className="box_result row">
+                      <div className="avatar_comment col-md-1">
+                        <img
+                          src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg"
+                          alt="avatar"
+                        />
+                      </div>
+                      <div className="result_comment col-md-11">
+                        <h4>{feedback.customer.name}</h4>
+                        <p>
+                          {feedback.content}
+                        </p>
+                        <div className="tools_comment">
+                          <a className="like" href="#">
+                            Like
+                          </a>
+                          <span aria-hidden="true"> · </span>
+                          <a className="replay" href="#">
+                            Reply
+                          </a>
+                          <span aria-hidden="true"> · </span>
+                          <i className="fa fa-thumbs-o-up"></i>{" "}
+                          <span className="count">1</span>
+                          <span aria-hidden="true"> · </span>
+                          <span>26m</span>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <button className="show_more" type="button">
+                  Load 10 more comments
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
