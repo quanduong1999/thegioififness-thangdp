@@ -7,10 +7,10 @@ export const checkInAPI = {
 
 const token = Cookies.get("token");
 
-async function checkIn(body) {
+async function checkIn(id,body) {
   try {
     let res = await axios.post(
-      "http://18.216.251.104:5000/api/admin/checkin",
+      "http://18.216.251.104:5000/api/customer/checkin/"+id,
       body,
       {
         headers: {

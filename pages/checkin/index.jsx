@@ -21,7 +21,7 @@ const CheckIn = () => {
       scheduleAPI
         .getScheduleBuy()
         .then((res) => {
-          // console.log(res.data);
+          console.log(res.data);
           setScheduleData(res.data);
         })
         .catch((err) => console.log(err));
@@ -39,6 +39,10 @@ const CheckIn = () => {
         .catch((err) => console.log(err));
     }
   }, []);
+
+  const checkIn = id => (e) => {
+    
+  }
 
   return (
     <div className="checkin">
@@ -66,6 +70,7 @@ const CheckIn = () => {
                         <h3>Giá</h3>
                         <h3>{course.course.gia}</h3>
                       </div>
+                      <Button style={{marginBottom: "7%"}} variant="danger" onClick={checkIn(course.course.id)}>Check In</Button>
                     </div>
                   </div>
                 </div>
@@ -76,7 +81,7 @@ const CheckIn = () => {
           <div className="container">
             <h1>Danh sách các Schedule đã mua</h1>
             <div className="row">
-              {courseData.map((course) => (
+              {scheduleData.map((schedule) => (
                 <div
                   key=""
                   className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
@@ -84,17 +89,18 @@ const CheckIn = () => {
                   <div className="card-flyer">
                     <div className="text-box">
                       <div className="image-box">
-                        <Image src={course.course.image} alt="loading..." />
+                        <Image src={schedule.schedule.image} alt="loading..." />
                       </div>
                       <div className="text-container">
-                        <h6>{course.course.tenkhoahoc}</h6>
-                        <p>{course.course.noidung}</p>
-                        <p>{course.course.thongtinthem}</p>
+                        <h6>{schedule.schedule.tenkhoahoc}</h6>
+                        <p>{schedule.schedule.noidung}</p>
+                        <p>{schedule.schedule.thongtinthem}</p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
-                        <h3>{course.course.gia}</h3>
+                        <h3>{schedule.schedule.gia}</h3>
                       </div>
+                      <Button style={{marginBottom: "7%"}} variant="danger" onClick={checkIn(schedule.schedule.id)}>Check In</Button>
                     </div>
                   </div>
                 </div>

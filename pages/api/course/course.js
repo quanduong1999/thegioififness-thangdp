@@ -23,7 +23,7 @@ async function getAllCourse() {
   } catch (error) {
     if (error.response) {
       // Request made and server responded
-      return error.response.data;
+      return error.response;
       //   console.log(error.response.status);
       //   console.log(error.response.headers);
     } else if (error.request) {

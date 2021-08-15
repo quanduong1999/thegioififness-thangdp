@@ -19,7 +19,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validator.isEmail(username)) {
-      setEmailError("Valid Email :)");
+      setEmailError("");
       const body = {
         username: username,
         password: password,

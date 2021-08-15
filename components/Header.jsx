@@ -5,6 +5,7 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Form, FormControl } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Image } from "react-bootstrap";
+import { Card, CardColumns } from "react-bootstrap";
 import cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { BiMap, BiUserCircle } from "react-icons/bi";
@@ -13,37 +14,26 @@ import { Modal } from "react-bootstrap";
 import { searchAPI } from "../pages/api/search/search";
 
 function Header(props) {
-  const initSearch = { search: "" };
   const [lgShow, setLgShow] = useState(false);
-  const [userSearch, setUserSearch] = useState(initSearch);
+  const [search, setSearch] = useState("");
   const [dataSearch, setDataSearch] = useState([]);
   const [tinh, setTinh] = useState([]);
   const [idTinh, setIdTinh] = useState();
+  const [nameTinh, setNameTinh] = useState("");
   const [huyen, setHuyen] = useState([]);
   const [idHuyen, setIdHuyen] = useState();
+  const [nameHuyen, setNameHuyen] = useState("");
   const [xa, setXa] = useState([]);
-  const { search } = userSearch;
+  const [idXa, setIdXa] = useState("");
+  const [nameXa, setNameXa] = useState("");
   const token = cookie.get("token");
+  const [check, setCheck] = useState(false);
   const Router = useRouter();
 
   const logout = () => {
     cookie.remove("token");
     Router.replace("/");
   };
-
-  useEffect(() => {
-    searchAPI
-      .searchDiaDiem(search)
-      .then((res) => {
-        console.log(res.data);
-        setDataSearch(res.data);
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.log(err.response);
-        }
-      });
-  }, [search]);
 
   useEffect(() => {
     searchAPI
@@ -67,6 +57,13 @@ function Header(props) {
         setHuyen(res.data.results);
       })
       .catch((err) => console.log(err));
+
+    searchAPI
+      .getTinhById(idTinh)
+      .then((res) => {
+        setNameTinh(res.data.name);
+      })
+      .catch((err) => console.log(err));
   }, [idTinh]);
 
   const handleChangeHuyen = (e) => {
@@ -81,7 +78,57 @@ function Header(props) {
         setXa(res.data.results);
       })
       .catch((err) => console.log(err));
+
+    searchAPI
+      .getHuyenById(idHuyen)
+      .then((res) => {
+        setNameHuyen(res.data.name);
+      })
+      .catch((err) => console.log(err));
   }, [idHuyen]);
+
+  const handleChangeXa = (e) => {
+    setIdXa(e.target.value);
+  };
+
+  useEffect(() => {
+    searchAPI
+      .getXaById(idXa)
+      .then((res) => {
+        setNameXa(res.data.name);
+      })
+      .catch((err) => console.log(err));
+  }, [idXa]);
+
+  useEffect(() => {
+    if (nameTinh == null) {
+      setNameTinh("");
+    }
+    if (nameHuyen == null) {
+      setNameHuyen("");
+    }
+    if (nameXa == null) {
+      setNameXa("");
+    }
+    // console.log(nameXa + " " + nameHuyen + " " + nameTinh);
+    setSearch(nameXa + " " + nameHuyen + " " + nameTinh);
+  }, [nameTinh, nameHuyen, nameXa]);
+
+  const searchPlace = (e) => {
+    searchAPI
+      .searchDiaDiem(search)
+      .then((res) => {
+        // console.log(res)
+        setCheck(true);
+        setDataSearch(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const showDetail = id => e => {
+    // console.log(id)
+    Router.replace(`home/detailplace/${id}`)
+  }
 
   return (
     <div className="container header">
@@ -194,7 +241,7 @@ function Header(props) {
                 <select
                   name="xa"
                   className="checkin-select-place"
-                  // onChange={handleChangePlace}
+                  onChange={handleChangeXa}
                 >
                   <option selected disabled>
                     Chọn 1 Xã
@@ -209,10 +256,45 @@ function Header(props) {
             </div>
           </div>
           <div className="get-all-place">
-            <Button variant="danger" className="button-place">
+            <Button
+              variant="danger"
+              className="button-place"
+              onClick={searchPlace}
+            >
               Tìm Kiếm
             </Button>{" "}
           </div>
+          {check ? (
+            <>
+              <h2 className="home-teacher-title">Danh sách phòng tập</h2>
+              <CardColumns className="home-teacher-content">
+                {dataSearch.map((place) => (
+                  <Card
+                    key={place.id}
+                    className="home-teacher-card place-click"
+                  >
+                    <Card.Img
+                      className="home-teacher-img"
+                      variant="top"
+                      src={place.image}
+                      onClick={showDetail(place.id)}
+                    />
+                    <Card.Body>
+                      <Card.Title>{place.name}</Card.Title>
+                      <Card.Text>{place.diachi} </Card.Text>
+                      <Button variant="danger"
+                      //  onClick={lovePlace(place.id)}
+                       >
+                        Lưu
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </CardColumns>
+            </>
+          ) : (
+            ""
+          )}
         </Modal.Body>
       </Modal>
     </div>

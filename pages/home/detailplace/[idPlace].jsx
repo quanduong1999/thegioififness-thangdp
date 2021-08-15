@@ -24,6 +24,7 @@ const DetailPlace = () => {
   const [courseData, setCourseData] = useState([]);
   const [place, setPlace] = useState({});
   const [lgShow, setLgShow] = useState(false);
+  const [lgShowCourse, setLgShowCourse] = useState(false);
   const [idCourse, setIdCourse] = useState("");
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState("");
@@ -67,7 +68,7 @@ const DetailPlace = () => {
         courseAPI
           .buyCourse(body)
           .then((res) => {
-            // console.log(res.data.url);
+            console.log(res);
             // Router.push(res.data.url);
             setMessage("Tạo khóa học thành công");
           })
@@ -83,7 +84,7 @@ const DetailPlace = () => {
     detailPlaceAPI
       .getCourseByPlace(idPlace)
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setCourseData(res.data);
         setPlace(res.data[0].place);
       })
@@ -208,7 +209,7 @@ const DetailPlace = () => {
 
                     <Button
                       onClick={() => {
-                        setLgShow(true);
+                        setLgShowCourse(true);
                         setIdCourse(course.id);
                         setGia(course.gia);
                       }}
@@ -219,8 +220,8 @@ const DetailPlace = () => {
 
                     <Modal
                       size="lg"
-                      show={lgShow}
-                      onHide={() => setLgShow(false)}
+                      show={lgShowCourse}
+                      onHide={() => setLgShowCourse(false)}
                       aria-labelledby="example-modal-sizes-title-lg"
                     >
                       <Modal.Header closeButton>
@@ -346,9 +347,9 @@ const DetailPlace = () => {
               <div className="row">
                 <ul id="list_comment" className="col-md-12">
                   {feedBackData.map((feedback) => (
-                    <li className="box_result row">
+                    <li key={feedback.id} className="box_result row">
                       <div className="avatar_comment col-md-1">
-                        <img
+                        <Image
                           src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg"
                           alt="avatar"
                         />
@@ -376,9 +377,9 @@ const DetailPlace = () => {
                     </li>
                   ))}
                 </ul>
-                <button className="show_more" type="button">
+                {/* <button className="show_more" type="button">
                   Load 10 more comments
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

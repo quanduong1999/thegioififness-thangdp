@@ -36,7 +36,7 @@ function Place() {
       placeAPI.lovePlace(body)
         .then(res => {
           console.log(res)
-          // Router.replace("/save");
+          Router.replace("/save");
         })
         .catch(err=>console.log(err))
     }
@@ -47,11 +47,11 @@ function Place() {
       <h2 className="home-teacher-title">Danh sách phòng tập</h2>
       <CardColumns className="home-teacher-content">
         {placeData.map((place) => (
-          <Card key={place.id} className="home-teacher-card place-click">
-            <Card.Img
+         <Card key={place.id} className="home-teacher-card place-click">
+             <Card.Img
               className="home-teacher-img"
               variant="top"
-              src="/place/about1.jpg"
+              src={place.image}
               onClick={showDetail(place.id)}
             />
             <Card.Body>
