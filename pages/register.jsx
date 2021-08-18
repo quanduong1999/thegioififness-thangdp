@@ -1,17 +1,19 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { RegisterAPI } from "./api/auth/register";
 import validator from "validator";
+import { Alert } from "react-bootstrap";
 
 const Register = () => {
   const Router = useRouter();
-  const [emailError, setEmailError] = useState("");
   const initialState = { username: "", phone: "", password: "" };
   const [userData, setUserData] = useState(initialState);
   const { username, phone, password } = userData;
   const [status, setStatus] = useState();
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
@@ -19,7 +21,6 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validator.isEmail(username)) {
-      setEmailError("");
       const body = {
         username: username,
         password: password,
@@ -34,9 +35,14 @@ const Register = () => {
           console.log(res);
           Router.replace("/login");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          setShow(true);
+          setMessage("Đăng Ký không thành công")
+        });
     } else {
-      setEmailError("Enter valid Email!");
+      setShow(true);
+      setMessage("Nhập đúng email của bạn");
     }
   };
   return (
@@ -63,7 +69,18 @@ const Register = () => {
             color: "red",
           }}
         >
-          {emailError}
+          {show ? (
+            <Alert
+              variant="danger"
+              className="alert-noti"
+              onClose={() => setShow(false)}
+              dismissible
+            >
+              <Alert.Heading>{message}</Alert.Heading>
+            </Alert>
+          ) : (
+            ""
+          )}
         </span>
         <div className="form-group">
           <label htmlFor="name">Phone</label>
@@ -97,7 +114,7 @@ const Register = () => {
           Register
         </button>
       </form>
-      <p className="my-2">
+      <p className="my-2" style={{textAlign: "center"}}>
         Already have an account?{" "}
         <Link href="/login">
           <a style={{ color: "crimson" }}>Login Now</a>

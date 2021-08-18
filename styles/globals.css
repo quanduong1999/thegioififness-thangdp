@@ -21,6 +21,18 @@ a {
 }
 
 
+/* noti */
+
+.fade.alert-noti.alert.alert-danger.alert-dismissible.show {
+    position: fixed;
+    width: 30%;
+    height: 55px;
+    z-index: 10000;
+    right: 2%;
+    top: 10%;
+}
+
+
 /* Css Header */
 
 @import url("./header/header.css");

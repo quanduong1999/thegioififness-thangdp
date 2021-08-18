@@ -50,6 +50,8 @@ function Header(props) {
   };
 
   useEffect(() => {
+    setXa([]);
+    setHuyen([]);
     searchAPI
       .getHuyen(idTinh)
       .then((res) => {
@@ -145,9 +147,9 @@ function Header(props) {
             <Nav.Link href="/" className="header-menu-list-li">
               <p className="header-text">Trang chủ</p>
             </Nav.Link>
-            <Nav.Link href="/about" className="header-menu-list-li">
+            {/* <Nav.Link href="/about" className="header-menu-list-li">
               <p className="header-text">Giới Thiệu</p>
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link href="/contact-us" className="header-menu-list-li">
               <p className="header-text">Liên Hệ</p>
             </Nav.Link>
@@ -227,7 +229,7 @@ function Header(props) {
                 className="checkin-select-place"
                 onChange={handleChangeHuyen}
               >
-                <option selected disabled>
+                <option selected>
                   Chọn 1 Huyện
                 </option>
                 {huyen.map((huyen) => (

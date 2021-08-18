@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Modal, Image } from "react-bootstrap";
+import { Button, Modal, Image, Alert } from "react-bootstrap";
 import { placeAPI } from "../api/place/place";
 import { profilesAPI } from "../api/profiles/profiles";
 import Cookies from "js-cookie";
@@ -13,6 +13,7 @@ const ListSchedule = () => {
   const [idschedule, setIdSchedule] = useState("");
   const [gia, setGia] = useState();
   const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
   const [sodutk, setSoDuTk] = useState();
   const token = Cookies.get("token");
 
@@ -42,18 +43,22 @@ const ListSchedule = () => {
     };
     console.log(body);
     if (!token) {
+      setShow(true);
       setMessage("Hãy đăng nhập để mua khóa học");
     } else {
       if (sodutk < gia) {
+        setShow(true);
         setMessage("Bạn cần nạp thêm tiền");
       } else {
         scheduleAPI
           .buyScheduleAPI(body)
           .then((res) => {
+            setShow(true)
             setMessage("Tạo khóa học thành công, Check mã ở gmail");
           })
           .catch((err) => {
             console.log(err);
+            setShow(true);
             setMessage("Tạo khóa học không thành công");
           });
       }
@@ -118,8 +123,18 @@ const ListSchedule = () => {
                         Mua Lịch Tập
                       </Button>{" "}
                       <div className="buyschedule-login">
-                        <p>{message}</p>
-                        {/* <p>{success}</p> */}
+                        {show ? (
+                          <Alert
+                            variant="danger"
+                            className="alert-noti"
+                            onClose={() => setShow(false)}
+                            dismissible
+                          >
+                            <Alert.Heading>{message}</Alert.Heading>
+                          </Alert>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </Modal.Body>
                   </Modal>

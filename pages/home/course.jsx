@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Row, Col, Modal, InputGroup, FormControl } from "react-bootstrap";
+import { Row, Col, Modal, InputGroup, FormControl, Alert } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { courseAPI } from "../api/course/course";
 import { Button } from "react-bootstrap";
@@ -12,6 +12,7 @@ import { profilesAPI } from "../api/profiles/profiles";
 const Course = () => {
   const [courseData, setCourseData] = useState([]);
   const [lgShow, setLgShow] = useState(false);
+  const [show, setShow] = useState(false)
   const [idCourse, setIdCourse] = useState("");
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState("");
@@ -47,9 +48,11 @@ const Course = () => {
     };
     console.log(body);
     if (!token) {
+      setShow(true)
       setMessage("Hãy đăng nhập để mua khóa học");
     } else {
       if (sodutk < gia) {
+        setShow(true)
         setMessage("Bạn cần nạp thêm tiền");
       } else {
         courseAPI
@@ -58,10 +61,12 @@ const Course = () => {
             // console.log(res.data.url);
             // Router.push(res.data.url);
             setSuccess("Tạo khóa học thành công, Check mã ở gmail");
+            setShow(true);
             setMessage("Tạo khóa học thành công, Check mã ở gmail");
           })
           .catch((err) => {
             console.log(err);
+            setShow(true)
             setMessage("Tạo khóa học không thành công");
           });
       }
@@ -126,8 +131,18 @@ const Course = () => {
                         Mua khóa học
                       </Button>{" "}
                       <div className="buycourse-login">
-                        <p>{message}</p>
-                        {/* <p>{success}</p> */}
+                        {show ? (
+                          <Alert
+                            variant="danger"
+                            className="alert-noti"
+                            onClose={() => setShow(false)}
+                            dismissible
+                          >
+                            <Alert.Heading>{message}</Alert.Heading>
+                          </Alert>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </Modal.Body>
                   </Modal>

@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { CardColumns, Card, Button } from "react-bootstrap";
 import { saveAPI } from "../api/save/save";
+import withAuth from "../HOC/withAuth";
 
 const Save = () => {
   const Router = useRouter();
@@ -11,7 +12,7 @@ const Save = () => {
     saveAPI
       .getLovePlace()
       .then((res) => {
-        // console.log(res.data)
+        console.log(res.data)
         setSavePlaceData(res.data);
       })
       .catch((err) => console.log(err));
@@ -21,6 +22,16 @@ const Save = () => {
     // console.log(id)
     Router.replace(`home/detailplace/${id}`);
   };
+
+  const deletePlace = (id) => (e) => {
+    // console.log(id)
+    saveAPI.getUnLove(id)
+      .then(res=>{
+        // console.log(res)
+        window.location.reload();
+      })
+      .catch(err=>console.log(err))
+  }
 
   return (
     <div className="save-place">
@@ -39,6 +50,7 @@ const Save = () => {
                 <Card.Title>{place.place==null?"":place.place.name}</Card.Title>
                 <Card.Text>{place.place==null?"":place.place.diachi} </Card.Text>
               </Card.Body>
+              <Button variant="danger" onClick={deletePlace(place.place==null?"":place.place.id)}>Xóa</Button>
             </Card>
           ))}
         </CardColumns>
@@ -47,4 +59,4 @@ const Save = () => {
   );
 };
 
-export default Save;
+export default withAuth(Save);

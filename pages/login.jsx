@@ -5,13 +5,14 @@ import { LoginAPI } from "./api/auth/login";
 import { useRouter } from "next/dist/client/router";
 import cookie from "js-cookie";
 import validator from "validator";
+import { Alert } from "react-bootstrap";
 
 const Login = () => {
   const Router = useRouter();
-  const [emailError, setEmailError] = useState("");
   const loginState = { username: "", password: "" };
   const [userLogin, setUserLogin] = useState(loginState);
   const { username, password } = userLogin;
+  const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleChangeLogin = (e) => {
@@ -23,7 +24,6 @@ const Login = () => {
     e.preventDefault();
 
     if (validator.isEmail(username)) {
-      setEmailError("Valid Email :)");
       const body = {
         username: username,
         password: password,
@@ -40,16 +40,29 @@ const Login = () => {
       if (token) {
         Router.replace("/profiles");
       } else {
-        setMessage("Bạn đăng nhập chưa thành công");
+        setShow(true);
+        setMessage("Sai Email hoặc Password");
       }
     } else {
-      setEmailError("Enter valid Email!");
+      setShow(true)
+      setMessage("Nhập đúng email của bạn");
     }
   };
 
   return (
     <div>
-      <p>{message}</p>
+      {show ? (
+        <Alert
+          variant="danger"
+          className="alert-noti"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          <Alert.Heading>{message}</Alert.Heading>
+        </Alert>
+      ) : (
+        ""
+      )}
       <form className="mx-auto my-4" style={{ maxWidth: "500px" }}>
         <div className="form-group">
           <label htmlFor="name">Email</label>
@@ -70,7 +83,18 @@ const Login = () => {
             color: "red",
           }}
         >
-          {emailError}
+          {show ? (
+            <Alert
+              variant="danger"
+              className="alert-noti"
+              onClose={() => setShow(false)}
+              dismissible
+            >
+              <Alert.Heading>{message}</Alert.Heading>
+            </Alert>
+          ) : (
+            ""
+          )}
         </span>
         <div className="form-group">
           <label htmlFor="exampleInputPassword1">Password</label>

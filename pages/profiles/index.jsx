@@ -55,7 +55,7 @@ const Profies = () => {
   return (
     <div className="profiles">
       <div className="container">
-        <h1 className="title">Admin Profiles</h1>
+        <h1 className="title">Customer Profiles</h1>
 
         <div className="profile-gird-name">
           <label htmlFor="name" className="profile-textlabel">

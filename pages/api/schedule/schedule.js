@@ -5,6 +5,7 @@ export const scheduleAPI = {
   getAllSchedule,
   buyScheduleAPI,
   getScheduleBuy,
+  privateSchedule,
 };
 
 const token = Cookies.get("token");
@@ -72,4 +73,12 @@ async function getScheduleBuy() {
       // Something happened in setting up the request that triggered an Error
     }
   }
+}
+
+function privateSchedule(body){
+  return axios.post("http://18.216.251.104:5000/api/customer/createprivateschedule",body,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
 }
