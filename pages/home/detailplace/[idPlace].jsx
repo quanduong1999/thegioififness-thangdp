@@ -503,7 +503,8 @@ const DetailPlace = () => {
       </div>
 
       {/* Private Schedule */}
-      <div className="container private-schedule">
+      <div className="container private-schedule" style={{textAlign: "center"}}>
+        <h1>Lịch hẹn theo gian của bạn</h1>
         <h4>Số điện thoại</h4> <br />
         <InputGroup className="mb-3">
           <FormControl
