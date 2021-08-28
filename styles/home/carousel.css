@@ -33,6 +33,8 @@ body {
 .slider {
     background: #dc3030;
     position: relative;
+    width: 82%;
+    margin: auto;
 }
 
 .slider-img {

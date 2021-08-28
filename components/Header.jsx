@@ -8,10 +8,13 @@ import { Image } from "react-bootstrap";
 import { Card, CardColumns } from "react-bootstrap";
 import cookie from "js-cookie";
 import { useRouter } from "next/router";
-import { BiMap, BiUserCircle } from "react-icons/bi";
+import { BiMap, BiUserCircle,BiFootball } from "react-icons/bi";
 import { FaSave, FaMoneyCheckAlt } from "react-icons/fa";
+import {CgGirl} from "react-icons/cg";
+import {HiOutlineDesktopComputer} from "react-icons/hi";
 import { Modal } from "react-bootstrap";
 import { searchAPI } from "../pages/api/search/search";
+import { Link } from "@material-ui/core";
 
 function Header(props) {
   const [lgShow, setLgShow] = useState(false);
@@ -127,10 +130,10 @@ function Header(props) {
       .catch((err) => console.log(err));
   };
 
-  const showDetail = id => e => {
+  const showDetail = (id) => (e) => {
     // console.log(id)
-    Router.replace(`home/detailplace/${id}`)
-  }
+    Router.replace(`home/detailplace/${id}`);
+  };
 
   return (
     <div className="container header">
@@ -142,7 +145,10 @@ function Header(props) {
       >
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Image src="/logo.jpg" className="header-logo" />
+          <Link href="/" style={{ width: "11%" }}>
+            <Image src="/logo.jpg" className="header-logo" />
+          </Link>
+
           <Nav className="mr-auto header-menu-list">
             <Nav.Link href="/" className="header-menu-list-li">
               <p className="header-text">Trang chủ</p>
@@ -156,6 +162,18 @@ function Header(props) {
           </Nav>
 
           <Nav className="mr-auto header-menu-list-right">
+            <Nav.Link href="/spa" className="header-menu-list-right-li">
+              <CgGirl className="header-icons" />
+              <p className="header-text">Sức khỏe và làm đẹp</p>
+            </Nav.Link>
+            <Nav.Link href="/sport" className="header-menu-list-right-li">
+              <BiFootball className="header-icons" />
+              <p className="header-text">Thể thao và giải trí</p>
+            </Nav.Link>
+            <Nav.Link href="/courseOnline" className="header-menu-list-right-li">
+              <HiOutlineDesktopComputer className="header-icons" />
+              <p className="header-text">Tập luyện online</p>
+            </Nav.Link>
             <Nav.Link href="/checkin" className="header-menu-list-right-li">
               <BiMap className="header-icons" />
               <p className="header-text">Check-In</p>
@@ -229,9 +247,7 @@ function Header(props) {
                 className="checkin-select-place"
                 onChange={handleChangeHuyen}
               >
-                <option selected>
-                  Chọn 1 Huyện
-                </option>
+                <option selected>Chọn 1 Huyện</option>
                 {huyen.map((huyen) => (
                   <option key={huyen.district_id} value={huyen.district_id}>
                     {huyen.district_name}
@@ -284,9 +300,10 @@ function Header(props) {
                     <Card.Body>
                       <Card.Title>{place.name}</Card.Title>
                       <Card.Text>{place.diachi} </Card.Text>
-                      <Button variant="danger"
-                      //  onClick={lovePlace(place.id)}
-                       >
+                      <Button
+                        variant="danger"
+                        //  onClick={lovePlace(place.id)}
+                      >
                         Lưu
                       </Button>
                     </Card.Body>

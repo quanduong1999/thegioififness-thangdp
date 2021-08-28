@@ -47,7 +47,7 @@ const DetailPlace = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [idschedule, setIdSchedule] = useState([]);
   const [star, setStar] = useState();
-  const [getStar, setGetStar] = useState("5");
+  const [getStar, setGetStar] = useState();
   const initPrivateSchedule = {phone: "", timeStart: "", timeEnd: ""}
   const [privateScheduleData, setPrivateScheduleData] = useState(initPrivateSchedule);
   const {phone, timeStart, timeEnd} = privateScheduleData;
@@ -68,7 +68,7 @@ const DetailPlace = () => {
     const body = {
       course: idCourse,
     };
-    console.log(body);
+    // console.log(body);
     if (!token) {
       setShow(true);
       setMessage("Hãy đăng nhập để mua khóa học");
@@ -95,25 +95,18 @@ const DetailPlace = () => {
   };
 
   useEffect(() => {
-    placeAPI
-      .getPlaceById(idPlace)
-      .then((res) => {
-        // console.log(res.data[0]);
-        setPlace(res.data[0]);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
     detailPlaceAPI
       .getCourseByPlace(idPlace)
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setCourseData(res.data);
         // setPlace(res.data[0].place);
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        console.log(err)
+        setCourseData([]);
+      });
+  }, [idPlace]);
 
   useEffect(() => {
     detailPlaceAPI
@@ -122,15 +115,18 @@ const DetailPlace = () => {
         console.log(res.data);
         setScheduleData(res.data);
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        console.log(err)
+        setScheduleData([]);
+      });
+  }, [idPlace]);
 
   const buySchedule = (idschedule, gia, sodutk) => (e) => {
     e.preventDefault();
     const body = {
       schedule: idschedule,
     };
-    console.log(body);
+    // console.log(body);
     if (!token) {
       setShow(true);
       setMessage("Hãy đăng nhập để mua khóa học");
@@ -187,7 +183,7 @@ const DetailPlace = () => {
         setFeedBackData(res.data);
       })
       .catch((err) => console.log(err));
-  }, [changeFeedBack]);
+  }, [idPlace, changeFeedBack]);
 
   const handleStar = (e) => {
     // console.log(e.target.value);
@@ -201,11 +197,11 @@ const DetailPlace = () => {
         place: id,
         star: star,
       };
-      console.log(body);
+      // console.log(body);
       feedbackAPI
         .createFeedBackStar(body)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setSubmitStars(res.data);
           setShow(true);
           setMessage("Đánh giá thành công");
@@ -218,21 +214,22 @@ const DetailPlace = () => {
     placeAPI
       .getPlaceById(idPlace)
       .then((res) => {
-        console.log(res.data[0].star);
+        console.log(res);
+        setPlace(res.data[0]);
         setGetStar(res.data[0].star);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [idPlace]);
 
   useEffect(() => {
     placeAPI
       .getPlaceById(idPlace)
       .then((res) => {
-        console.log(res.data[0].star);
+        // console.log(res.data[0].star);
         setGetStar(res.data[0].star);
       })
       .catch((err) => console.log(err));
-  }, [submitStars]);
+  }, [idPlace, submitStars]);
 
   const handleChangePrivateSchedule = (e) => {
     const {name, value} = e.target
@@ -249,7 +246,7 @@ const DetailPlace = () => {
     }
     scheduleAPI.privateSchedule(body)
       .then(res=>{
-        console.log(res)
+        // console.log(res)
         setShow(true)
         setMessage("Tạo lịch thành công")
       })
@@ -272,7 +269,7 @@ const DetailPlace = () => {
                 <div className="show-start">
                   <h2>Chất lượng</h2>
                   <StarRatings
-                    rating={Number.parseInt(getStar == null ? "5" : getStar)}
+                    rating={Number.parseInt(getStar == null || getStar === NaN ? "5" : getStar)}
                     starRatedColor="#FFD700"
                     numberOfStars={5}
                     name="rating"
@@ -535,7 +532,7 @@ const DetailPlace = () => {
             onChange={handleChangePrivateSchedule}
           />
         </InputGroup>
-        <Button variant="danger" style={{marginBottom: "30px", marginLeft: "45%"}} onClick={handleSubmitPrivateSchedule}>Submit</Button>
+        <Button variant="danger" style={{marginBottom: "30px",}} onClick={handleSubmitPrivateSchedule}>Submit</Button>
       </div>
 
       {/* feedback */}
