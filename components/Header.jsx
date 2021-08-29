@@ -8,10 +8,10 @@ import { Image } from "react-bootstrap";
 import { Card, CardColumns } from "react-bootstrap";
 import cookie from "js-cookie";
 import { useRouter } from "next/router";
-import { BiMap, BiUserCircle,BiFootball } from "react-icons/bi";
+import { BiMap, BiUserCircle, BiFootball } from "react-icons/bi";
 import { FaSave, FaMoneyCheckAlt } from "react-icons/fa";
-import {CgGirl} from "react-icons/cg";
-import {HiOutlineDesktopComputer} from "react-icons/hi";
+import { CgGirl } from "react-icons/cg";
+import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { Modal } from "react-bootstrap";
 import { searchAPI } from "../pages/api/search/search";
 import { Link } from "@material-ui/core";
@@ -32,6 +32,7 @@ function Header(props) {
   const token = cookie.get("token");
   const [check, setCheck] = useState(false);
   const Router = useRouter();
+  const [category, setCategory] = useState("place");
 
   const logout = () => {
     cookie.remove("token");
@@ -119,20 +120,41 @@ function Header(props) {
     setSearch(nameXa + " " + nameHuyen + " " + nameTinh);
   }, [nameTinh, nameHuyen, nameXa]);
 
+  const handleChangePlace = (e) => {
+    setCategory(e.target.value);
+  };
+
   const searchPlace = (e) => {
     searchAPI
       .searchDiaDiem(search)
       .then((res) => {
-        // console.log(res)
+        if (category == "sport") {
+          // console.log(res.data.sport);
+          // console.log(category)
+          setDataSearch(res.data.sport);
+        } else if (category == "spa") {
+          // console.log(res.data.spa);
+          // console.log(category)
+          setDataSearch(res.data.spa);
+        } else {
+          // console.log(res.data.place);
+          // console.log(category)
+          setDataSearch(res.data.place);
+        }
         setCheck(true);
-        setDataSearch(res.data);
       })
       .catch((err) => console.log(err));
   };
 
   const showDetail = (id) => (e) => {
     // console.log(id)
-    Router.replace(`home/detailplace/${id}`);
+    if (category == "sport") {
+      Router.replace(`../../sport/detailSport/${id}`);
+    } else if (category == "spa") {
+      Router.replace(`../../spa/detailSpa/${id}`);
+    } else {
+      Router.replace(`home/detailplace/${id}`);
+    }
   };
 
   return (
@@ -170,9 +192,12 @@ function Header(props) {
               <BiFootball className="header-icons" />
               <p className="header-text">Thể thao và giải trí</p>
             </Nav.Link>
-            <Nav.Link href="/courseOnline" className="header-menu-list-right-li">
+            <Nav.Link
+              href="/courseOnline"
+              className="header-menu-list-right-li"
+            >
               <HiOutlineDesktopComputer className="header-icons" />
-              <p className="header-text">Tập luyện online</p>
+              <p className="header-text">Phòng tập online</p>
             </Nav.Link>
             <Nav.Link href="/checkin" className="header-menu-list-right-li">
               <BiMap className="header-icons" />
@@ -271,6 +296,21 @@ function Header(props) {
                   ))}
                 </select>
               </div>
+
+              <div className="place-xa">
+                <select
+                  name="xa"
+                  className="checkin-select-place"
+                  onChange={handleChangePlace}
+                >
+                  <option selected disabled>
+                    Chọn thể loại
+                  </option>
+                  <option value="place">Cơ sở phòng tập</option>
+                  <option value="spa">Cơ sở sức khỏe và làm đẹp</option>
+                  <option value="sport">Cơ sở thể thao và giải trí</option>
+                </select>
+              </div>
             </div>
           </div>
           <div className="get-all-place">
@@ -284,7 +324,6 @@ function Header(props) {
           </div>
           {check ? (
             <>
-              <h2 className="home-teacher-title">Danh sách phòng tập</h2>
               <CardColumns className="home-teacher-content">
                 {dataSearch.map((place) => (
                   <Card

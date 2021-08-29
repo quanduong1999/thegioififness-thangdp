@@ -1,51 +1,49 @@
 import React, { useEffect } from "react";
 import Link from "@material-ui/core/Link";
 import { useState } from "react";
-import { LoginAPI } from "./api/auth/login";
 import { useRouter } from "next/dist/client/router";
 import cookie from "js-cookie";
 import validator from "validator";
 import { Alert } from "react-bootstrap";
+import { missPasswordAPI } from "../api/missPassword/missPassword";
 
-const Login = () => {
+const TakePassword = () => {
   const Router = useRouter();
-  const loginState = { username: "", password: "" };
-  const [userLogin, setUserLogin] = useState(loginState);
-  const { username, password } = userLogin;
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
+  const initTakePassword = { username: "", code: "", password: "" };
+  const [takePasswordData, setTakePasswordData] = useState(initTakePassword);
+  const { username, code, password } = takePasswordData;
 
-  const handleChangeLogin = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserLogin({ ...userLogin, [name]: value });
+    setTakePasswordData({ ...takePasswordData, [name]: value });
   };
 
-  const handleSubmitLogin = async (e) => {
+  const handleTakePassword = (e) => {
     e.preventDefault();
-
     if (validator.isEmail(username)) {
       const body = {
-        username: username,
-        password: password,
-        role: "customer",
+        email: username,
+        code: code,
+        newpw: password,
       };
-      await LoginAPI.postLogin(body)
+      missPasswordAPI
+        .takePassword(body)
         .then((res) => {
-          // console.log(res.data.token)
-          cookie.set("token", res.data.token);
+          // console.log(res)
+          setShow(true);
+          setMessage("Đổi mật khẩu thành công");
+          Router.push("/login");
         })
-        .catch((err) => console.log(err));
-      const token = cookie.get("token");
-      console.log(token);
-      if (token) {
-        Router.replace("/profiles");
-      } else {
-        setShow(true);
-        setMessage("Sai Email hoặc Password");
-      }
+        .catch((err) => {
+          console.log(err);
+          setShow(true);
+          setMessage("Đổi mật khẩu không thành công");
+        });
     } else {
-      setShow(true)
-      setMessage("Nhập đúng email của bạn");
+      setShow(true);
+      setMessage("Email không đúng định dạng");
     }
   };
 
@@ -74,7 +72,19 @@ const Login = () => {
             value={username}
             pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
             required
-            onChange={handleChangeLogin}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="name">Mã code</label>
+          <input
+            type="text"
+            className="form-control"
+            id="role"
+            name="code"
+            value={code}
+            required
+            onChange={handleChange}
           />
         </div>
         <span
@@ -104,16 +114,16 @@ const Login = () => {
             id="exampleInputPassword1"
             name="password"
             value={password}
-            onChange={handleChangeLogin}
+            onChange={handleChange}
           />
         </div>
 
         <button
           type="submit"
           className="btn btn-dark w-100"
-          onClick={handleSubmitLogin}
+          onClick={handleTakePassword}
         >
-          Đăng Nhập
+          Submit
         </button>
       </form>
       <div className="login-text-register" style={{ textAlign: "center" }}>
@@ -122,8 +132,10 @@ const Login = () => {
           <Link href="/register">
             <span style={{ color: "crimson" }}>Đăng ký</span>
           </Link>
-          <Link href="/missPassword/missPassword">
-            <span style={{ color: "crimson", marginLeft: "10px" }}>Quên mật khẩu</span>
+          <Link href="/login">
+            <span style={{ color: "crimson", marginLeft: "10px" }}>
+              Đăng nhập
+            </span>
           </Link>
         </p>
       </div>
@@ -131,4 +143,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default TakePassword;

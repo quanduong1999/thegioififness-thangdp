@@ -1,51 +1,39 @@
-import React, { useEffect } from "react";
-import Link from "@material-ui/core/Link";
+import { Link } from "@material-ui/core";
+import { useRouter } from "next/router";
+import React from "react";
 import { useState } from "react";
-import { LoginAPI } from "./api/auth/login";
-import { useRouter } from "next/dist/client/router";
-import cookie from "js-cookie";
-import validator from "validator";
 import { Alert } from "react-bootstrap";
+import validator from "validator";
+import { missPasswordAPI } from "../api/missPassword/missPassword";
 
-const Login = () => {
-  const Router = useRouter();
-  const loginState = { username: "", password: "" };
-  const [userLogin, setUserLogin] = useState(loginState);
-  const { username, password } = userLogin;
+const MissPassWord = () => {
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
+  const initMissPassword = { username: "" };
+  const [missPasswordData, setMissPasswordData] = useState(initMissPassword);
+  const { username } = missPasswordData;
+  const Router = useRouter();
 
-  const handleChangeLogin = (e) => {
+  const handleChangeEmail = (e) => {
     const { name, value } = e.target;
-    setUserLogin({ ...userLogin, [name]: value });
+    setMissPasswordData({ ...missPasswordData, [name]: value });
   };
 
-  const handleSubmitLogin = async (e) => {
+  const handleMissPassword = (e) => {
     e.preventDefault();
-
     if (validator.isEmail(username)) {
       const body = {
-        username: username,
-        password: password,
-        role: "customer",
+        email: username,
       };
-      await LoginAPI.postLogin(body)
+      missPasswordAPI
+        .missPassword(body)
         .then((res) => {
-          // console.log(res.data.token)
-          cookie.set("token", res.data.token);
+          console.log(res);
+          setShow(true);
+          setMessage("Check mã code mail");
+          Router.push("/takePassword");
         })
         .catch((err) => console.log(err));
-      const token = cookie.get("token");
-      console.log(token);
-      if (token) {
-        Router.replace("/profiles");
-      } else {
-        setShow(true);
-        setMessage("Sai Email hoặc Password");
-      }
-    } else {
-      setShow(true)
-      setMessage("Nhập đúng email của bạn");
     }
   };
 
@@ -65,7 +53,7 @@ const Login = () => {
       )}
       <form className="mx-auto my-4" style={{ maxWidth: "500px" }}>
         <div className="form-group">
-          <label htmlFor="name">Email</label>
+          <label htmlFor="name">Hãy nhập mail của bạn</label>
           <input
             type="email"
             className="form-control"
@@ -74,7 +62,7 @@ const Login = () => {
             value={username}
             pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
             required
-            onChange={handleChangeLogin}
+            onChange={handleChangeEmail}
           />
         </div>
         <span
@@ -96,24 +84,13 @@ const Login = () => {
             ""
           )}
         </span>
-        <div className="form-group">
-          <label htmlFor="exampleInputPassword1">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="exampleInputPassword1"
-            name="password"
-            value={password}
-            onChange={handleChangeLogin}
-          />
-        </div>
 
         <button
           type="submit"
           className="btn btn-dark w-100"
-          onClick={handleSubmitLogin}
+          onClick={handleMissPassword}
         >
-          Đăng Nhập
+          Lấy mã
         </button>
       </form>
       <div className="login-text-register" style={{ textAlign: "center" }}>
@@ -122,13 +99,10 @@ const Login = () => {
           <Link href="/register">
             <span style={{ color: "crimson" }}>Đăng ký</span>
           </Link>
-          <Link href="/missPassword/missPassword">
-            <span style={{ color: "crimson", marginLeft: "10px" }}>Quên mật khẩu</span>
-          </Link>
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default MissPassWord;
