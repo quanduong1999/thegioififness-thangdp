@@ -2,13 +2,21 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Alert, Button, Image, Modal } from "react-bootstrap";
 import { placeAPI } from "../api/place/place";
+import Cookies from "js-cookie";
+import { profilesAPI } from "../api/profiles/profiles";
+import { Router } from "@material-ui/icons";
+import { useRouter } from "next/router";
 
 const CourseOnline = () => {
+  const Router = useRouter();
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
   const [placeData, setPlaceData] = useState([]);
   const [lgShow, setLgShow] = useState(false);
   const [gia, setGia] = useState();
+  const [idCourse, setIdCourse] = useState("");
+  const [sodutk, setSoDuTk] = useState("");
+  const token = Cookies.get("token");
 
   useEffect(() => {
     placeAPI
@@ -18,7 +26,47 @@ const CourseOnline = () => {
         setPlaceData(res.data);
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      profilesAPI.getProfiles().then((res) => {
+        console.log(res.data.xu);
+        setSoDuTk(res.data.xu);
+      });
+    }
+  }, []);
+
+  const buyCourse = (idCourse, gia, sodutk) => (e) => {
+    if (token) {
+      if (sodutk >= gia) {
+        const body = {
+          onlineCourse: idCourse,
+        };
+        placeAPI
+          .buyOnline(body)
+          .then((res) => {
+            // console.log(res)
+            setShow(true);
+            setMessage("Mua khoá học thành công");
+            Router.push("/checkin");
+          })
+          .catch((err) => {
+            console.log(err);
+            setShow(true);
+            setMessage("Mua khóa học không thành công");
+          });
+      } else {
+        setShow(true);
+        setMessage("Số dư tài khoản không đủ");
+        Router.push("/wallet");
+      }
+    } else {
+      setShow(true);
+      setMessage("Đăng nhập để mua khóa");
+      Router.push("/login");
+    }
+  };
 
   return (
     <div className="course">
@@ -51,7 +99,7 @@ const CourseOnline = () => {
                     <Button
                       onClick={() => {
                         setLgShow(true);
-                        //   setIdCourse(course.id);
+                        setIdCourse(onlineList.id);
                         setGia(onlineList.gia);
                       }}
                       className="buy"
@@ -74,7 +122,7 @@ const CourseOnline = () => {
                         <Button
                           variant="danger"
                           className="button-course"
-                          // onClick={buyCourse(idCourse, gia, sodutk)}
+                          onClick={buyCourse(idCourse, gia, sodutk)}
                         >
                           Mua khóa học
                         </Button>{" "}

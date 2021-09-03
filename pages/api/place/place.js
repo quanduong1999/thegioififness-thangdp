@@ -6,6 +6,7 @@ export const placeAPI = {
   lovePlace,
   getPlaceById,
   getPlaceStarById,
+  buyOnline,
 };
 
 const token = Cookies.get("token");
@@ -98,4 +99,12 @@ async function getPlaceStarById(id) {
       // Something happened in setting up the request that triggered an Error
     }
   }
+}
+
+function buyOnline(body) {
+  return axios.post("http://18.216.251.104:5000/api/customer/buyonline", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

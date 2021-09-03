@@ -59,7 +59,7 @@ const Spa = () => {
                   <>
                     {arrs.check == true && arrs.id == sport.id ? (
                       <Button variant="danger" disabled>
-                        Đã Lưu
+                        Đã Lưud
                       </Button>
                     ) : (
                       ""

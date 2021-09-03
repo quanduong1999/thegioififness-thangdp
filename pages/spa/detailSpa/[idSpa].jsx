@@ -1,9 +1,20 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Col, Row, Image, Button, Modal } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Image,
+  Button,
+  Modal,
+  FormControl,
+  InputGroup,
+  Alert,
+} from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { spaAPI } from "../../api/spa/spa";
+import Cookies from "js-cookie";
+import { SettingsRemoteSharp } from "@material-ui/icons";
 
 const DetailSpa = () => {
   const Router = useRouter();
@@ -12,6 +23,16 @@ const DetailSpa = () => {
   const [spaData, setSpaData] = useState([]);
   const [lgShowSpa, setLgShowSpa] = useState(false);
   const [gia, setGia] = useState();
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
+  const initPrivateSpa = { name: "", phone: "", timestart: "", timestop: "" };
+  const [dataPrivateSpa, setDataPRivateSpa] = useState(initPrivateSpa);
+  const { name, phone, timestart, timestop } = dataPrivateSpa;
+  const initFeedback = { content: "" };
+  const [dataFeedback, setDataFeedback] = useState(initFeedback);
+  const { content } = dataFeedback;
+  const token = Cookies.get("token");
+  const [star, setStar] = useState("");
 
   useEffect(() => {
     spaAPI
@@ -27,18 +48,103 @@ const DetailSpa = () => {
     spaAPI
       .getSpa()
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setSpaData(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const handleChangePrivateSpa = (e) => {
+    const { name, value } = e.target;
+    setDataPRivateSpa({ ...dataPrivateSpa, [name]: value });
+  };
+
+  const handleClickPrivateSpa = (e) => {
+    e.preventDefault();
+    const body = {
+      ten: name,
+      sdt: phone,
+      timestart: timestart,
+      timestop: timestop,
+      spaid: idSpa,
+    };
+    spaAPI
+      .createPrivateSpa(body)
+      .then((res) => {
+        setShow(true);
+        setMessage("Bạn đặt lịch thành công");
+      })
+      .catch((err) => {
+        console.log(err);
+        setShow(true);
+        setMessage("Đặt lịch không thành công");
+      });
+  };
+
+  const onChangeContent = (e) => {
+    const { name, value } = e.target;
+    setDataFeedback({ ...dataFeedback, [name]: value });
+  };
+
+  const submitFeedback = (e) => {
+    e.preventDefault();
+    if (token) {
+      const body = {
+        spa: idSpa,
+        content: content,
+      };
+      spaAPI
+        .createFeedbackSpa(body)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+          setShow(true);
+          setMessage("Tạo feedback không thành công");
+        });
+    } else {
+      setShow(true);
+      setMessage("Bạn cần đăng nhập");
+      Router.push("/login");
+    }
+  };
+
+  const handleStar = (e) => {
+    setStar(e.target.value);
+  };
+
+  const handleSubmitStar = (e) => {
+    e.preventDefault();
+    if (token) {
+      const body = {
+        spa: idSpa,
+        star: star,
+      };
+      spaAPI
+        .createFeedbackStarSpa(body)
+        .then((res) => {
+          setShow(true);
+          setMessage("Đánh giá thành công");
+        })
+        .catch((err) => {
+          console.log(err);
+          setShow(true);
+          setMessage("Đánh giá không thành công");
+        });
+    } else {
+      setShow(true);
+      setMessage("Đăng nhập để đánh giá");
+      Router.push("/login");
+    }
+  };
 
   return (
     <div className="detailplace">
       <div className="about">
         <div className="about-infor">
           <div className="container">
-            <Row>
+            <Row className="about_spa_feedbackstar">
               <Col sm={5}>
                 <Image src={spa.image} className="about-img-infor"></Image>
                 <div className="show-start">
@@ -66,7 +172,7 @@ const DetailSpa = () => {
                       id="star5"
                       name="rating"
                       value="5"
-                      //   onClick={handleStar}
+                      onClick={handleStar}
                     />
                     <label
                       className="full"
@@ -79,7 +185,7 @@ const DetailSpa = () => {
                       id="star4"
                       name="rating"
                       value="4"
-                      //   onClick={handleStar}
+                      onClick={handleStar}
                     />
                     <label
                       className="full"
@@ -92,7 +198,7 @@ const DetailSpa = () => {
                       id="star3"
                       name="rating"
                       value="3"
-                      //   onClick={handleStar}
+                      onClick={handleStar}
                     />
                     <label
                       className="full"
@@ -105,7 +211,7 @@ const DetailSpa = () => {
                       id="star2"
                       name="rating"
                       value="2"
-                      //   onClick={handleStar}
+                      onClick={handleStar}
                     />
                     <label
                       className="full"
@@ -118,7 +224,7 @@ const DetailSpa = () => {
                       id="star1"
                       name="rating"
                       value="1"
-                      //   onClick={handleStar}
+                      onClick={handleStar}
                     />
                     <label
                       className="full"
@@ -126,7 +232,9 @@ const DetailSpa = () => {
                       title="Sucks big time - 1 star"
                     ></label>
                     <div>
-                      <Button variant="danger">Đánh giá</Button>
+                      <Button variant="danger" onClick={handleSubmitStar}>
+                        Đánh giá
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -166,8 +274,8 @@ const DetailSpa = () => {
 
                       <Button
                         onClick={() => {
-                            setLgShowSpa(true);
-                        //   setIdCourse(course.id);
+                          setLgShowSpa(true);
+                          //   setIdCourse(course.id);
                           setGia(dichvu.gia);
                         }}
                         className="buy"
@@ -202,6 +310,138 @@ const DetailSpa = () => {
                   </div>
                 ))
               )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Private Schedule */}
+      <div
+        className="container private-schedule"
+        style={{ textAlign: "center" }}
+      >
+        <h1>Lịch hẹn theo gian của bạn</h1>
+        <h4>Họ và Tên</h4> <br />
+        <InputGroup className="mb-3">
+          <FormControl
+            placeholder="phone"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            name="name"
+            onChange={handleChangePrivateSpa}
+          />
+        </InputGroup>
+        <h4>Số điện thoại</h4> <br />
+        <InputGroup className="mb-3">
+          <FormControl
+            placeholder="phone"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            name="phone"
+            onChange={handleChangePrivateSpa}
+          />
+        </InputGroup>
+        <h4>Thời gian bắt đầu</h4> <br />
+        <InputGroup className="mb-3">
+          <FormControl
+            placeholder="Thời gian bắt đầu"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            name="timestart"
+            onChange={handleChangePrivateSpa}
+          />
+        </InputGroup>
+        <h4>Thời gian kết thúc</h4> <br />
+        <InputGroup className="mb-3">
+          <FormControl
+            placeholder="Thời gian kết thúc"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            name="timestop"
+            onChange={handleChangePrivateSpa}
+          />
+        </InputGroup>
+        <Button
+          variant="danger"
+          style={{ marginBottom: "30px" }}
+          onClick={handleClickPrivateSpa}
+        >
+          Submit
+        </Button>
+      </div>
+
+      {/* feedback */}
+      <div className="feedback">
+        <div className="feedback-content container">
+          <InputGroup className="mb-3 ">
+            <FormControl
+              placeholder="Nhập nội dung feedback"
+              aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+              name="content"
+              onChange={onChangeContent}
+            />
+            <Button
+              variant="outline-secondary"
+              id="button-addon2"
+              onClick={submitFeedback}
+            >
+              Submit
+            </Button>
+          </InputGroup>
+        </div>
+        {show ? (
+          <Alert
+            variant="danger"
+            className="alert-noti"
+            onClose={() => setShow(false)}
+            dismissible
+          >
+            <Alert.Heading>{message}</Alert.Heading>
+          </Alert>
+        ) : (
+          ""
+        )}
+        <div className="feedback-getcontent container">
+          <div className="container">
+            <div className="col-md-12" id="fbcomment">
+              <div className="row">
+                <ul id="list_comment" className="col-md-12">
+                  {spaData.map((feedbacks) =>
+                    feedbacks.listFeedback.map((feedback) => (
+                      <li key={feedback.id} className="box_result row">
+                        <div className="avatar_comment col-md-1">
+                          <Image
+                            src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg"
+                            alt="avatar"
+                          />
+                        </div>
+                        <div className="result_comment col-md-11">
+                          <h4></h4>
+                          <p>{feedback.content}</p>
+                          <div className="tools_comment">
+                            <a className="like" href="#">
+                              Like
+                            </a>
+                            <span aria-hidden="true"> · </span>
+                            <a className="replay" href="#">
+                              Reply
+                            </a>
+                            {/* <span aria-hidden="true"> · </span>
+                            <i className="fa fa-thumbs-o-up"></i>{" "}
+                            <span className="count">1</span>
+                            <span aria-hidden="true"> · </span>
+                            <span>26m</span> */}
+                          </div>
+                        </div>
+                      </li>
+                    ))
+                  )}
+                </ul>
+                {/* <button className="show_more" type="button">
+                  Load 10 more comments
+                </button> */}
+              </div>
             </div>
           </div>
         </div>

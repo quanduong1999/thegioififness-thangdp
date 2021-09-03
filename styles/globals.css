@@ -67,3 +67,7 @@ a {
 /* Wallet */
 
 @import url("./wallet/wallet.css");
+
+/* responsive */
+
+@import url("./responsive.css");
