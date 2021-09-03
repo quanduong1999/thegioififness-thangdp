@@ -15,6 +15,7 @@ import StarRatings from "react-star-ratings";
 import { spaAPI } from "../../api/spa/spa";
 import Cookies from "js-cookie";
 import { SettingsRemoteSharp } from "@material-ui/icons";
+import { profilesAPI } from "../../api/profiles/profiles";
 
 const DetailSpa = () => {
   const Router = useRouter();
@@ -33,6 +34,8 @@ const DetailSpa = () => {
   const { content } = dataFeedback;
   const token = Cookies.get("token");
   const [star, setStar] = useState("");
+  const [idCourse, setIdCourse] = useState("");
+  const [sodutk, setSoDuTK] = useState("");
 
   useEffect(() => {
     spaAPI
@@ -135,6 +138,44 @@ const DetailSpa = () => {
     } else {
       setShow(true);
       setMessage("Đăng nhập để đánh giá");
+      Router.push("/login");
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      profilesAPI.getProfiles().then((res) => {
+        console.log(res.data.xu);
+        setSoDuTK(res.data.xu);
+      });
+    }
+  }, []);
+
+  const buyCourse = (idCourse, gia, sodutk) => (e) => {
+    // console.log(idCourse, gia, sodutk);
+    if (token) {
+      if (sodutk >= gia) {
+        const body = {
+          spa: idCourse,
+        };
+        spaAPI
+          .buySpa(body)
+          .then((res) => {
+            setShow(true);
+            setMessage("Mua thành công, Check mail");
+          })
+          .catch((err) => {
+            console.log(err);
+            setShow(true);
+            setMessage("Mua không thành công");
+          });
+      } else {
+        setShow(true);
+        setMessage("Số dư tài khoản không đủ");
+      }
+    } else {
+      setShow(true);
+      setMessage("Đăng nhập để mua khóa");
       Router.push("/login");
     }
   };
@@ -275,7 +316,7 @@ const DetailSpa = () => {
                       <Button
                         onClick={() => {
                           setLgShowSpa(true);
-                          //   setIdCourse(course.id);
+                          setIdCourse(dichvu.id);
                           setGia(dichvu.gia);
                         }}
                         className="buy"
@@ -298,7 +339,7 @@ const DetailSpa = () => {
                           <Button
                             variant="danger"
                             className="button-course"
-                            //   onClick={buyCourse(idCourse, gia, sodutk)}
+                            onClick={buyCourse(idCourse, gia, sodutk)}
                           >
                             Mua khóa học
                           </Button>{" "}

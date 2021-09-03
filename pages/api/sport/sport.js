@@ -7,6 +7,8 @@ export const sportAPI = {
   createPrivateSport,
   createFeedbackSport,
   createFeedbackStarSport,
+  buySport,
+  getBuySport,
 };
 
 const token = Cookies.get("token");
@@ -53,4 +55,20 @@ function createFeedbackStarSport(body) {
       },
     }
   );
+}
+
+function buySport(body) {
+  return axios.post("http://18.216.251.104:5000/api/customer/buysport", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+function getBuySport() {
+  return axios.get("http://18.216.251.104:5000/api/customer/getbuysport", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

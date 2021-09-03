@@ -7,6 +7,8 @@ export const spaAPI = {
   createPrivateSpa,
   createFeedbackSpa,
   createFeedbackStarSpa,
+  buySpa,
+  getBuySpa,
 };
 
 const token = Cookies.get("token");
@@ -53,4 +55,20 @@ function createFeedbackStarSpa(body) {
       },
     }
   );
+}
+
+function buySpa(body) {
+  return axios.post("http://18.216.251.104:5000/api/customer/buyspa", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+function getBuySpa() {
+  return axios.get("http://18.216.251.104:5000/api/customer/getbuyspa", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

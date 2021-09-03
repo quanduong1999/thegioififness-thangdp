@@ -14,6 +14,7 @@ import {
 import StarRatings from "react-star-ratings";
 import { sportAPI } from "../../api/sport/sport";
 import Cookies from "js-cookie";
+import { profilesAPI } from "../../api/profiles/profiles";
 
 const DetailSport = () => {
   const Router = useRouter();
@@ -32,6 +33,8 @@ const DetailSport = () => {
   const { content } = dataFeedback;
   const token = Cookies.get("token");
   const [star, setStar] = useState("");
+  const [idCourse, setIdCourse] = useState("");
+  const [sodutk, setSoDuTk] = useState("");
 
   useEffect(() => {
     sportAPI.getSportById(idSport).then((res) => {
@@ -136,6 +139,42 @@ const DetailSport = () => {
       Router.push("/login");
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      profilesAPI.getProfiles().then((res) => {
+        setSoDuTk(res.data.xu);
+      });
+    } else {
+    }
+  }, []);
+
+  const buyCourse = (idCourse, gia, sodutk) => (e) =>  {
+    if(token){
+      if(sodutk>=gia){
+        const body = {
+          sport: idCourse
+        }
+        sportAPI.buySport(body)
+          .then(res=>{
+            setShow(true);
+            setMessage("Mua thành công, Check mail");
+          })
+          .catch(err=>{
+            console.log(err)
+            setShow(true);
+            setMessage("Mua khóa không thành công");
+          })
+      }else{
+        setShow(true);
+        setMessage("Số dư không đủ");
+      }
+    }else{  
+      setShow(true);
+      setMessage("Đăng nhập để mua khóa");
+      Router.push("/login");
+    }
+  }
 
   return (
     <div className="detailplace">
@@ -273,7 +312,7 @@ const DetailSport = () => {
                       <Button
                         onClick={() => {
                           setLgShowSport(true);
-                          //   setIdCourse(course.id);
+                          setIdCourse(dichvu.id);
                           setGia(dichvu.gia);
                         }}
                         className="buy"
@@ -296,7 +335,7 @@ const DetailSport = () => {
                           <Button
                             variant="danger"
                             className="button-course"
-                            //   onClick={buyCourse(idCourse, gia, sodutk)}
+                              onClick={buyCourse(idCourse, gia, sodutk)}
                           >
                             Mua khóa học
                           </Button>{" "}
