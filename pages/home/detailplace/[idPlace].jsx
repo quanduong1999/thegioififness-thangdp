@@ -73,7 +73,7 @@ const DetailPlace = () => {
       setShow(true);
       setMessage("Hãy đăng nhập để mua khóa học");
     } else {
-      if (sodutk < gia) {
+      if (Number.parseInt(sodutk) < Number.parseInt(gia)) {
         setShow(true);
         setMessage("Bạn cần nạp thêm tiền");
       } else {
@@ -131,7 +131,7 @@ const DetailPlace = () => {
       setShow(true);
       setMessage("Hãy đăng nhập để mua khóa học");
     } else {
-      if (sodutk < gia) {
+      if (Number.parseInt(sodutk) < Number.parseInt(gia)) {
         setShow(true);
         setMessage("Bạn cần nạp thêm tiền");
       } else {

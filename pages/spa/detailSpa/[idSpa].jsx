@@ -154,7 +154,7 @@ const DetailSpa = () => {
   const buyCourse = (idCourse, gia, sodutk) => (e) => {
     // console.log(idCourse, gia, sodutk);
     if (token) {
-      if (sodutk >= gia) {
+      if (Number.parseInt(sodutk) >= Number.parseInt(gia)) {
         const body = {
           spa: idCourse,
         };

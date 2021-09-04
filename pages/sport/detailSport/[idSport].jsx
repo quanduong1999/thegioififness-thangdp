@@ -151,7 +151,7 @@ const DetailSport = () => {
 
   const buyCourse = (idCourse, gia, sodutk) => (e) =>  {
     if(token){
-      if(sodutk>=gia){
+      if(Number.parseInt(sodutk)>=Number.parseInt(gia)){
         const body = {
           sport: idCourse
         }
