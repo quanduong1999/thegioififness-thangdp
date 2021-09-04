@@ -29,3 +29,9 @@
         margin-left: 30%;
     }
 }
+
+@media screen and (max-width: 450px) {
+    .wallet {
+        padding-top: 20%;
+    }
+}

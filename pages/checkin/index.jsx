@@ -172,6 +172,7 @@ const CheckIn = () => {
     sportAPI
       .getBuySport()
       .then((res) => {
+        console.log(res)
         setSportData(res.data);
       })
       .catch((err) => console.log(err));
@@ -523,9 +524,9 @@ const CheckIn = () => {
           <div className="container">
             <h1>Danh sách dịch vụ thể thao và giải trí</h1>
             <div className="row">
-              {sportData.map((spaData) => (
+              {sportData.map((sportData) => (
                 <>
-                  {spaData.spa == null ? (
+                  {sportData.sport == null ? (
                     ""
                   ) : (
                     <div
@@ -535,16 +536,16 @@ const CheckIn = () => {
                       <div className="card-flyer">
                         <div className="text-box">
                           <div className="image-box">
-                            <Image src={spaData.spa.image} alt="loading..." />
+                            <Image src={sportData.sport.image} alt="loading..." />
                           </div>
                           <div className="text-container">
-                            <h6>{spaData.spa.tendichvu}</h6>
-                            <p>{spaData.spa.noidung}</p>
-                            <p>{spaData.spa.thongtinthem}</p>
+                            <h6>{sportData.sport.tendichvu}</h6>
+                            <p>{sportData.sport.noidung}</p>
+                            <p>{sportData.sport.thongtinthem}</p>
                           </div>
                           <div className="text-container">
                             <h3>Giá</h3>
-                            <h3>{spaData.spa.gia}</h3>
+                            <h3>{sportData.sport.gia}</h3>
                           </div>
                           {/* <Button
                           style={{ marginBottom: "7%" }}
@@ -584,7 +585,7 @@ const CheckIn = () => {
                               <Button
                                 style={{ marginBottom: "7%", width: "15%" }}
                                 variant="danger"
-                                onClick={checkInSport(spaData.spa.id)}
+                                onClick={checkInSport(sportData.sport.id)}
                               >
                                 Check In
                               </Button>
