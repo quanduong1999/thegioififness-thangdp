@@ -34,4 +34,13 @@
     .wallet {
         padding-top: 20%;
     }
+    img.banner-li-img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 767px) {
+    .slider {
+        height: 625px;
+    }
 }
