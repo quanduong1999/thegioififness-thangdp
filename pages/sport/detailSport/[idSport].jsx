@@ -35,11 +35,13 @@ const DetailSport = () => {
   const [star, setStar] = useState("");
   const [idCourse, setIdCourse] = useState("");
   const [sodutk, setSoDuTk] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     sportAPI.getSportById(idSport).then((res) => {
       // console.log(res)
       setSport(res.data[0]);
+      setImage(res.data[0].image);
     });
   }, []);
 
@@ -149,32 +151,33 @@ const DetailSport = () => {
     }
   }, []);
 
-  const buyCourse = (idCourse, gia, sodutk) => (e) =>  {
-    if(token){
-      if(Number.parseInt(sodutk)>=Number.parseInt(gia)){
+  const buyCourse = (idCourse, gia, sodutk) => (e) => {
+    if (token) {
+      if (Number.parseInt(sodutk) >= Number.parseInt(gia)) {
         const body = {
-          sport: idCourse
-        }
-        sportAPI.buySport(body)
-          .then(res=>{
+          sport: idCourse,
+        };
+        sportAPI
+          .buySport(body)
+          .then((res) => {
             setShow(true);
             setMessage("Mua thành công, Check mail");
           })
-          .catch(err=>{
-            console.log(err)
+          .catch((err) => {
+            console.log(err);
             setShow(true);
             setMessage("Mua khóa không thành công");
-          })
-      }else{
+          });
+      } else {
         setShow(true);
         setMessage("Số dư không đủ");
       }
-    }else{  
+    } else {
       setShow(true);
       setMessage("Đăng nhập để mua khóa");
       Router.push("/login");
     }
-  }
+  };
 
   return (
     <div className="detailplace">
@@ -183,7 +186,26 @@ const DetailSport = () => {
           <div className="container">
             <Row className="about_sport_feedbackstar">
               <Col sm={5}>
-                <Image src={sport.image} className="about-img-infor"></Image>
+                <div className="multi-image">
+                  <Image
+                    src={image.split(",")[0]}
+                    className="about-img-infor"
+                  ></Image>
+                  <Row>
+                    <Col xs={6}>
+                      <Image
+                        src={image.split(",")[1]}
+                        className="about-img-infor"
+                      ></Image>
+                    </Col>
+                    <Col xs={6}>
+                      <Image
+                        src={image.split(",")[2]}
+                        className="about-img-infor"
+                      ></Image>
+                    </Col>
+                  </Row>
+                </div>
                 <div className="show-start">
                   <h2>Chất lượng</h2>
                   <StarRatings
@@ -200,7 +222,7 @@ const DetailSport = () => {
               <Col sm={7}>
                 <h1>{sport.name}</h1>
                 <p>{sport.diachi}</p>
-                <p>{sport.thongtinthem}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>{sport.thongtinthem}</p>
                 <div className="feedback-start">
                   <h2>Đánh giá</h2>
                   <div id="rating">
@@ -301,11 +323,13 @@ const DetailSport = () => {
                         </div>
                         <div className="text-container">
                           <h6>{dichvu.tendichvu}</h6>
-                          <p>{dichvu.noidung}</p>
+                          <p style={{ whiteSpace: "pre-wrap" }}>
+                            {dichvu.noidung}
+                          </p>
                         </div>
                         <div className="text-container">
                           <h3>Giá</h3>
-                          <h3>{dichvu.gia === null ? 0 : dichvu.gia}</h3>
+                          <h3>{dichvu.gia === null ? 0 : dichvu.gia}</h3> VNĐ
                         </div>
                       </div>
 
@@ -335,7 +359,7 @@ const DetailSport = () => {
                           <Button
                             variant="danger"
                             className="button-course"
-                              onClick={buyCourse(idCourse, gia, sodutk)}
+                            onClick={buyCourse(idCourse, gia, sodutk)}
                           >
                             Mua khóa học
                           </Button>{" "}

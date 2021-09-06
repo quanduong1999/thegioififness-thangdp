@@ -28,11 +28,16 @@ const CheckIn = () => {
   const [courseData, setCourseData] = useState([]);
   const [scheduleData, setScheduleData] = useState([]);
   const [lgShow, setLgShow] = useState(false);
+  const [lgShow1, setLgShow1] = useState(false);
+  const [lgShow5, setLgShow5] = useState(false);
+  const [lgShow3, setLgShow3] = useState(false);
+  const [lgShow4, setLgShow4] = useState(false);
   const token = Cookies.get("token");
   const [show, setShow] = useState(false);
   const [courseOnline, setCourseOnline] = useState([]);
   const [spaData, setSpaData] = useState([]);
   const [sportData, setSportData] = useState([]);
+  const [idCourse, setIdCourse] = useState("");
 
   useEffect(() => {
     if (token) {
@@ -64,22 +69,20 @@ const CheckIn = () => {
   };
 
   const checkIn = (id) => (e) => {
-    // console.log(id, password, codeCheck)
+    e.preventDefault();
+
     if (codeCheck == "1234") {
       const body = {
         password: password,
       };
+
       checkInAPI
         .checkIn(id, body)
         .then((res) => {
           console.log(res);
           setShow(true);
-          if (res.data.message == "Sai Mk") {
-            setMessage("Sai Mật Khẩu");
-          } else {
-            setMessage("Check In Thành Công");
-            window.location.reload();
-          }
+          setMessage("Check In Thành Công");
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -88,7 +91,34 @@ const CheckIn = () => {
         });
     } else {
       setShow(true);
-      setMessage("Mã Check In của bạn sai");
+      setMessage("mã check in của bạn sai");
+    }
+  };
+
+  const checkInCourse = (e) => {
+    e.preventDefault();
+
+    if (codeCheck == "1234") {
+      const body = {
+        password: password,
+      };
+
+      checkInAPI
+        .checkIn(idCourse, body)
+        .then((res) => {
+          console.log(res);
+          setShow(true);
+          setMessage("Check In Thành Công");
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+          setShow(true);
+          setMessage("Bạn nhập password không đúng");
+        });
+    } else {
+      setShow(true);
+      setMessage("mã check in của bạn sai");
     }
   };
 
@@ -172,7 +202,7 @@ const CheckIn = () => {
     sportAPI
       .getBuySport()
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setSportData(res.data);
       })
       .catch((err) => console.log(err));
@@ -228,7 +258,7 @@ const CheckIn = () => {
             <div className="row">
               {courseData.map((course) => (
                 <div
-                  key=""
+                  key={course.id}
                   className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
                 >
                   <div className="card-flyer">
@@ -238,19 +268,26 @@ const CheckIn = () => {
                       </div>
                       <div className="text-container">
                         <h6>{course.course.tenkhoahoc}</h6>
-                        <p>{course.course.noidung}</p>
-                        <p>{course.course.thongtinthem}</p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {course.course.noidung}
+                        </p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {course.course.thongtinthem}
+                        </p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
                         <h3>
-                          {course.course.gia == null ? 0 : course.course.gia}
+                          {course.course.gia == null ? 0 : course.course.gia} VNĐ
                         </h3>
                       </div>
                       <Button
                         style={{ marginBottom: "7%" }}
                         variant="danger"
-                        onClick={() => setLgShow(true)}
+                        onClick={() => {
+                          setLgShow(true);
+                          setIdCourse(course.id);
+                        }}
                       >
                         Check In
                       </Button>
@@ -262,7 +299,7 @@ const CheckIn = () => {
                       >
                         <Modal.Header closeButton>
                           <Modal.Title id="example-modal-sizes-title-lg">
-                            Nhập mật khẩu và Mã Check In
+                            Nhập Mã Check In
                           </Modal.Title>
                         </Modal.Header>
                         <Modal.Body style={{ textAlign: "center" }}>
@@ -280,7 +317,7 @@ const CheckIn = () => {
                             variant="danger"
                             onClick={checkIn(course.id)}
                           >
-                            Check In
+                            Check Ina
                           </Button>
                         </Modal.Body>
                       </Modal>
@@ -296,7 +333,7 @@ const CheckIn = () => {
             <div className="row">
               {scheduleData.map((schedule) => (
                 <div
-                  key=""
+                  key={schedule.id}
                   className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
                 >
                   <div className="card-flyer">
@@ -306,14 +343,18 @@ const CheckIn = () => {
                       </div>
                       <div className="text-container">
                         <h6>{schedule.schedule.tenkhoahoc}</h6>
-                        <p>{schedule.schedule.noidung}</p>
-                        <p>{schedule.schedule.thongtinthem}</p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {schedule.schedule.noidung}
+                        </p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {schedule.schedule.thongtinthem}
+                        </p>
                         <p>Start: {schedule.schedule.thoigianbatdau}</p>
                         <p>End: {schedule.schedule.thoigianketthuc}</p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
-                        <h3>{schedule.schedule.gia}</h3>
+                        <h3>{schedule.schedule.gia}</h3> VNĐ
                       </div>
                       {/* <Button
                         style={{ marginBottom: "7%" }}
@@ -325,19 +366,19 @@ const CheckIn = () => {
                       <Button
                         style={{ marginBottom: "7%" }}
                         variant="danger"
-                        onClick={() => setLgShow(true)}
+                        onClick={() => setLgShow1(true)}
                       >
                         Check In
                       </Button>
                       <Modal
                         size="lg"
-                        show={lgShow}
-                        onHide={() => setLgShow(false)}
+                        show={lgShow1}
+                        onHide={() => setLgShow1(false)}
                         aria-labelledby="example-modal-sizes-title-lg"
                       >
                         <Modal.Header closeButton>
                           <Modal.Title id="example-modal-sizes-title-lg">
-                            Nhập mật khẩu và Mã Check In
+                            Nhập Mã Check In
                           </Modal.Title>
                         </Modal.Header>
                         <Modal.Body style={{ textAlign: "center" }}>
@@ -371,7 +412,7 @@ const CheckIn = () => {
             <div className="row">
               {courseOnline.map((onlineCourse) => (
                 <div
-                  key=""
+                  key={onlineCourse.id}
                   className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
                 >
                   <div className="card-flyer">
@@ -384,12 +425,16 @@ const CheckIn = () => {
                       </div>
                       <div className="text-container">
                         <h6>{onlineCourse.onlineCourse.tenkhoahoc}</h6>
-                        <p>{onlineCourse.onlineCourse.noidung}</p>
-                        <p>{onlineCourse.onlineCourse.thongtinthem}</p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {onlineCourse.onlineCourse.noidung}
+                        </p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {onlineCourse.onlineCourse.thongtinthem}
+                        </p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
-                        <h3>{onlineCourse.onlineCourse.gia}</h3>
+                        <h3>{onlineCourse.onlineCourse.gia}</h3> VNĐ
                       </div>
                       {/* <Button
                         style={{ marginBottom: "7%" }}
@@ -401,19 +446,19 @@ const CheckIn = () => {
                       <Button
                         style={{ marginBottom: "7%" }}
                         variant="danger"
-                        onClick={() => setLgShow(true)}
+                        onClick={() => setLgShow3(true)}
                       >
                         Check In
                       </Button>
                       <Modal
                         size="lg"
-                        show={lgShow}
-                        onHide={() => setLgShow(false)}
+                        show={lgShow3}
+                        onHide={() => setLgShow3(false)}
                         aria-labelledby="example-modal-sizes-title-lg"
                       >
                         <Modal.Header closeButton>
                           <Modal.Title id="example-modal-sizes-title-lg">
-                            Nhập mật khẩu và Mã Check In
+                            Nhập Mã Check In
                           </Modal.Title>
                         </Modal.Header>
                         <Modal.Body style={{ textAlign: "center" }}>
@@ -446,77 +491,75 @@ const CheckIn = () => {
             <h1>Danh sách dịch vụ sức khỏe và làm đẹp</h1>
             <div className="row">
               {spaData.map((spaData) => (
-                <>
-                  {spaData.spa == null ? (
-                    ""
-                  ) : (
-                    <div
-                      key=""
-                      className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
-                    >
-                      <div className="card-flyer">
-                        <div className="text-box">
-                          <div className="image-box">
-                            <Image src={spaData.spa.image} alt="loading..." />
-                          </div>
-                          <div className="text-container">
-                            <h6>{spaData.spa.tendichvu}</h6>
-                            <p>{spaData.spa.noidung}</p>
-                            <p>{spaData.spa.thongtinthem}</p>
-                          </div>
-                          <div className="text-container">
-                            <h3>Giá</h3>
-                            <h3>{spaData.spa.gia}</h3>
-                          </div>
-                          {/* <Button
+                <div
+                  key={spaData.key}
+                  className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
+                >
+                  <div className="card-flyer">
+                    <div className="text-box">
+                      <div className="image-box">
+                        <Image src={spaData.spa.image} alt="loading..." />
+                      </div>
+                      <div className="text-container">
+                        <h6>{spaData.spa.tendichvu}</h6>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {spaData.spa.noidung}
+                        </p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {spaData.spa.thongtinthem}
+                        </p>
+                      </div>
+                      <div className="text-container">
+                        <h3>Giá</h3>
+                        <h3>{spaData.spa.gia}</h3> VNĐ
+                      </div>
+                      {/* <Button
                           style={{ marginBottom: "7%" }}
                           variant="danger"
                           onClick={checkIn(schedule.id)}
                         >
                           Check In
                         </Button> */}
+                      <Button
+                        style={{ marginBottom: "7%" }}
+                        variant="danger"
+                        onClick={() => setLgShow4(true)}
+                      >
+                        Check In
+                      </Button>
+                      <Modal
+                        size="lg"
+                        show={lgShow4}
+                        onHide={() => setLgShow4(false)}
+                        aria-labelledby="example-modal-sizes-title-lg"
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title id="example-modal-sizes-title-lg">
+                            Nhập Mã Check In
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ textAlign: "center" }}>
+                          <InputGroup className="mb-3">
+                            <FormControl
+                              placeholder="Nhập mã Check In"
+                              aria-label="Username"
+                              aria-describedby="basic-addon1"
+                              name="codeCheck"
+                              onChange={handleChangeCheckIn}
+                            />
+                          </InputGroup>
                           <Button
-                            style={{ marginBottom: "7%" }}
+                            style={{ marginBottom: "7%", width: "15%" }}
                             variant="danger"
-                            onClick={() => setLgShow(true)}
+                            onClick={checkInSpa(spaData.id)}
                           >
                             Check In
                           </Button>
-                          <Modal
-                            size="lg"
-                            show={lgShow}
-                            onHide={() => setLgShow(false)}
-                            aria-labelledby="example-modal-sizes-title-lg"
-                          >
-                            <Modal.Header closeButton>
-                              <Modal.Title id="example-modal-sizes-title-lg">
-                                Nhập mật khẩu và Mã Check In
-                              </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body style={{ textAlign: "center" }}>
-                              <InputGroup className="mb-3">
-                                <FormControl
-                                  placeholder="Nhập mã Check In"
-                                  aria-label="Username"
-                                  aria-describedby="basic-addon1"
-                                  name="codeCheck"
-                                  onChange={handleChangeCheckIn}
-                                />
-                              </InputGroup>
-                              <Button
-                                style={{ marginBottom: "7%", width: "15%" }}
-                                variant="danger"
-                                onClick={checkInSpa(spaData.spa.id)}
-                              >
-                                Check In
-                              </Button>
-                            </Modal.Body>
-                          </Modal>
-                        </div>
-                      </div>
+                        </Modal.Body>
+                      </Modal>
                     </div>
-                  )}
-                </>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -530,22 +573,29 @@ const CheckIn = () => {
                     ""
                   ) : (
                     <div
-                      key=""
+                      key={sportData.sport.id}
                       className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
                     >
                       <div className="card-flyer">
                         <div className="text-box">
                           <div className="image-box">
-                            <Image src={sportData.sport.image} alt="loading..." />
+                            <Image
+                              src={sportData.sport.image}
+                              alt="loading..."
+                            />
                           </div>
                           <div className="text-container">
                             <h6>{sportData.sport.tendichvu}</h6>
-                            <p>{sportData.sport.noidung}</p>
-                            <p>{sportData.sport.thongtinthem}</p>
+                            <p style={{ whiteSpace: "pre-wrap" }}>
+                              {sportData.sport.noidung}
+                            </p>
+                            <p style={{ whiteSpace: "pre-wrap" }}>
+                              {sportData.sport.thongtinthem}
+                            </p>
                           </div>
                           <div className="text-container">
                             <h3>Giá</h3>
-                            <h3>{sportData.sport.gia}</h3>
+                            <h3>{sportData.sport.gia}</h3> VNĐ
                           </div>
                           {/* <Button
                           style={{ marginBottom: "7%" }}
@@ -557,19 +607,19 @@ const CheckIn = () => {
                           <Button
                             style={{ marginBottom: "7%" }}
                             variant="danger"
-                            onClick={() => setLgShow(true)}
+                            onClick={() => setLgShow5(true)}
                           >
                             Check In
                           </Button>
                           <Modal
                             size="lg"
-                            show={lgShow}
-                            onHide={() => setLgShow(false)}
+                            show={lgShow5}
+                            onHide={() => setLgShow5(false)}
                             aria-labelledby="example-modal-sizes-title-lg"
                           >
                             <Modal.Header closeButton>
                               <Modal.Title id="example-modal-sizes-title-lg">
-                                Nhập mật khẩu và Mã Check In
+                                Nhập Mã Check In
                               </Modal.Title>
                             </Modal.Header>
                             <Modal.Body style={{ textAlign: "center" }}>
@@ -585,7 +635,7 @@ const CheckIn = () => {
                               <Button
                                 style={{ marginBottom: "7%", width: "15%" }}
                                 variant="danger"
-                                onClick={checkInSport(sportData.sport.id)}
+                                onClick={checkInSport(sportData.id)}
                               >
                                 Check In
                               </Button>

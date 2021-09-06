@@ -66,11 +66,11 @@ const Wallet = () => {
           </div>
         </div>
         <div className="form">
-          <h4>Số Xu</h4>
-          <h1>{xu}</h1>
+          <h4>Số Tiền(VNĐ)</h4>
+          <h1>{xu} VNĐ</h1>
           <div className="form-submit">
             <button id="submit" onClick={() => setLgShow(true)}>
-              Nạp xu
+              Nạp Tiền VNĐ
             </button>
             <Modal
               size="lg"
@@ -80,7 +80,7 @@ const Wallet = () => {
             >
               <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
-                  Bạn hãy nhập số tiền muốn nạp( lớn hơn 5000)
+                  Bạn hãy nhập số tiền muốn nạp( lớn hơn 5000 VNĐ)
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body className="model-buy-course">
@@ -95,7 +95,7 @@ const Wallet = () => {
                   />
                 </InputGroup>
                 <button id="submit" onClick={handleNapXu}>
-                  Nạp xu
+                  Nạp Tiền(VNĐ)
                 </button>
               </Modal.Body>
             </Modal>

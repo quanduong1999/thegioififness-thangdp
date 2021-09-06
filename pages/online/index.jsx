@@ -1,34 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useEffect } from "react";
-import { Row, Col, Modal, InputGroup, FormControl, Alert } from "react-bootstrap";
-import { Image } from "react-bootstrap";
-import { courseAPI } from "../api/course/course";
-import { Button } from "react-bootstrap";
+import { Alert, Button, Image, Modal } from "react-bootstrap";
+import { placeAPI } from "../api/place/place";
 import Cookies from "js-cookie";
-import { useRouter } from "next/dist/client/router";
 import { profilesAPI } from "../api/profiles/profiles";
+import { useRouter } from "next/router";
+import { onlineAPI } from "../api/online/online";
 
-const Course = () => {
-  const [courseData, setCourseData] = useState([]);
+const Online = () => {
+  const [onlineData, setOnlineData] = useState([]);
   const [lgShow, setLgShow] = useState(false);
-  const [show, setShow] = useState(false)
   const [idCourse, setIdCourse] = useState("");
+  const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState("");
-  const [gia, setGia] = useState();
-  const initCourse = { amount: 0 };
-  const [amountData, setAmountData] = useState(initCourse);
-  const { amount } = amountData;
+  const [gia, setGia] = useState("");
+  const [sodutk, setSoDuTk] = useState("");
   const token = Cookies.get("token");
   const Router = useRouter();
-  const [sodutk, setSoDuTk] = useState();
+
   useEffect(() => {
-    courseAPI
-      .getAllCourse()
+    onlineAPI
+      .getOnline()
       .then((res) => {
-        // console.log(res.data);
-        setCourseData(res.data);
+        setOnlineData(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -36,40 +30,40 @@ const Course = () => {
   useEffect(() => {
     if (token) {
       profilesAPI.getProfiles().then((res) => {
+        console.log(res.data.xu);
         setSoDuTk(res.data.xu);
       });
     }
   }, []);
 
   const buyCourse = (idCourse, gia, sodutk) => (e) => {
-    // console.log(idCourse)
-    const body = {
-      course: idCourse,
-    };
-    console.log(body);
-    if (!token) {
-      setShow(true)
-      setMessage("Hãy đăng nhập để mua khóa học");
-    } else {
-      if (Number.parseInt(sodutk) < Number.parseInt(gia)) {
-        setShow(true)
-        setMessage("Bạn cần nạp thêm tiền");
-      } else {
-        courseAPI
-          .buyCourse(body)
+    if (token) {
+      if (Number.parseInt(sodutk) >= Number.parseInt(gia)) {
+        const body = {
+          onlineCourse: idCourse,
+        };
+        placeAPI
+          .buyOnline(body)
           .then((res) => {
-            // console.log(res.data.url);
-            // Router.push(res.data.url);
-            setSuccess("Tạo khóa học thành công, Check mã ở gmail");
+            // console.log(res)
             setShow(true);
-            setMessage("Tạo khóa học thành công, Check mã ở gmail");
+            setMessage("Mua khoá học thành công");
+            Router.push("/checkin");
           })
           .catch((err) => {
             console.log(err);
-            setShow(true)
-            setMessage("Tạo khóa học không thành công");
+            setShow(true);
+            setMessage("Mua khóa học không thành công");
           });
+      } else {
+        setShow(true);
+        setMessage("Số dư tài khoản không đủ");
+        Router.push("/wallet");
       }
+    } else {
+      setShow(true);
+      setMessage("Đăng nhập để mua khóa");
+      Router.push("/login");
     }
   };
 
@@ -77,34 +71,36 @@ const Course = () => {
     <div className="course">
       <div id="cards_landscape_wrap-2">
         <div className="container">
-          <h1>Danh sách các khóa tập</h1>
+          <h1>Danh sách các khóa tập online</h1>
           <div className="row">
-            {courseData.map((course) => (
+            {onlineData.map((onlineList) => (
               <div
-                key={course.id}
+                key={onlineList.id}
                 className="col-xs-12 col-sm-6 col-md-3 col-lg-3 course-click"
               >
                 {/* <a href=""> */}
                 <div className="card-flyer">
                   <div className="text-box">
                     <div className="image-box">
-                      <Image src={course.image} alt="" />
+                      <Image src={onlineList.image} alt="" />
                     </div>
                     <div className="text-container">
-                      <h6>{course.tenkhoahoc}</h6>
-                      <p style={{ whiteSpace: "pre-wrap"}}>{course.thongtinthem}</p>
+                      <h6>{onlineList.tenkhoahoc}</h6>
+                      <p style={{ whiteSpace: "pre-wrap" }}>
+                        {onlineList.thongtinthem}
+                      </p>
                     </div>
                     <div className="text-container">
                       <h3>Giá</h3>
-                      <h3>{course.gia}</h3> VNĐ
+                      <h3>{onlineList.gia}</h3> VNĐ
                     </div>
                   </div>
 
                   <Button
                     onClick={() => {
                       setLgShow(true);
-                      setIdCourse(course.id);
-                      setGia(course.gia);
+                      setIdCourse(onlineList.id);
+                      setGia(onlineList.gia);
                     }}
                     className="buy"
                   >
@@ -157,4 +153,4 @@ const Course = () => {
   );
 };
 
-export default Course;
+export default Online;

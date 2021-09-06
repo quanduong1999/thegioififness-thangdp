@@ -98,3 +98,7 @@ h1 {
 .show-start {
     text-align: center;
 }
+
+div#__next {
+    overflow: hidden;
+}

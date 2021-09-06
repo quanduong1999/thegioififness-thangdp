@@ -4,7 +4,6 @@ import { Alert, Button, Image, Modal } from "react-bootstrap";
 import { placeAPI } from "../api/place/place";
 import Cookies from "js-cookie";
 import { profilesAPI } from "../api/profiles/profiles";
-import { Router } from "@material-ui/icons";
 import { useRouter } from "next/router";
 
 const CourseOnline = () => {
@@ -88,11 +87,11 @@ const CourseOnline = () => {
                       </div>
                       <div className="text-container">
                         <h6>{onlineList.tenkhoahoc}</h6>
-                        <p>{onlineList.thongtinthem}</p>
+                        <p style={{ whiteSpace: "pre-wrap"}}>{onlineList.thongtinthem}</p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
-                        <h3>{onlineList.gia}</h3>
+                        <h3>{onlineList.gia}</h3> VNĐ
                       </div>
                     </div>
 

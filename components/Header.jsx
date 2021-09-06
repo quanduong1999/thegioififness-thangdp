@@ -193,7 +193,7 @@ function Header(props) {
               <p className="header-text">Thể thao và giải trí</p>
             </Nav.Link>
             <Nav.Link
-              href="/courseOnline"
+              href="/online"
               className="header-menu-list-right-li"
             >
               <HiOutlineDesktopComputer className="header-icons" />

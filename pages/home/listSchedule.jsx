@@ -88,7 +88,7 @@ const ListSchedule = () => {
                     </div>
                     <div className="text-container">
                       <h3>Giá</h3>
-                      <h3>{schedule.gia}</h3>
+                      <h3>{schedule.gia}</h3> VNĐ
                     </div>
                   </div>
 

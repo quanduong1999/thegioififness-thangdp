@@ -49,7 +49,7 @@ const Spa = () => {
             <Card.Img
               className="home-teacher-img"
               variant="top"
-              src={spa.image}
+              src={spa.image.split(",")[0]}
               onClick={showDetail(spa.id)}
             />
             <Card.Body>

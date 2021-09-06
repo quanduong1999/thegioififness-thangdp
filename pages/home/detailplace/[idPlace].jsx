@@ -48,10 +48,11 @@ const DetailPlace = () => {
   const [idschedule, setIdSchedule] = useState([]);
   const [star, setStar] = useState();
   const [getStar, setGetStar] = useState();
-  const initPrivateSchedule = {phone: "", timeStart: "", timeEnd: ""}
-  const [privateScheduleData, setPrivateScheduleData] = useState(initPrivateSchedule);
-  const {phone, timeStart, timeEnd} = privateScheduleData;
-
+  const initPrivateSchedule = { phone: "", timeStart: "", timeEnd: "" };
+  const [privateScheduleData, setPrivateScheduleData] =
+    useState(initPrivateSchedule);
+  const { phone, timeStart, timeEnd } = privateScheduleData;
+  const [image, setImage] = useState("");
   const [sodutk, setSoDuTk] = useState(0);
 
   useEffect(() => {
@@ -100,10 +101,11 @@ const DetailPlace = () => {
       .then((res) => {
         console.log(res.data);
         setCourseData(res.data);
+        
         // setPlace(res.data[0].place);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setCourseData([]);
       });
   }, [idPlace]);
@@ -116,7 +118,7 @@ const DetailPlace = () => {
         setScheduleData(res.data);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setScheduleData([]);
       });
   }, [idPlace]);
@@ -216,6 +218,7 @@ const DetailPlace = () => {
       .then((res) => {
         console.log(res);
         setPlace(res.data[0]);
+        setImage(res.data[0].image)
         setGetStar(res.data[0].star);
       })
       .catch((err) => console.log(err));
@@ -232,9 +235,9 @@ const DetailPlace = () => {
   }, [idPlace, submitStars]);
 
   const handleChangePrivateSchedule = (e) => {
-    const {name, value} = e.target
-    setPrivateScheduleData({...privateScheduleData, [name]: value});
-  }
+    const { name, value } = e.target;
+    setPrivateScheduleData({ ...privateScheduleData, [name]: value });
+  };
 
   const handleSubmitPrivateSchedule = (e) => {
     e.preventDefault();
@@ -242,20 +245,21 @@ const DetailPlace = () => {
       sdt: phone,
       placeid: idPlace,
       timestart: timeStart,
-      timestop: timeEnd
-    }
-    scheduleAPI.privateSchedule(body)
-      .then(res=>{
+      timestop: timeEnd,
+    };
+    scheduleAPI
+      .privateSchedule(body)
+      .then((res) => {
         // console.log(res)
-        setShow(true)
-        setMessage("Tạo lịch thành công")
+        setShow(true);
+        setMessage("Tạo lịch thành công");
       })
-      .catch(err=>{
-        console.log(err)
-        setShow(true)
-        setMessage("Tạo lịch không thành công")
-      })
-  }
+      .catch((err) => {
+        console.log(err);
+        setShow(true);
+        setMessage("Tạo lịch không thành công");
+      });
+  };
 
   return (
     <div className="detailplace">
@@ -265,11 +269,32 @@ const DetailPlace = () => {
           <div className="container">
             <Row>
               <Col sm={5}>
-                <Image src={place.image} className="about-img-infor"></Image>
+                <div className="multi-image">
+                  <Image
+                    src={image.split(",")[0]}
+                    className="about-img-infor"
+                  ></Image>
+                  <Row>
+                    <Col xs={6}>
+                      <Image
+                        src={image.split(",")[1]}
+                        className="about-img-infor"
+                      ></Image>
+                    </Col>
+                    <Col xs={6}>
+                      <Image
+                        src={image.split(",")[2]}
+                        className="about-img-infor"
+                      ></Image>
+                    </Col>
+                  </Row>
+                </div>
                 <div className="show-start">
                   <h2>Chất lượng</h2>
                   <StarRatings
-                    rating={Number.parseInt(getStar == null || getStar === NaN ? "5" : getStar)}
+                    rating={Number.parseInt(
+                      getStar == null || getStar === NaN ? "5" : getStar
+                    )}
                     starRatedColor="#FFD700"
                     numberOfStars={5}
                     name="rating"
@@ -279,7 +304,7 @@ const DetailPlace = () => {
               <Col sm={7}>
                 <h1>{place.name}</h1>
                 <p>{place.diachi}</p>
-                <p>{place.thongtinthem}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>{place.thongtinthem}</p>
                 <div className="feedback-start">
                   <h2>Đánh giá</h2>
                   <div id="rating">
@@ -379,11 +404,13 @@ const DetailPlace = () => {
                       </div>
                       <div className="text-container">
                         <h6>{course.tenkhoahoc}</h6>
-                        <p>{course.thongtinthem}</p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {course.thongtinthem}
+                        </p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
-                        <h3>{course.gia === null ? 0 : course.gia}</h3>
+                        <h3>{course.gia === null ? 0 : course.gia}</h3> VNĐ
                       </div>
                     </div>
 
@@ -448,13 +475,15 @@ const DetailPlace = () => {
                       </div>
                       <div className="text-container">
                         <h6>{schedule.name}</h6>
-                        <p>{schedule.thongtinthem}</p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          {schedule.thongtinthem}
+                        </p>
                         <p>Start: {schedule.thoigianbatdau}</p>
                         <p>End: {schedule.thoigianketthuc}</p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
-                        <h3>{schedule.gia === null ? 0 : schedule.gia}</h3>
+                        <h3>{schedule.gia === null ? 0 : schedule.gia}</h3> VNĐ
                       </div>
                     </div>
 
@@ -500,7 +529,10 @@ const DetailPlace = () => {
       </div>
 
       {/* Private Schedule */}
-      <div className="container private-schedule" style={{textAlign: "center"}}>
+      <div
+        className="container private-schedule"
+        style={{ textAlign: "center" }}
+      >
         <h1>Lịch hẹn theo gian của bạn</h1>
         <h4>Số điện thoại</h4> <br />
         <InputGroup className="mb-3">
@@ -532,7 +564,13 @@ const DetailPlace = () => {
             onChange={handleChangePrivateSchedule}
           />
         </InputGroup>
-        <Button variant="danger" style={{marginBottom: "30px",}} onClick={handleSubmitPrivateSchedule}>Submit</Button>
+        <Button
+          variant="danger"
+          style={{ marginBottom: "30px" }}
+          onClick={handleSubmitPrivateSchedule}
+        >
+          Submit
+        </Button>
       </div>
 
       {/* feedback */}

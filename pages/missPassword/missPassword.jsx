@@ -31,7 +31,7 @@ const MissPassWord = () => {
           console.log(res);
           setShow(true);
           setMessage("Check mã code mail");
-          Router.push("/takePassword");
+          Router.replace("/takePassword");
         })
         .catch((err) => console.log(err));
     }

@@ -10,6 +10,7 @@ import {
   FormControl,
   InputGroup,
   Alert,
+  Card,
 } from "react-bootstrap";
 import StarRatings from "react-star-ratings";
 import { spaAPI } from "../../api/spa/spa";
@@ -36,16 +37,7 @@ const DetailSpa = () => {
   const [star, setStar] = useState("");
   const [idCourse, setIdCourse] = useState("");
   const [sodutk, setSoDuTK] = useState("");
-
-  useEffect(() => {
-    spaAPI
-      .getSpaById(idSpa)
-      .then((res) => {
-        console.log(res);
-        setSpa(res.data[0]);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     spaAPI
@@ -56,6 +48,17 @@ const DetailSpa = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    spaAPI
+      .getSpaById(idSpa)
+      .then((res) => {
+        console.log(res);
+        setSpa(res.data[0]);
+        setImage(res.data[0].image);
+      })
+      .catch((err) => console.log(err));
+  }, [spaData]);
 
   const handleChangePrivateSpa = (e) => {
     const { name, value } = e.target;
@@ -99,6 +102,7 @@ const DetailSpa = () => {
       spaAPI
         .createFeedbackSpa(body)
         .then((res) => {
+          // window.location.reload()
           console.log(res);
         })
         .catch((err) => {
@@ -187,7 +191,26 @@ const DetailSpa = () => {
           <div className="container">
             <Row className="about_spa_feedbackstar">
               <Col sm={5}>
-                <Image src={spa.image} className="about-img-infor"></Image>
+                <div className="multi-image">
+                  <Image
+                    src={image.split(",")[0]}
+                    className="about-img-infor"
+                  ></Image>
+                  <Row>
+                    <Col xs={6}>
+                      <Image
+                        src={image.split(",")[1]}
+                        className="about-img-infor"
+                      ></Image>
+                    </Col>
+                    <Col xs={6}>
+                      <Image
+                        src={image.split(",")[2]}
+                        className="about-img-infor"
+                      ></Image>
+                    </Col>
+                  </Row>
+                </div>
                 <div className="show-start">
                   <h2>Chất lượng</h2>
                   <StarRatings
@@ -204,7 +227,7 @@ const DetailSpa = () => {
               <Col sm={7}>
                 <h1>{spa.name}</h1>
                 <p>{spa.diachi}</p>
-                <p>{spa.thongtinthem}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>{spa.thongtinthem}</p>
                 <div className="feedback-start">
                   <h2>Đánh giá</h2>
                   <div id="rating">
@@ -305,11 +328,13 @@ const DetailSpa = () => {
                         </div>
                         <div className="text-container">
                           <h6>{dichvu.tendichvu}</h6>
-                          <p>{dichvu.noidung}</p>
+                          <p style={{ whiteSpace: "pre-wrap" }}>
+                            {dichvu.noidung}
+                          </p>
                         </div>
                         <div className="text-container">
                           <h3>Giá</h3>
-                          <h3>{dichvu.gia === null ? 0 : dichvu.gia}</h3>
+                          <h3>{dichvu.gia === null ? 0 : dichvu.gia}</h3> VNĐ
                         </div>
                       </div>
 
