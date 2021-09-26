@@ -105,7 +105,7 @@ function Place() {
             <Card.Img
               className="home-teacher-img"
               variant="top"
-              src={place.image}
+              src={place.image.split(",")[0]}
               onClick={showDetail(place.id)}
             />
             <Card.Body>
