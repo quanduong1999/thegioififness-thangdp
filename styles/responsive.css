@@ -1,3 +1,12 @@
+@media screen and (max-width: 450px) {
+    .wallet {
+        padding-top: 20%;
+    }
+    img.banner-li-img {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 975px) {
     svg.header-icons {
         width: 20%;
@@ -42,5 +51,90 @@
 @media screen and (min-width: 767px) {
     .slider {
         height: 625px;
+    }
+}
+
+@media screen and (min-width: 767px) {
+    .slider {
+        height: 625px;
+    }
+}
+
+@media screen and (max-width: 767px) and (min-width: 430px) {
+    .slider {
+        height: 425px;
+    }
+    img.banner-li-img {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 976px) {
+    img.header-logo {
+        display: none;
+    }
+    div#basic-navbar-nav {
+        height: 100px;
+    }
+    .mr-auto.header-menu-list-right.navbar-nav {
+        display: -webkit-box;
+        width: 100%;
+        margin-top: 45px;
+    }
+    a.header-menu-list-right-li.nav-link {
+        display: table-cell;
+        text-align: center;
+    }
+    svg.header-icons {
+        width: 20%;
+    }
+    .mr-auto.header-menu-list-right.navbar-nav {
+        width: 100%;
+        margin-bottom: 146px;
+    }
+    svg.header-icons.header-icons4 {
+        width: 51%;
+    }
+    svg.header-icons.header-icons2 {
+        width: 24%;
+    }
+    svg.header-icons.header-icons3 {
+        width: 27%;
+    }
+    svg.header-icons.header-icons5 {
+        width: 124%;
+    }
+    svg.header-icons.header-icons6 {
+        width: 49%;
+    }
+    svg.header-icons.header-icons7 {
+        width: 43%;
+    }
+    .header-text {
+        margin-right: 2%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    div#basic-navbar-nav {
+        height: 115px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .container.home-teacher {
+        margin-top: 35%;
+    }
+}
+
+@media screen and (max-width: 645px) {
+    .container.home-teacher {
+        margin-top: 43%;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .container.home-teacher {
+        margin-top: 0%;
     }
 }

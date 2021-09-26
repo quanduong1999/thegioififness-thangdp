@@ -136,6 +136,10 @@ function Header(props) {
           // console.log(res.data.spa);
           // console.log(category)
           setDataSearch(res.data.spa);
+        } else if (category == "online") {
+          // console.log(res.data.spa);
+          // console.log(category)
+          setDataSearch(res.data.online);
         } else {
           // console.log(res.data.place);
           // console.log(category)
@@ -185,32 +189,32 @@ function Header(props) {
 
           <Nav className="mr-auto header-menu-list-right">
             <Nav.Link href="/spa" className="header-menu-list-right-li">
-              <CgGirl className="header-icons" />
+              <CgGirl className="header-icons header-icons1" />
               <p className="header-text">Sức khỏe và làm đẹp</p>
             </Nav.Link>
             <Nav.Link href="/sport" className="header-menu-list-right-li">
-              <BiFootball className="header-icons" />
+              <BiFootball className="header-icons header-icons2" />
               <p className="header-text">Thể thao và giải trí</p>
             </Nav.Link>
             <Nav.Link href="/online" className="header-menu-list-right-li">
-              <HiOutlineDesktopComputer className="header-icons" />
+              <HiOutlineDesktopComputer className="header-icons header-icons3" />
               <p className="header-text">Khóa học online</p>
             </Nav.Link>
             <Nav.Link href="/checkin" className="header-menu-list-right-li">
-              <BiMap className="header-icons" />
+              <BiMap className="header-icons header-icons4" />
               <p className="header-text">Check-In</p>
             </Nav.Link>
             <Nav.Link href="/save" className="header-menu-list-right-li">
-              <FaSave className="header-icons" />
+              <FaSave className="header-icons header-icons5" />
               <p className="header-text">Lưu</p>
             </Nav.Link>
             <Nav.Link href="/wallet" className="header-menu-list-right-li">
-              <FaMoneyCheckAlt className="header-icons" />
+              <FaMoneyCheckAlt className="header-icons header-icons6" />
               <p className="header-text">Ví điện tử</p>
             </Nav.Link>
             {!token ? (
               <Nav.Link href="/login" className="header-menu-list-right-li">
-                <BiUserCircle className="header-icons" />
+                <BiUserCircle className="header-icons header-icons7" />
                 <p className="header-text">Đăng nhập</p>
               </Nav.Link>
             ) : (
@@ -306,6 +310,7 @@ function Header(props) {
                   <option value="place">Cơ sở phòng tập</option>
                   <option value="spa">Cơ sở sức khỏe và làm đẹp</option>
                   <option value="sport">Cơ sở thể thao và giải trí</option>
+                  <option value="online">Khóa học online</option>
                 </select>
               </div>
             </div>
