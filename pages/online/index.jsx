@@ -67,6 +67,11 @@ const Online = () => {
     }
   };
 
+  const handleClickDetail = (id) => (e) =>{
+    // console.log(id)
+    Router.push(`/online/detailOnline/${id}`)
+  }
+
   return (
     <div className="course">
       <div id="cards_landscape_wrap-2">
@@ -80,7 +85,7 @@ const Online = () => {
               >
                 {/* <a href=""> */}
                 <div className="card-flyer">
-                  <div className="text-box">
+                  <div className="text-box" style={{cursor:"pointer"}} onClick={handleClickDetail(onlineList.id)}>
                     <div className="image-box">
                       <Image src={onlineList.image} alt="" />
                     </div>

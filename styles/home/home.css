@@ -102,3 +102,7 @@ h1 {
 div#__next {
     overflow: hidden;
 }
+
+.feedback {
+    margin-top: 30px;
+}

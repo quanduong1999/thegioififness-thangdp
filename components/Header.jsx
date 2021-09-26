@@ -170,18 +170,18 @@ function Header(props) {
           <Link href="/" style={{ width: "11%" }}>
             <Image src="/logo.jpg" className="header-logo" />
           </Link>
-
+          {/* 
           <Nav className="mr-auto header-menu-list">
             <Nav.Link href="/" className="header-menu-list-li">
               <p className="header-text">Trang chủ</p>
             </Nav.Link>
-            {/* <Nav.Link href="/about" className="header-menu-list-li">
+             <Nav.Link href="/about" className="header-menu-list-li">
               <p className="header-text">Giới Thiệu</p>
-            </Nav.Link> */}
+            </Nav.Link>
             <Nav.Link href="/contact-us" className="header-menu-list-li">
               <p className="header-text">Liên Hệ</p>
             </Nav.Link>
-          </Nav>
+          </Nav> */}
 
           <Nav className="mr-auto header-menu-list-right">
             <Nav.Link href="/spa" className="header-menu-list-right-li">
@@ -192,12 +192,9 @@ function Header(props) {
               <BiFootball className="header-icons" />
               <p className="header-text">Thể thao và giải trí</p>
             </Nav.Link>
-            <Nav.Link
-              href="/online"
-              className="header-menu-list-right-li"
-            >
+            <Nav.Link href="/online" className="header-menu-list-right-li">
               <HiOutlineDesktopComputer className="header-icons" />
-              <p className="header-text">Phòng tập online</p>
+              <p className="header-text">Khóa học online</p>
             </Nav.Link>
             <Nav.Link href="/checkin" className="header-menu-list-right-li">
               <BiMap className="header-icons" />
