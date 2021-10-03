@@ -21,6 +21,7 @@ const DetailOnline = () => {
   const token = Cookies.get("token");
   const Router = useRouter();
   const { idOnline } = Router.query;
+  console.log(idOnline)
   const [image, setImage] = useState("");
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
@@ -36,7 +37,7 @@ const DetailOnline = () => {
     onlineAPI
       .getOnlineById(idOnline)
       .then((res) => {
-        // console.log(res.data[0]);
+        console.log(res.data[0]);
         setOnline(res.data[0]);
         setImage(res.data[0].image);
         setListFeedback(res.data[0].listFeedback)
@@ -129,7 +130,9 @@ const DetailOnline = () => {
                 <div className="show-start">
                   <h2>Chất lượng</h2>
                   <StarRatings
-                    rating={Number.parseInt(online.star)}
+                    rating={Number.parseInt(
+                      online.star == null || online.star === NaN ? "5" : online.star
+                    )}
                     starRatedColor="#FFD700"
                     numberOfStars={5}
                     name="rating"

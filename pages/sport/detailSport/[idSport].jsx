@@ -210,8 +210,7 @@ const DetailSport = () => {
                   <h2>Chất lượng</h2>
                   <StarRatings
                     rating={Number.parseInt(
-                      //   getStar == null || getStar === NaN ? "5" : getStar
-                      "5"
+                      sport.star == null || sport.star === NaN ? "5" : sport.star
                     )}
                     starRatedColor="#FFD700"
                     numberOfStars={5}

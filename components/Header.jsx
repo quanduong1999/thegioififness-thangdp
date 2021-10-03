@@ -188,44 +188,76 @@ function Header(props) {
           </Nav> */}
 
           <Nav className="mr-auto header-menu-list-right">
-            <Nav.Link href="/spa" className="header-menu-list-right-li">
-              <CgGirl className="header-icons header-icons1" />
-              <p className="header-text">Sức khỏe và làm đẹp</p>
-            </Nav.Link>
-            <Nav.Link href="/sport" className="header-menu-list-right-li">
-              <BiFootball className="header-icons header-icons2" />
-              <p className="header-text">Thể thao và giải trí</p>
-            </Nav.Link>
-            <Nav.Link href="/online" className="header-menu-list-right-li">
-              <HiOutlineDesktopComputer className="header-icons header-icons3" />
-              <p className="header-text">Khóa học online</p>
-            </Nav.Link>
-            <Nav.Link href="/checkin" className="header-menu-list-right-li">
-              <BiMap className="header-icons header-icons4" />
-              <p className="header-text">Check-In</p>
-            </Nav.Link>
-            <Nav.Link href="/save" className="header-menu-list-right-li">
-              <FaSave className="header-icons header-icons5" />
-              <p className="header-text">Lưu</p>
-            </Nav.Link>
-            <Nav.Link href="/wallet" className="header-menu-list-right-li">
-              <FaMoneyCheckAlt className="header-icons header-icons6" />
-              <p className="header-text">Ví điện tử</p>
-            </Nav.Link>
+    
+              <Nav.Link href="/spa" className="header-menu-list-right-li">
+                {/* <CgGirl className="header-icons header-icons1" /> */}
+                <Image
+                  src="/iconmenu/spa.png"
+                  style={{ width: "25px" }}
+                ></Image>
+                <p className="header-text">Sức khỏe và làm đẹp</p>
+              </Nav.Link>
+              <Nav.Link href="/sport" className="header-menu-list-right-li">
+                {/* <BiFootball className="header-icons header-icons2" /> */}
+                <Image
+                  src="/iconmenu/sport.png"
+                  style={{ width: "25px" }}
+                ></Image>
+                <p className="header-text">Thể thao và giải trí</p>
+              </Nav.Link>
+              <Nav.Link href="/online" className="header-menu-list-right-li">
+                {/* <HiOutlineDesktopComputer className="header-icons header-icons3" /> */}
+                <Image
+                  src="/iconmenu/online.png"
+                  style={{ width: "25px" }}
+                ></Image>
+                <p className="header-text">Khóa học online</p>
+              </Nav.Link>
+              <Nav.Link href="/checkin" className="header-menu-list-right-li">
+                {/* <BiMap className="header-icons header-icons4" /> */}
+                <Image
+                  src="/iconmenu/checkin.png"
+                  style={{ width: "25px" }}
+                ></Image>
+                <p className="header-text">Check-In</p>
+              </Nav.Link>
+              <Nav.Link href="/save" className="header-menu-list-right-li">
+                {/* <FaSave className="header-icons header-icons5" />
+                 */}
+                <Image
+                  src="/iconmenu/luu.png"
+                  style={{ width: "25px" }}
+                ></Image>
+                <p className="header-text">Lưu</p>
+              </Nav.Link>
+              <Nav.Link href="/wallet" className="header-menu-list-right-li">
+                {/* <FaMoneyCheckAlt className="header-icons header-icons6" /> */}
+                <Image src="/iconmenu/vi.png" style={{ width: "25px" }}></Image>
+                <p className="header-text">Ví điện tử</p>
+              </Nav.Link>
+    
             {!token ? (
               <Nav.Link href="/login" className="header-menu-list-right-li">
-                <BiUserCircle className="header-icons header-icons7" />
+                {/* <BiUserCircle className="header-icons header-icons7" /> */}
+                <Image
+                  src="/iconmenu/dangnhap.png"
+                  style={{ width: "25px" }}
+                ></Image>
                 <p className="header-text">Đăng nhập</p>
               </Nav.Link>
             ) : (
-              <NavDropdown
-                title="User"
-                id="basic-nav-dropdown"
-                className="header-user"
-              >
-                <NavDropdown.Item href="/profiles">Profiles</NavDropdown.Item>
-                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-              </NavDropdown>
+              <>
+                <br />
+                <NavDropdown
+                  title="User"
+                  id="basic-nav-dropdown"
+                  className="header-user"
+                >
+                  <NavDropdown.Item href="/">Trang chủ</NavDropdown.Item>
+                  <NavDropdown.Item href="/profiles">Profiles</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>

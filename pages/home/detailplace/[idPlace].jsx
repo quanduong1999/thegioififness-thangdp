@@ -550,7 +550,7 @@ const DetailPlace = () => {
             placeholder="Thời gian bắt đầu"
             aria-label="Username"
             aria-describedby="basic-addon1"
-            name="timestart"
+            name="timeStart"
             onChange={handleChangePrivateSchedule}
           />
         </InputGroup>

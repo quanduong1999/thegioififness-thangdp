@@ -70,6 +70,9 @@
 }
 
 @media screen and (max-width: 976px) {
+    button.header-search.btn.btn-danger {
+        margin-top: 50px;
+    }
     img.header-logo {
         display: none;
     }
@@ -136,5 +139,35 @@
 @media screen and (max-width: 540px) {
     .container.home-teacher {
         margin-top: 0%;
+    }
+}
+
+@media screen and (min-width: 318px) and (max-width: 627px) {
+    .mr-auto.header-menu-list-right.navbar-nav {
+        display: block;
+    }
+    .header-user.nav-item.dropdown {
+        text-align: center;
+        margin-top: -10%;
+    }
+}
+
+@media screen and (max-width: 317px) {
+    .mr-auto.header-menu-list-right.navbar-nav {
+        display: block;
+    }
+    .header-user.nav-item.dropdown {
+        text-align: center;
+        margin-top: -22%;
+    }
+}
+
+@media screen and (max-width: 291px) {
+    .mr-auto.header-menu-list-right.navbar-nav {
+        display: block;
+    }
+    .header-user.nav-item.dropdown {
+        text-align: center;
+        margin-top: -35%;
     }
 }

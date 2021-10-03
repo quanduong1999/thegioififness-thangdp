@@ -57,14 +57,14 @@ function Place() {
         setIdLovePlace(res.data);
       })
       .catch((err) => console.log(err));
-  },[placeData]);
+  }, [placeData]);
 
   useEffect(() => {
     let i;
     let j;
     for (i = 0; i < placeData.length; i++) {
       for (j = 0; j < idLovePlace.length; j++) {
-        if (idLovePlace[j].place.id == placeData[i].id) {
+        if (idLovePlace[j].place.id === placeData[i].id) {
           if (arr.length < placeData.length) {
             arr.push({
               id: placeData[i].id,
@@ -81,8 +81,9 @@ function Place() {
         }
       }
     }
+    console.log("arr", arr);
     setArr(arr);
-  },[placeData, idLovePlace]);
+  }, [placeData, idLovePlace]);
 
   return (
     <div className="container home-teacher">
@@ -111,6 +112,13 @@ function Place() {
             <Card.Body>
               <Card.Title>{place.name}</Card.Title>
               <Card.Text>{place.diachi} </Card.Text>
+              {arr.length == 0 ? (
+                <Button variant="danger" onClick={lovePlace(place.id)}>
+                  Lưu
+                </Button>
+              ) : (
+                ""
+              )}
               {arr.map((arrs) => (
                 <>
                   {arrs.check == true && arrs.id == place.id ? (

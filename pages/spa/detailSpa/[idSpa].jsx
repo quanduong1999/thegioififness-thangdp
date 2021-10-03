@@ -47,7 +47,7 @@ const DetailSpa = () => {
         setSpaData(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [show]);
 
   useEffect(() => {
     spaAPI
@@ -58,7 +58,7 @@ const DetailSpa = () => {
         setImage(res.data[0].image);
       })
       .catch((err) => console.log(err));
-  }, [spaData]);
+  }, [spaData, show]);
 
   const handleChangePrivateSpa = (e) => {
     const { name, value } = e.target;
@@ -215,8 +215,7 @@ const DetailSpa = () => {
                   <h2>Chất lượng</h2>
                   <StarRatings
                     rating={Number.parseInt(
-                      //   getStar == null || getStar === NaN ? "5" : getStar
-                      "5"
+                      spa.star == null || spa.star === NaN ? "5" : spa.star
                     )}
                     starRatedColor="#FFD700"
                     numberOfStars={5}
