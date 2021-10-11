@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect, useRef } from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Alert } from "react-bootstrap";
 import { Form, FormControl } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Image } from "react-bootstrap";
@@ -33,6 +33,8 @@ function Header(props) {
   const [check, setCheck] = useState(false);
   const Router = useRouter();
   const [category, setCategory] = useState("place");
+  const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
 
   const logout = () => {
     cookie.remove("token");
@@ -145,6 +147,10 @@ function Header(props) {
           // console.log(category)
           setDataSearch(res.data.place);
         }
+        if (dataSearch.length === 0) {
+          setMessage("Không tìm thấy kết quả");
+          setShow(true);
+        }
         setCheck(true);
       })
       .catch((err) => console.log(err));
@@ -163,6 +169,18 @@ function Header(props) {
 
   return (
     <div className="container header">
+      {show ? (
+        <Alert
+          variant="danger"
+          className="alert-noti"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          <Alert.Heading>{message}</Alert.Heading>
+        </Alert>
+      ) : (
+        ""
+      )}
       <Navbar
         bg="light"
         expand="lg"
@@ -188,54 +206,47 @@ function Header(props) {
           </Nav> */}
 
           <Nav className="mr-auto header-menu-list-right">
-    
-              <Nav.Link href="/spa" className="header-menu-list-right-li">
-                {/* <CgGirl className="header-icons header-icons1" /> */}
-                <Image
-                  src="/iconmenu/spa.png"
-                  style={{ width: "25px" }}
-                ></Image>
-                <p className="header-text">Sức khỏe và làm đẹp</p>
-              </Nav.Link>
-              <Nav.Link href="/sport" className="header-menu-list-right-li">
-                {/* <BiFootball className="header-icons header-icons2" /> */}
-                <Image
-                  src="/iconmenu/sport.png"
-                  style={{ width: "25px" }}
-                ></Image>
-                <p className="header-text">Thể thao và giải trí</p>
-              </Nav.Link>
-              <Nav.Link href="/online" className="header-menu-list-right-li">
-                {/* <HiOutlineDesktopComputer className="header-icons header-icons3" /> */}
-                <Image
-                  src="/iconmenu/online.png"
-                  style={{ width: "25px" }}
-                ></Image>
-                <p className="header-text">Khóa học online</p>
-              </Nav.Link>
-              <Nav.Link href="/checkin" className="header-menu-list-right-li">
-                {/* <BiMap className="header-icons header-icons4" /> */}
-                <Image
-                  src="/iconmenu/checkin.png"
-                  style={{ width: "25px" }}
-                ></Image>
-                <p className="header-text">Check-In</p>
-              </Nav.Link>
-              <Nav.Link href="/save" className="header-menu-list-right-li">
-                {/* <FaSave className="header-icons header-icons5" />
-                 */}
-                <Image
-                  src="/iconmenu/luu.png"
-                  style={{ width: "25px" }}
-                ></Image>
-                <p className="header-text">Lưu</p>
-              </Nav.Link>
-              <Nav.Link href="/wallet" className="header-menu-list-right-li">
-                {/* <FaMoneyCheckAlt className="header-icons header-icons6" /> */}
-                <Image src="/iconmenu/vi.png" style={{ width: "25px" }}></Image>
-                <p className="header-text">Ví điện tử</p>
-              </Nav.Link>
-    
+            <Nav.Link href="/spa" className="header-menu-list-right-li">
+              {/* <CgGirl className="header-icons header-icons1" /> */}
+              <Image src="/iconmenu/spa.png" style={{ width: "25px" }}></Image>
+              <p className="header-text">Sức khỏe làm đẹp</p>
+            </Nav.Link>
+            <Nav.Link href="/sport" className="header-menu-list-right-li">
+              {/* <BiFootball className="header-icons header-icons2" /> */}
+              <Image
+                src="/iconmenu/sport.png"
+                style={{ width: "25px" }}
+              ></Image>
+              <p className="header-text">Thể thao giải trí</p>
+            </Nav.Link>
+            <Nav.Link href="/online" className="header-menu-list-right-li">
+              {/* <HiOutlineDesktopComputer className="header-icons header-icons3" /> */}
+              <Image
+                src="/iconmenu/online.png"
+                style={{ width: "25px" }}
+              ></Image>
+              <p className="header-text">Khóa học online</p>
+            </Nav.Link>
+            <Nav.Link href="/checkin" className="header-menu-list-right-li">
+              {/* <BiMap className="header-icons header-icons4" /> */}
+              <Image
+                src="/iconmenu/checkin.png"
+                style={{ width: "25px" }}
+              ></Image>
+              <p className="header-text">Check-In</p>
+            </Nav.Link>
+            <Nav.Link href="/save" className="header-menu-list-right-li">
+              {/* <FaSave className="header-icons header-icons5" />
+               */}
+              <Image src="/iconmenu/luu.png" style={{ width: "25px" }}></Image>
+              <p className="header-text">Lưu</p>
+            </Nav.Link>
+            <Nav.Link href="/wallet" className="header-menu-list-right-li">
+              {/* <FaMoneyCheckAlt className="header-icons header-icons6" /> */}
+              <Image src="/iconmenu/vi.png" style={{ width: "25px" }}></Image>
+              <p className="header-text">Ví điện tử</p>
+            </Nav.Link>
+
             {!token ? (
               <Nav.Link href="/login" className="header-menu-list-right-li">
                 {/* <BiUserCircle className="header-icons header-icons7" /> */}

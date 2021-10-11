@@ -16,12 +16,13 @@ import { sportAPI } from "../../api/sport/sport";
 import Cookies from "js-cookie";
 import { profilesAPI } from "../../api/profiles/profiles";
 import { onlineAPI } from "../../api/online/online";
+import Content from "../../../components/ReaMore";
 
 const DetailOnline = () => {
   const token = Cookies.get("token");
   const Router = useRouter();
   const { idOnline } = Router.query;
-  console.log(idOnline)
+  console.log(idOnline);
   const [image, setImage] = useState("");
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
@@ -40,7 +41,7 @@ const DetailOnline = () => {
         console.log(res.data[0]);
         setOnline(res.data[0]);
         setImage(res.data[0].image);
-        setListFeedback(res.data[0].listFeedback)
+        setListFeedback(res.data[0].listFeedback);
       })
       .catch((err) => {
         console.log(err);
@@ -131,7 +132,9 @@ const DetailOnline = () => {
                   <h2>Chất lượng</h2>
                   <StarRatings
                     rating={Number.parseInt(
-                      online.star == null || online.star === NaN ? "5" : online.star
+                      online.star == null || online.star === NaN
+                        ? "5"
+                        : online.star
                     )}
                     starRatedColor="#FFD700"
                     numberOfStars={5}
@@ -140,9 +143,11 @@ const DetailOnline = () => {
                 </div>
               </Col>
               <Col sm={7}>
-                <h1>{online.name}</h1>
+                <h1 className="detail-h1">{online.name}</h1>
                 <p>{online.tenkhoahoc}</p>
-                <p style={{ whiteSpace: "pre-wrap" }}>{online.thongtinthem}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>
+                  <Content text={`${online.thongtinthem}`} />
+                </p>
                 <div className="feedback-start">
                   <h2>Đánh giá</h2>
                   <div id="rating">
@@ -260,29 +265,30 @@ const DetailOnline = () => {
             <div className="col-md-12" id="fbcomment">
               <div className="row">
                 <ul id="list_comment" className="col-md-12">
-                    {listFeedback.map((feedback) => (
-                      <li key={feedback.id} className="box_result row">
-                        <div className="avatar_comment col-md-1">
-                          <Image
-                            src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg"
-                            alt="avatar"
-                          />
+                  {listFeedback.map((feedback) => (
+                    <li key={feedback.id} className="box_result row">
+                      <div className="avatar_comment col-md-1">
+                        <Image
+                          src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg"
+                          alt="avatar"
+                        />
+                      </div>
+                      <div className="result_comment col-md-11">
+                        <h4></h4>
+                        <p>{feedback.content}</p>
+                        <div className="tools_comment">
+                          <a className="like" href="#">
+                            Like
+                          </a>
+                          <span aria-hidden="true"> · </span>
+                          <a className="replay" href="#">
+                            Reply
+                          </a>
                         </div>
-                        <div className="result_comment col-md-11">
-                          <h4></h4>
-                          <p>{feedback.content}</p>
-                          <div className="tools_comment">
-                            <a className="like" href="#">
-                              Like
-                            </a>
-                            <span aria-hidden="true"> · </span>
-                            <a className="replay" href="#">
-                              Reply
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                    ))};
+                      </div>
+                    </li>
+                  ))}
+                  ;
                 </ul>
               </div>
             </div>

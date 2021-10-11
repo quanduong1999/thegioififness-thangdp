@@ -16,31 +16,31 @@ function Footer() {
               <ul className="list-unstyled footer-ul">
                 <li>
                   <a href="#!">
-                    <BiHomeCircle />
+                    <BiHomeCircle style={{marginLeft: "10px"}}/>
                     <span>Địa chỉ : 18 Đồng Xuân - Hà Nội</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <AiOutlineMail />
+                    <AiOutlineMail style={{marginLeft: "10px"}} />
                     <span>thegioififness@gmail.com</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <AiFillPhone />
+                    <AiFillPhone style={{marginLeft: "10px"}} />
                     <span>0349236789</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <BiUserCircle />
+                    <BiUserCircle style={{marginLeft: "10px"}} />
                     <span>Mã số thuế: 0109619013</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <BiHomeCircle />
+                    <BiHomeCircle style={{marginLeft: "10px"}} />
                     <span>FaceBook: Thegioififness</span>
                   </a>
                 </li>
@@ -68,7 +68,7 @@ function Footer() {
                 <li>
                   <InputGroup className="mb-3">
                     <FormControl
-                      placeholder="Recipient's username"
+                      placeholder=""
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
                     />
@@ -87,7 +87,7 @@ function Footer() {
         </div>
 
         <div className="footer-copyright text-center py-3">
-          Website Elaarning
+          thegioififness@gmail.com
         </div>
       </footer>
     </div>

@@ -49,22 +49,6 @@ const Wallet = () => {
   return (
     <div className="wallet">
       <div className="card-wallet-wrapper">
-        <div className="card-wallet">
-          <div className="card-wallet-header"></div>
-          <div className="card-wallet-number">
-            <p id="p-card-wallet-number">#### #### #### ####</p>
-          </div>
-          <div className="card-wallet-bottom">
-            <div className="card-wallet-name-wrapper">
-              <p id="card-wallet-name"></p>
-            </div>
-            <div className="date-wrapper">
-              <p id="card-wallet-month"></p>
-              <p>/</p>
-              <p id="card-wallet-year"></p>
-            </div>
-          </div>
-        </div>
         <div className="form">
           <h4>Số Tiền(VNĐ)</h4>
           <h1>{xu} VNĐ</h1>

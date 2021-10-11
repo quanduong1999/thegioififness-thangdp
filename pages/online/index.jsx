@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { profilesAPI } from "../api/profiles/profiles";
 import { useRouter } from "next/router";
 import { onlineAPI } from "../api/online/online";
+import Content from "../../components/ReaMore";
 
 const Online = () => {
   const [onlineData, setOnlineData] = useState([]);
@@ -67,10 +68,10 @@ const Online = () => {
     }
   };
 
-  const handleClickDetail = (id) => (e) =>{
+  const handleClickDetail = (id) => (e) => {
     // console.log(id)
-    Router.push(`/online/detailOnline/${id}`)
-  }
+    Router.push(`/online/detailOnline/${id}`);
+  };
 
   return (
     <div className="course">
@@ -85,14 +86,18 @@ const Online = () => {
               >
                 {/* <a href=""> */}
                 <div className="card-flyer">
-                  <div className="text-box" style={{cursor:"pointer"}} onClick={handleClickDetail(onlineList.id)}>
+                  <div
+                    className="text-box"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleClickDetail(onlineList.id)}
+                  >
                     <div className="image-box">
                       <Image src={onlineList.image} alt="" />
                     </div>
                     <div className="text-container">
                       <h6>{onlineList.tenkhoahoc}</h6>
                       <p style={{ whiteSpace: "pre-wrap" }}>
-                        {onlineList.thongtinthem}
+                        <Content text={`${onlineList.thongtinthem}`} />
                       </p>
                     </div>
                     <div className="text-container">

@@ -97,7 +97,7 @@ const Login = () => {
           )}
         </span>
         <div className="form-group">
-          <label htmlFor="exampleInputPassword1">Password</label>
+          <label htmlFor="exampleInputPassword1">Mật khẩu</label>
           <input
             type="password"
             className="form-control"
@@ -118,7 +118,7 @@ const Login = () => {
       </form>
       <div className="login-text-register" style={{ textAlign: "center" }}>
         <p className="my-2">
-          No have an account?{" "}
+          Bạn có mật khẩu chưa?{" "}
           <Link href="/register">
             <span style={{ color: "crimson" }}>Đăng ký</span>
           </Link>

@@ -5,6 +5,7 @@ import { placeAPI } from "../api/place/place";
 import Cookies from "js-cookie";
 import { profilesAPI } from "../api/profiles/profiles";
 import { useRouter } from "next/router";
+import Content from "../../components/ReaMore";
 
 const CourseOnline = () => {
   const Router = useRouter();
@@ -87,7 +88,9 @@ const CourseOnline = () => {
                       </div>
                       <div className="text-container">
                         <h6>{onlineList.tenkhoahoc}</h6>
-                        <p style={{ whiteSpace: "pre-wrap"}}>{onlineList.thongtinthem}</p>
+                        <p style={{ whiteSpace: "pre-wrap" }}>
+                          <Content text={`${onlineList.thongtinthem}`} />
+                        </p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>

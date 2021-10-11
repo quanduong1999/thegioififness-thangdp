@@ -17,6 +17,7 @@ import { spaAPI } from "../../api/spa/spa";
 import Cookies from "js-cookie";
 import { SettingsRemoteSharp } from "@material-ui/icons";
 import { profilesAPI } from "../../api/profiles/profiles";
+import Content from "../../../components/ReaMore";
 
 const DetailSpa = () => {
   const Router = useRouter();
@@ -53,9 +54,9 @@ const DetailSpa = () => {
     spaAPI
       .getSpaById(idSpa)
       .then((res) => {
-        console.log(res);
-        setSpa(res.data[0]);
-        setImage(res.data[0].image);
+        console.log("spa", res.data);
+        setSpa(res.data);
+        setImage(res.data.image);
       })
       .catch((err) => console.log(err));
   }, [spaData, show]);
@@ -224,9 +225,9 @@ const DetailSpa = () => {
                 </div>
               </Col>
               <Col sm={7}>
-                <h1>{spa.name}</h1>
+                <h1 className="detail-h1">{spa.name}</h1>
                 <p>{spa.diachi}</p>
-                <p style={{ whiteSpace: "pre-wrap" }}>{spa.thongtinthem}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}><Content text={`${spa.thongtinthem}`} /></p>
                 <div className="feedback-start">
                   <h2>Đánh giá</h2>
                   <div id="rating">
@@ -311,7 +312,7 @@ const DetailSpa = () => {
       <div className="course">
         <div id="cards_landscape_wrap-2">
           <div className="container">
-            <h1>Danh sách các dịch vụ</h1>
+            {spaData.length !== 0 ? <h1>Danh sách các dịch vụ</h1> : ""}
             <div className="row">
               {spaData.map((spa) =>
                 spa.dichvu.map((dichvu) => (

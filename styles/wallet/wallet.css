@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 110vh;
+    /* height: 110vh; */
     width: 100vw;
     overflow-x: hidden;
     box-sizing: border-box;
@@ -14,7 +14,7 @@
 }
 
 .card-wallet-wrapper {
-    height: 480px;
+    height: 350px;
     width: 400px;
     display: flex;
     flex-direction: column;
@@ -24,7 +24,7 @@
     background: white;
     color: black;
     margin: auto;
-    margin-top: 15%;
+    margin-top: 5%;
 }
 
 .card-wallet {

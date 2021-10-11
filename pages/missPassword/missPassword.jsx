@@ -95,7 +95,7 @@ const MissPassWord = () => {
       </form>
       <div className="login-text-register" style={{ textAlign: "center" }}>
         <p className="my-2">
-          No have an account?{" "}
+          Bạn có mật khẩu chưa?{" "}
           <Link href="/register">
             <span style={{ color: "crimson" }}>Đăng ký</span>
           </Link>

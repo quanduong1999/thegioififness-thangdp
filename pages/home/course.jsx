@@ -1,18 +1,26 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Row, Col, Modal, InputGroup, FormControl, Alert } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Modal,
+  InputGroup,
+  FormControl,
+  Alert,
+} from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { courseAPI } from "../api/course/course";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { useRouter } from "next/dist/client/router";
 import { profilesAPI } from "../api/profiles/profiles";
+import Content from "../../components/ReaMore";
 
 const Course = () => {
   const [courseData, setCourseData] = useState([]);
   const [lgShow, setLgShow] = useState(false);
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
   const [idCourse, setIdCourse] = useState("");
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState("");
@@ -48,11 +56,11 @@ const Course = () => {
     };
     console.log(body);
     if (!token) {
-      setShow(true)
+      setShow(true);
       setMessage("Hãy đăng nhập để mua khóa học");
     } else {
       if (Number.parseInt(sodutk) < Number.parseInt(gia)) {
-        setShow(true)
+        setShow(true);
         setMessage("Bạn cần nạp thêm tiền");
       } else {
         courseAPI
@@ -66,7 +74,7 @@ const Course = () => {
           })
           .catch((err) => {
             console.log(err);
-            setShow(true)
+            setShow(true);
             setMessage("Tạo khóa học không thành công");
           });
       }
@@ -92,7 +100,9 @@ const Course = () => {
                     </div>
                     <div className="text-container">
                       <h6>{course.tenkhoahoc}</h6>
-                      <p style={{ whiteSpace: "pre-wrap"}}>{course.thongtinthem}</p>
+                      <p style={{ whiteSpace: "pre-wrap" }}>
+                        <Content text={`${course.thongtinthem}`} />
+                      </p>
                     </div>
                     <div className="text-container">
                       <h3>Giá</h3>

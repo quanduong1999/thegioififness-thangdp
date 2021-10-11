@@ -55,11 +55,11 @@ const Profies = () => {
   return (
     <div className="profiles">
       <div className="container">
-        <h1 className="title">Customer Profiles</h1>
+        <h1 className="title">Thông tin của bạn</h1>
 
         <div className="profile-gird-name">
           <label htmlFor="name" className="profile-textlabel">
-            Name
+            Tên của bạn
           </label>
           <br />
           <input
@@ -71,7 +71,7 @@ const Profies = () => {
             onChange={handleChangeUpdataProfile}
           />
           <label htmlFor="name" className="profile-textlabel">
-            PhoneNumber
+            Số điện thoại của bạn
           </label>
           <br />
           <input

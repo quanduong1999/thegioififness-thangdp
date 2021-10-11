@@ -18,6 +18,7 @@ import { courseAPI } from "../api/course/course";
 import { courseOnlineAPI } from "../api/courseOnline/courseOnline";
 import { spaAPI } from "../api/spa/spa";
 import { sportAPI } from "../api/sport/sport";
+import Content from "../../components/ReaMore";
 
 const CheckIn = () => {
   const Router = useRouter();
@@ -254,7 +255,12 @@ const CheckIn = () => {
       <div className="course">
         <div id="cards_landscape_wrap-2">
           <div className="container">
-            <h1>Danh sách các khóa tập đã mua</h1>
+            {courseData.length !== 0 ? (
+              <h1>Danh sách các khóa tập đã mua</h1>
+            ) : (
+              <h1>Danh sách các khóa tập đã mua không có</h1>
+            )}
+
             <div className="row">
               {courseData.map((course) => (
                 <div
@@ -272,13 +278,14 @@ const CheckIn = () => {
                           {course.course.noidung}
                         </p>
                         <p style={{ whiteSpace: "pre-wrap" }}>
-                          {course.course.thongtinthem}
+                          <Content text={`${course.course.thongtinthem}`} />
                         </p>
                       </div>
                       <div className="text-container">
                         <h3>Giá</h3>
                         <h3>
-                          {course.course.gia == null ? 0 : course.course.gia} VNĐ
+                          {course.course.gia == null ? 0 : course.course.gia}{" "}
+                          VNĐ
                         </h3>
                       </div>
                       <Button
@@ -329,7 +336,11 @@ const CheckIn = () => {
           </div>
 
           <div className="container">
-            <h1>Danh sách các Schedule đã mua</h1>
+            {scheduleData.length !== 0 ? (
+              <h1>Danh sách các Schedule đã mua</h1>
+            ) : (
+              <h1>Danh sách các Schedule đã mua không có</h1>
+            )}
             <div className="row">
               {scheduleData.map((schedule) => (
                 <div
@@ -347,7 +358,7 @@ const CheckIn = () => {
                           {schedule.schedule.noidung}
                         </p>
                         <p style={{ whiteSpace: "pre-wrap" }}>
-                          {schedule.schedule.thongtinthem}
+                          <Content text={`${schedule.schedule.thongtinthem}`} />
                         </p>
                         <p>Start: {schedule.schedule.thoigianbatdau}</p>
                         <p>End: {schedule.schedule.thoigianketthuc}</p>
@@ -408,7 +419,11 @@ const CheckIn = () => {
           </div>
 
           <div className="container">
-            <h1>Danh sách khóa học Online</h1>
+            {courseOnline.length !== 0 ? (
+              <h1>Danh sách khóa học Online</h1>
+            ) : (
+              <h1>Danh sách khóa học Online không có</h1>
+            )}
             <div className="row">
               {courseOnline.map((onlineCourse) => (
                 <div
@@ -429,7 +444,9 @@ const CheckIn = () => {
                           {onlineCourse.onlineCourse.noidung}
                         </p>
                         <p style={{ whiteSpace: "pre-wrap" }}>
-                          {onlineCourse.onlineCourse.thongtinthem}
+                          <Content
+                            text={`${onlineCourse.onlineCourse.thongtinthem}`}
+                          />
                         </p>
                       </div>
                       <div className="text-container">
@@ -488,7 +505,11 @@ const CheckIn = () => {
           </div>
 
           <div className="container">
-            <h1>Danh sách dịch vụ sức khỏe và làm đẹp</h1>
+            {spaData.length !== 0 ? (
+              <h1>Danh sách dịch vụ sức khỏe làm đẹp</h1>
+            ) : (
+              <h1>Danh sách dịch vụ sức khỏe làm đẹp không có</h1>
+            )}
             <div className="row">
               {spaData.map((spaData) => (
                 <div
@@ -506,7 +527,7 @@ const CheckIn = () => {
                           {spaData.spa.noidung}
                         </p>
                         <p style={{ whiteSpace: "pre-wrap" }}>
-                          {spaData.spa.thongtinthem}
+                          <Content text={`${spaData.spa.thongtinthem}`} />
                         </p>
                       </div>
                       <div className="text-container">
@@ -565,7 +586,11 @@ const CheckIn = () => {
           </div>
 
           <div className="container">
-            <h1>Danh sách dịch vụ thể thao và giải trí</h1>
+            {sportData.length !== 0 ? (
+              <h1>Danh sách dịch vụ thể thao giải trí</h1>
+            ) : (
+              <h1>Danh sách dịch vụ thể thao giải trí không có</h1>
+            )}
             <div className="row">
               {sportData.map((sportData) => (
                 <>
@@ -590,7 +615,9 @@ const CheckIn = () => {
                               {sportData.sport.noidung}
                             </p>
                             <p style={{ whiteSpace: "pre-wrap" }}>
-                              {sportData.sport.thongtinthem}
+                              <Content
+                                text={`${sportData.sport.thongtinthem}`}
+                              />
                             </p>
                           </div>
                           <div className="text-container">

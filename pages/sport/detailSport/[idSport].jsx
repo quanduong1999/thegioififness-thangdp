@@ -15,6 +15,7 @@ import StarRatings from "react-star-ratings";
 import { sportAPI } from "../../api/sport/sport";
 import Cookies from "js-cookie";
 import { profilesAPI } from "../../api/profiles/profiles";
+import Content from "../../../components/ReaMore";
 
 const DetailSport = () => {
   const Router = useRouter();
@@ -38,18 +39,24 @@ const DetailSport = () => {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    sportAPI.getSportById(idSport).then((res) => {
-      // console.log(res)
-      setSport(res.data[0]);
-      setImage(res.data[0].image);
-    });
+    sportAPI
+      .getSportById(idSport)
+      .then((res) => {
+        console.log("sport",res)
+        setSport(res.data[0]);
+        console.log("tt", res.data[0].thongtinthem);
+        setImage(res.data[0].image);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
     sportAPI
       .getSport()
       .then((res) => {
-        // console.log(res.data)
+        console.log(res.data);
         setSportData(res.data);
       })
       .catch((err) => console.log(err));
@@ -210,7 +217,9 @@ const DetailSport = () => {
                   <h2>Chất lượng</h2>
                   <StarRatings
                     rating={Number.parseInt(
-                      sport.star == null || sport.star === NaN ? "5" : sport.star
+                      sport.star == null || sport.star === NaN
+                        ? "5"
+                        : sport.star
                     )}
                     starRatedColor="#FFD700"
                     numberOfStars={5}
@@ -219,9 +228,11 @@ const DetailSport = () => {
                 </div>
               </Col>
               <Col sm={7}>
-                <h1>{sport.name}</h1>
+                <h1 className="detail-h1">{sport.name}</h1>
                 <p>{sport.diachi}</p>
-                <p style={{ whiteSpace: "pre-wrap" }}>{sport.thongtinthem}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>
+                  <Content text={`${sport.thongtinthem}`} />
+                </p>
                 <div className="feedback-start">
                   <h2>Đánh giá</h2>
                   <div id="rating">

@@ -20,6 +20,7 @@ import { scheduleAPI } from "../../api/schedule/schedule";
 import { feedbackAPI } from "../../api/feedback/feedback";
 import { placeAPI } from "../../api/place/place";
 import StarRatings from "react-star-ratings";
+import Content from "../../../components/ReaMore";
 
 const DetailPlace = () => {
   const Router = useRouter();
@@ -101,7 +102,7 @@ const DetailPlace = () => {
       .then((res) => {
         console.log(res.data);
         setCourseData(res.data);
-        
+
         // setPlace(res.data[0].place);
       })
       .catch((err) => {
@@ -218,7 +219,7 @@ const DetailPlace = () => {
       .then((res) => {
         console.log(res);
         setPlace(res.data[0]);
-        setImage(res.data[0].image)
+        setImage(res.data[0].image);
         setGetStar(res.data[0].star);
       })
       .catch((err) => console.log(err));
@@ -304,7 +305,9 @@ const DetailPlace = () => {
               <Col sm={7}>
                 <h1>{place.name}</h1>
                 <p>{place.diachi}</p>
-                <p style={{ whiteSpace: "pre-wrap" }}>{place.thongtinthem}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>
+                  <Content text={`${place.thongtinthem}`} />
+                </p>
                 <div className="feedback-start">
                   <h2>Đánh giá</h2>
                   <div id="rating">
@@ -389,7 +392,7 @@ const DetailPlace = () => {
       <div className="course">
         <div id="cards_landscape_wrap-2">
           <div className="container">
-            <h1>Danh sách các khóa tập</h1>
+            {courseData.length !== 0 ? <h1>Danh sách các khóa tập</h1> : ""}
             <div className="row">
               {courseData.map((course) => (
                 <div
@@ -405,7 +408,7 @@ const DetailPlace = () => {
                       <div className="text-container">
                         <h6>{course.tenkhoahoc}</h6>
                         <p style={{ whiteSpace: "pre-wrap" }}>
-                          {course.thongtinthem}
+                          <Content text={`${course.thongtinthem}`} />
                         </p>
                       </div>
                       <div className="text-container">
@@ -460,7 +463,7 @@ const DetailPlace = () => {
       <div className="course">
         <div id="cards_landscape_wrap-2">
           <div className="container">
-            <h1>Danh sách Lịch hẹn </h1>
+            {scheduleData.length !== 0 ? <h1>Danh sách Lịch hẹn </h1> : ""}
             <div className="row">
               {scheduleData.map((schedule) => (
                 <div
@@ -476,7 +479,7 @@ const DetailPlace = () => {
                       <div className="text-container">
                         <h6>{schedule.name}</h6>
                         <p style={{ whiteSpace: "pre-wrap" }}>
-                          {schedule.thongtinthem}
+                          <Content text={`${schedule.thongtinthem}`} />
                         </p>
                         <p>Start: {schedule.thoigianbatdau}</p>
                         <p>End: {schedule.thoigianketthuc}</p>
