@@ -42,9 +42,9 @@ const DetailSport = () => {
     sportAPI
       .getSportById(idSport)
       .then((res) => {
-        console.log("sport",res)
+        // console.log("sport",res)
         setSport(res.data[0]);
-        console.log("tt", res.data[0].thongtinthem);
+        // console.log("tt", res.data[0].thongtinthem);
         setImage(res.data[0].image);
       })
       .catch((err) => {

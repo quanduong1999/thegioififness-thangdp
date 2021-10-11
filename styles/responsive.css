@@ -142,13 +142,23 @@
     }
 }
 
-@media screen and (min-width: 318px) and (max-width: 627px) {
+@media screen and (min-width: 381px) and (max-width: 627px) {
     .mr-auto.header-menu-list-right.navbar-nav {
         display: block;
     }
     .header-user.nav-item.dropdown {
         text-align: center;
         margin-top: -10%;
+    }
+}
+
+@media screen and (min-width: 300px) and (max-width: 380px) {
+    .mr-auto.header-menu-list-right.navbar-nav {
+        display: block;
+    }
+    .header-user.nav-item.dropdown {
+        text-align: center;
+        margin-top: -20%;
     }
 }
 
