@@ -32,6 +32,10 @@ a {
     top: 10%;
 }
 
+.active-menu {
+    color: red !important;
+}
+
 
 /* Css Header */
 

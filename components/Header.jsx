@@ -35,6 +35,7 @@ function Header(props) {
   const [category, setCategory] = useState("place");
   const [message, setMessage] = useState("");
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const logout = () => {
     cookie.remove("token");
@@ -209,7 +210,15 @@ function Header(props) {
             <Nav.Link href="/spa" className="header-menu-list-right-li">
               {/* <CgGirl className="header-icons header-icons1" /> */}
               <Image src="/iconmenu/spa.png" style={{ width: "25px" }}></Image>
-              <p className="header-text">Sức khỏe làm đẹp</p>
+              <p
+                className={
+                  router.pathname.includes("spa")
+                    ? "header-text active-menu"
+                    : "header-text"
+                }
+              >
+                Sức khỏe làm đẹp
+              </p>
             </Nav.Link>
             <Nav.Link href="/sport" className="header-menu-list-right-li">
               {/* <BiFootball className="header-icons header-icons2" /> */}
@@ -217,7 +226,15 @@ function Header(props) {
                 src="/iconmenu/sport.png"
                 style={{ width: "25px" }}
               ></Image>
-              <p className="header-text">Thể thao giải trí</p>
+              <p
+                className={
+                  router.pathname.includes("sport")
+                    ? "header-text active-menu"
+                    : "header-text"
+                }
+              >
+                Thể thao giải trí
+              </p>
             </Nav.Link>
             <Nav.Link href="/online" className="header-menu-list-right-li">
               {/* <HiOutlineDesktopComputer className="header-icons header-icons3" /> */}
@@ -225,7 +242,15 @@ function Header(props) {
                 src="/iconmenu/online.png"
                 style={{ width: "25px" }}
               ></Image>
-              <p className="header-text">Khóa học online</p>
+              <p
+                className={
+                  router.pathname.includes("online")
+                    ? "header-text active-menu"
+                    : "header-text"
+                }
+              >
+                Khóa học online
+              </p>
             </Nav.Link>
             <Nav.Link href="/checkin" className="header-menu-list-right-li">
               {/* <BiMap className="header-icons header-icons4" /> */}
@@ -233,18 +258,42 @@ function Header(props) {
                 src="/iconmenu/checkin.png"
                 style={{ width: "25px" }}
               ></Image>
-              <p className="header-text">Check-In</p>
+              <p
+                className={
+                  router.pathname.includes("checkin")
+                    ? "header-text active-menu"
+                    : "header-text"
+                }
+              >
+                Check-In
+              </p>
             </Nav.Link>
             <Nav.Link href="/save" className="header-menu-list-right-li">
               {/* <FaSave className="header-icons header-icons5" />
                */}
               <Image src="/iconmenu/luu.png" style={{ width: "25px" }}></Image>
-              <p className="header-text">Lưu</p>
+              <p
+                className={
+                  router.pathname.includes("save")
+                    ? "header-text active-menu"
+                    : "header-text"
+                }
+              >
+                Lưu
+              </p>
             </Nav.Link>
             <Nav.Link href="/wallet" className="header-menu-list-right-li">
               {/* <FaMoneyCheckAlt className="header-icons header-icons6" /> */}
               <Image src="/iconmenu/vi.png" style={{ width: "25px" }}></Image>
-              <p className="header-text">Ví điện tử</p>
+              <p
+                className={
+                  router.pathname.includes("wallet")
+                    ? "header-text active-menu"
+                    : "header-text"
+                }
+              >
+                Ví điện tử
+              </p>
             </Nav.Link>
 
             {!token ? (
@@ -254,7 +303,15 @@ function Header(props) {
                   src="/iconmenu/dangnhap.png"
                   style={{ width: "25px" }}
                 ></Image>
-                <p className="header-text">Đăng nhập</p>
+                <p
+                  className={
+                    router.pathname.includes("login")
+                      ? "header-text active-menu"
+                      : "header-text"
+                  }
+                >
+                  Đăng nhập
+                </p>
               </Nav.Link>
             ) : (
               <>

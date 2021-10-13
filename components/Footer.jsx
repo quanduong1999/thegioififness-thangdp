@@ -16,31 +16,31 @@ function Footer() {
               <ul className="list-unstyled footer-ul">
                 <li>
                   <a href="#!">
-                    <BiHomeCircle style={{marginLeft: "10px"}}/>
+                    <BiHomeCircle style={{marginRight: "10px"}}/>
                     <span>Địa chỉ : 18 Đồng Xuân - Hà Nội</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <AiOutlineMail style={{marginLeft: "10px"}} />
+                    <AiOutlineMail style={{marginRight: "10px"}} />
                     <span>thegioififness@gmail.com</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <AiFillPhone style={{marginLeft: "10px"}} />
+                    <AiFillPhone style={{marginRight: "10px"}} />
                     <span>0349236789</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <BiUserCircle style={{marginLeft: "10px"}} />
+                    <BiUserCircle style={{marginRight: "10px"}} />
                     <span>Mã số thuế: 0109619013</span>
                   </a>
                 </li>
                 <li>
                   <a href="#!">
-                    <BiHomeCircle style={{marginLeft: "10px"}} />
+                    <BiHomeCircle style={{marginRight: "10px"}} />
                     <span>FaceBook: Thegioififness</span>
                   </a>
                 </li>
